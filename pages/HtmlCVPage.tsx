@@ -176,6 +176,7 @@ export const HtmlCVPage: React.FC = () => {
         <article id="cv-content-area" className="cv-print-area">
           <header className="cv-header">
             <h1>{personalInfoData.name.replace(", Postdoc & Ph.D.", "").replace("Ph.D.", "Ph.D.")}</h1>
+            <p>{personalInfoData.title}</p> {/* Added main title */}
             {personalInfoData.subtitle && <p>{personalInfoData.subtitle}</p>}
             <p className="contact-info">
               <span><a href={`mailto:${personalInfoData.email}`}>{personalInfoData.email}</a></span> |
@@ -226,6 +227,7 @@ export const HtmlCVPage: React.FC = () => {
                 <li><strong>Cleared UGC-NET (Management) Thrice:</strong> Dec 2011 [Roll No. 73170403], Dec 2012 [Roll No. 73170144], Jun 2013 [Roll No. 73170194].</li>
                 <li><strong>Canadian Securities Course (CSC) (Completed 2023):</strong> Demonstrates proficiency in Canadian financial markets.</li>
                 <li><strong>MBA Program Topper (2010-2012):</strong> Ranked #1 with merit scholarship, Punjabi University.</li>
+                <li><strong>Peer Review Excellence:</strong> Contributed over 20+ peer reviews for Scopus-indexed (Q1/Q2) international journals.</li>
              </ul>
           </CVSection>
 
@@ -249,6 +251,37 @@ export const HtmlCVPage: React.FC = () => {
                 {cert.link && <a href={cert.link} target="_blank" rel="noopener noreferrer" className="ml-2 text-sm">[Verify]</a>}
               </p>
             ))}
+          </CVSection>
+          
+          <CVSection title="Peer Review Activity">
+              <ul className="list-disc list-inside">
+                  <li>Active peer reviewer contributing to academic rigor for <strong>6</strong> international journals <span className="text-xs text-gray-500">[Scopus Q1-Q2 / ABDC / SSCI / Web of Science / PubMed]</span>.</li>
+                  <li><strong>Total Reviews Completed:</strong> 20+</li>
+                  <li><strong>Journals Reviewed For:</strong> <em>Quality & Quantity</em> (Springer), <em>Frontiers in Public Health</em>, <em>Global Business Review</em> (Sage), <em>International Journal of Social Economics</em> (Emerald), <em>Socio-Economic Planning Sciences</em> (Elsevier), <em>Qeios</em>.</li>
+                  <li className="text-xs text-gray-500">(Activity verifiable via ORCID / Web of Science / Elsevier Editorial System)</li>
+              </ul>
+          </CVSection>
+
+          <CVSection title="Thesis Evaluation & Supervision">
+               <ul className="list-disc list-inside">
+                  <li>Evaluated, guided, and peer-reviewed over <strong>30+ postgraduate & Ph.D. theses</strong> across Management, Finance, Economics, and Organizational Development.</li>
+                  <li>Ensured adherence to rigorous research methodologies and high academic standards.</li>
+                  <li>Provided constructive feedback on research design, literature review, data analysis, and conclusion synthesis.</li>
+                  <li>Developed and implemented standardized rubrics for objective thesis evaluation.</li>
+              </ul>
+          </CVSection>
+
+          <CVSection title="Project Involvement">
+              <CVSubSection title="1. Promoting Australia-India Tourism through Pairing Canberra and New Delhi">
+                  <p><em>Grant Proposal Applied: Oct 2024</em></p>
+                  <p><strong>Role:</strong> Proposed Project Manager</p>
+                  <p><strong>Focus:</strong> Economic impact assessment, cross-cultural strategies.</p>
+                  <p><strong>Applicants:</strong> Dr. Sarvjeet Kaur & Dr. Naomi Dale (University of Canberra)</p>
+              </CVSubSection>
+              <CVSubSection title="2. ICSSR PVTG Major Project Application">
+                   <p><strong>Role:</strong> Applied as Co-Director cum Research Associate</p>
+                   <p><strong>Director/PI:</strong> Dr. Gurdip Batra</p>
+              </CVSubSection>
           </CVSection>
           
           <CVSection title="Additional Information">
@@ -284,36 +317,6 @@ export const HtmlCVPage: React.FC = () => {
             })}
           </CVSection>
           
-            <CVSection title="Peer Review Activity">
-                <ul className="list-disc list-inside">
-                    <li>Active peer reviewer contributing to academic rigor for <strong>6</strong> international journals <span className="text-xs text-gray-500">[Scopus Q1-Q2 / ABDC / SSCI / Web of Science / PubMed]</span>.</li>
-                    <li><strong>Total Reviews Completed:</strong> 7</li>
-                    <li><strong>Journals Reviewed For:</strong> <em>Quality & Quantity</em> (Springer), <em>Frontiers in Public Health</em>, <em>Global Business Review</em> (Sage), <em>International Journal of Social Economics</em> (Emerald), <em>Socio-Economic Planning Sciences</em> (Elsevier), <em>Qeios</em>.</li>
-                    <li className="text-xs text-gray-500">(Activity verifiable via ORCID / Web of Science / Elsevier Editorial System)</li>
-                </ul>
-            </CVSection>
-
-            <CVSection title="Thesis Evaluation & Supervision">
-                 <ul className="list-disc list-inside">
-                    <li>Evaluated, guided, and peer-reviewed over <strong>30+ postgraduate & Ph.D. theses</strong> across Management, Finance, Economics, and Organizational Development.</li>
-                    <li>Ensured adherence to rigorous research methodologies and high academic standards.</li>
-                    <li>Provided constructive feedback on research design, literature review, data analysis, and conclusion synthesis.</li>
-                    <li>Developed and implemented standardized rubrics for objective thesis evaluation.</li>
-                </ul>
-            </CVSection>
-
-            <CVSection title="Project Involvement">
-                <CVSubSection title="1. Promoting Australia-India Tourism through Pairing Canberra and New Delhi">
-                    <p><em>Grant Proposal Applied: Oct 2024</em></p>
-                    <p><strong>Role:</strong> Proposed Project Manager</p>
-                    <p><strong>Focus:</strong> Economic impact assessment, cross-cultural strategies.</p>
-                    <p><strong>Applicants:</strong> Dr. Sarvjeet Kaur & Dr. Naomi Dale (University of Canberra)</p>
-                </CVSubSection>
-                <CVSubSection title="2. ICSSR PVTG Major Project Application">
-                     <p><strong>Role:</strong> Applied as Co-Director cum Research Associate</p>
-                     <p><strong>Director/PI:</strong> Dr. Gurdip Batra</p>
-                </CVSubSection>
-            </CVSection>
 
             <CVSection title="References">
                  <div className="cv-item">

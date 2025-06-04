@@ -42,7 +42,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
     try {
       await navigator.clipboard.writeText(textToCopy);
       setCopySuccess(`${type} copied!`);
-      setTimeout(() => setCopySuccess(''), 2500); // Slightly longer display
+      setTimeout(() => setCopySuccess(''), 2500); 
     } catch (err) {
       setCopySuccess(`Failed to copy ${type}.`);
       setTimeout(() => setCopySuccess(''), 2500);
@@ -66,7 +66,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
       id={cardId} 
       className="glass-card p-5 rounded-xl shadow-lg hover-card h-full min-h-[340px] sm:min-h-[360px] flex flex-col transition-all duration-300 animate-fadeIn focus-visible-outline border-2 border-transparent hover:border-primary-light"
       style={{ animationDelay: `${delay}s`}}
-      tabIndex={0} // Make it focusable for keyboard users
+      tabIndex={0} 
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowDetailsModal(true);}}
     >
       {/* Top Section: Year & Metrics */}
@@ -83,7 +83,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
 
       {/* Middle Section: Core Info (Title, Authors, Source) */}
       <div className="flex-grow mb-3">
-        <h3 className="text-lg font-semibold mb-1.5 text-light leading-tight line-clamp-4" // Increased line clamp
+        <h3 className="text-lg font-semibold mb-1.5 text-light leading-tight line-clamp-4"
             title={pub.title}>
           {pub.title}
         </h3>
@@ -129,11 +129,11 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
       {/* Details Modal */}
       {showDetailsModal && (
         <div 
-          className="fixed inset-0 bg-black/85 backdrop-blur-lg flex items-center justify-center z-[100] p-4 animate-fadeIn" // Increased blur and darkness
+          className="fixed inset-0 bg-black/85 backdrop-blur-lg flex items-center justify-center z-[100] p-4 animate-fadeIn"
           onClick={() => setShowDetailsModal(false)} role="dialog" aria-modal="true" aria-labelledby={`details-title-${pub.id}`}
         >
           <div 
-            className="glass-card p-6 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-primary-light/30" // Added border
+            className="bg-dark-secondary p-6 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-primary-light/30" 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4 flex-shrink-0">
@@ -155,7 +155,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
               <span className="font-medium">Source:</span> {pub.source} {pub.details ? `(${pub.details})` : ''}
             </p>
 
-            <div className="overflow-y-auto mb-5 scrollbar-thin scrollbar-thumb-primary scrollbar-track-dark-secondary pr-2 flex-grow min-h-[120px]"> {/* Increased min-height */}
+            <div className="overflow-y-auto mb-5 scrollbar-thin scrollbar-thumb-primary scrollbar-track-dark-tertiary pr-2 flex-grow min-h-[120px]"> {/* Changed scrollbar-track-dark-secondary to -tertiary */}
               <h5 className="text-md font-semibold text-primary-light mb-2">Abstract/Summary:</h5>
               <p className="text-text-muted text-sm leading-relaxed">
                 {pub.summary || pub.insightSnippet || "Detailed abstract not available for this publication."}
@@ -256,17 +256,16 @@ export const ResearchPage: React.FC = () => {
           
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           
-          // Enhanced highlight effect
           element.classList.add(
-            'ring-4', // Thicker ring
+            'ring-4', 
             'ring-accent', 
             'ring-offset-4', 
-            'ring-offset-dark-secondary', // Offset against card bg
+            'ring-offset-dark-secondary', 
             'rounded-xl',
-            'shadow-2xl', 'shadow-accent', // Accent shadow
-            'z-10', // Ensure it's above others
-            'relative', // For z-index to work
-            'transition-all', 'duration-500', 'ease-out' // Smooth transition for effect
+            'shadow-2xl', 'shadow-accent', 
+            'z-10', 
+            'relative', 
+            'transition-all', 'duration-500', 'ease-out' 
           );
           
           setTimeout(() => {
@@ -278,11 +277,10 @@ export const ResearchPage: React.FC = () => {
               'shadow-2xl', 'shadow-accent',
               'z-10',
               'relative'
-              // Keep rounded-xl if it's part of base style
             );
              element.classList.remove('transition-all', 'duration-500', 'ease-out');
-          }, 4500); // Longer duration for highlight
-        }, 300); // Slightly longer delay for layout to settle
+          }, 4500); 
+        }, 300); 
       }
     }
   }, []);
@@ -305,7 +303,7 @@ export const ResearchPage: React.FC = () => {
             .sort((a, b) => {
                 const yearA = parseInt(a.year.toString().match(/\d{4}/)?.[0] || '0');
                 const yearB = parseInt(b.year.toString().match(/\d{4}/)?.[0] || '0');
-                return yearB - yearA; // Default sort by year descending
+                return yearB - yearA; 
             });
 
           if (filteredPublications.length === 0) return null;

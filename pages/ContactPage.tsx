@@ -1,26 +1,28 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { personalInfoData, contactLinksData } from '../data';
 import { Section } from '../components/Section';
 import { ContactLink as ContactLinkType } from '../types';
 
 export const ContactPage: React.FC = () => {
-  const formspreeEndpointId: string = "mvoezgjy"; // User's existing ID
+  // The formspree endpoint ID typically does not change if the email associated with the account changes.
+  // User needs to ensure this ID 'mvoezgjy' is still correct for 'jasky786@gmail.com' or update it if they created a new form.
+  const formspreeEndpointId: string = "mvoezgjy"; 
 
   return (
-    <div className="animate-fadeIn"> {/* Added animate-fadeIn to root if not already present */}
+    <div className="animate-fadeIn">
       <Section title="Get In Touch" id="contact" subtitle="Open to collaborations, consultations, or just a friendly chat. Let's connect and explore possibilities.">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10"> {/* gap-10 from target */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Contact Form Column */}
           <div className="glass-card p-8 rounded-xl shadow-xl animate-fadeIn" style={{animationDelay: '0.2s'}}>
             <h3 className="text-2xl font-bold mb-6 text-light">Send a Message</h3>
-            <form id="contact-form" action={`https://formspree.io/f/${formspreeEndpointId}`} method="POST"> {/* id from target */}
+            <form id="contact-form" action={`https://formspree.io/f/${formspreeEndpointId}`} method="POST">
               <div className="mb-6">
-                <label htmlFor="name" className="block text-gray-300 mb-2 text-sm">Your Name</label> {/* text-gray-300, text-sm from target */}
+                <label htmlFor="name" className="block text-gray-300 mb-2 text-sm">Your Name</label>
                 <input 
                     type="text" name="name" id="name" required 
-                    className="w-full px-4 py-3 contact-input rounded-lg focus:outline-none text-light placeholder-text-darker-muted" /* contact-input from target */
+                    className="w-full px-4 py-3 contact-input rounded-lg focus:outline-none text-light placeholder-text-darker-muted"
                     placeholder="e.g., Dr. Jane Doe"
                 />
               </div>
@@ -54,7 +56,7 @@ export const ContactPage: React.FC = () => {
               >
                 <i className="fas fa-paper-plane mr-2"></i> Send Message
               </button>
-               {formspreeEndpointId === "yourFormspreeID" && ( // Keep the warning if ID is placeholder
+               {formspreeEndpointId === "yourFormspreeID" && ( 
                 <p className="text-xs text-neon-pink/70 mt-4 text-center">
                   Note: Form submission is disabled. Please replace <code className="bg-dark-primary p-1 rounded">yourFormspreeID</code> with your actual Formspree endpoint ID in <code className="bg-dark-primary p-1 rounded">ContactPage.tsx</code>.
                 </p>
@@ -65,14 +67,14 @@ export const ContactPage: React.FC = () => {
           {/* Contact Information Column */}
           <div className="glass-card p-8 rounded-xl shadow-xl animate-fadeIn" style={{animationDelay: '0.4s'}}>
             <h3 className="text-2xl font-bold mb-6 text-light">Contact Information</h3>
-            <div className="space-y-8"> {/* space-y-8 from target */}
+            <div className="space-y-8">
               <div className="flex items-start">
                 <div className="w-12 h-12 rounded-full bg-cyan-700 flex items-center justify-center mr-4 flex-shrink-0">
                   <i className="fas fa-map-marker-alt text-white text-lg"></i>
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold mb-1 text-light">Location</h4>
-                  <p className="text-gray-400 text-sm">School of Management Studies, Punjabi University, Patiala, Punjab, India</p> {/* text-gray-400, text-sm from target */}
+                  <p className="text-gray-400 text-sm">Patiala, Punjab, India</p>
                   <p className="text-gray-500 text-xs mt-1">(Also available for remote & global collaborations)</p>
                 </div>
               </div>
@@ -127,23 +129,23 @@ export const ContactPage: React.FC = () => {
             
             <div className="mt-12">
               <h3 className="text-xl font-bold mb-6 text-light">Connect With Me</h3>
-              <div className="flex flex-wrap gap-4"> {/* gap-4 from target */}
-                {contactLinksData.filter(l => l.id !== 'cl1').map(link => ( // Exclude email
+              <div className="flex flex-wrap gap-4">
+                {contactLinksData.filter(l => l.id !== 'cl1').map(link => ( 
                     <a 
                         key={link.id}
                         href={link.url} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="social-icon w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-cyan-700 transition focus-visible-outline" // social-icon class from target
+                        className="social-icon w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-cyan-700 transition focus-visible-outline"
                         aria-label={link.name}
                     >
-                        <i className={`${link.iconClass} text-white text-lg`}></i> {/* text-lg for icon size consistency */}
+                        <i className={`${link.iconClass} text-white text-lg`}></i>
                     </a>
                 ))}
               </div>
             </div>
             
-            <div className="mt-10"> {/* Download CV button from target */}
+            <div className="mt-10">
               <Link 
                 to={personalInfoData.cvUrl || "/cv-html"}
                 className="gradient-bg text-white w-full py-3 rounded-lg font-medium flex items-center justify-center hover:opacity-90 transition focus-visible-outline"
