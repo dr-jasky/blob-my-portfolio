@@ -6,20 +6,19 @@ import { Section } from '../components/Section';
 import { ConsultancyService } from '../types';
 
 const ConsultancyServiceCard: React.FC<{ service: ConsultancyService, colorClass: string, delay: number }> = ({ service, colorClass, delay }) => {
-  // colorClass will be 'primary', 'secondary', or 'accent'
-  const iconTextColor = `text-${colorClass}`;
-  const borderColorClass = `border-${colorClass}`;
-  const hoverBgColor = `hover:bg-${colorClass}`;
+  const iconColor = colorClass === 'cyan' ? 'text-primary-light' : colorClass === 'purple' ? 'text-secondary' : 'text-accent';
+  const borderColor = colorClass === 'cyan' ? 'border-primary-light' : colorClass === 'purple' ? 'border-secondary' : 'border-accent';
+  const hoverBgColor = colorClass === 'cyan' ? 'hover:bg-primary-light' : colorClass === 'purple' ? 'hover:bg-secondary' : 'hover:bg-accent';
   
   return (
     <div 
-        className={`glass-card p-6 rounded-xl shadow-xl border-l-4 ${borderColorClass} transition-all duration-300 hover:shadow-lg hover:shadow-${colorClass}/20 hover:-translate-y-1.5 animate-fadeIn h-full flex flex-col`}
+        className={`glass-card p-6 rounded-xl shadow-xl border-l-4 ${borderColor} transition-all duration-300 hover:shadow-lg hover:-translate-y-1.5 animate-fadeIn h-full flex flex-col`}
         style={{animationDelay: `${delay}s`}}
     >
       <div className="flex items-start mb-4">
-        <i className={`${service.iconClass} text-3xl ${iconTextColor} mr-4 mt-1 p-2 bg-dark-tertiary/50 rounded-md shadow-sm`}></i>
+        <i className={`${service.iconClass} text-3xl ${iconColor} mr-4 mt-1 p-2 bg-dark-tertiary/50 rounded-md`}></i>
         <div>
-          <h3 className={`text-2xl font-bold ${iconTextColor}`}>{service.title}</h3>
+          <h3 className={`text-2xl font-bold ${iconColor}`}>{service.title}</h3>
           <p className="text-sm text-text-muted font-medium">{service.targetAudience}</p>
         </div>
       </div>
@@ -27,7 +26,7 @@ const ConsultancyServiceCard: React.FC<{ service: ConsultancyService, colorClass
       <Link 
           to="/contact" 
           state={{ interestedService: service.title, subject: `Inquiry: ${service.title}` }}
-          className={`mt-auto inline-block bg-transparent border-2 ${borderColorClass} ${iconTextColor} font-medium py-2.5 px-5 rounded-lg ${hoverBgColor} hover:text-white transition-all duration-300 text-sm focus-visible-outline w-full text-center sm:w-auto hover:scale-105 shadow-md hover:shadow-lg`}
+          className={`mt-auto inline-block bg-transparent border-2 ${borderColor} ${iconColor} font-medium py-2.5 px-5 rounded-lg ${hoverBgColor} hover:text-white transition-all duration-300 text-sm focus-visible-outline w-full text-center sm:w-auto hover:scale-105`}
       >
           Inquire About This Service
       </Link>
@@ -36,8 +35,10 @@ const ConsultancyServiceCard: React.FC<{ service: ConsultancyService, colorClass
 };
 
 export const ConsultancyPage: React.FC = () => {
-  const colors = ['primary', 'secondary', 'accent', 'primary']; 
+  const colors = ['cyan', 'purple', 'accent', 'cyan']; 
   const location = useLocation();
+  // const interestedService = location.state?.interestedService; // Available if needed
+
 
   return (
     <div className="animate-fadeIn">
@@ -45,8 +46,8 @@ export const ConsultancyPage: React.FC = () => {
         title="Consultancy & Collaboration" 
         id="consultancy"
         subtitle={personalInfoData.consultancyOfferSummary || "Leveraging research expertise to drive impactful solutions and foster innovation across sectors."}
-      > {/* Section is transparent */}
-        <div className="glass-card p-6 sm:p-8 rounded-xl shadow-xl mb-12 text-center animate-fadeIn" style={{animationDelay: '0.2s'}}> {/* Approach block is a glass-card */}
+      >
+        <div className="glass-card p-6 sm:p-8 rounded-xl shadow-xl mb-12 text-center animate-fadeIn" style={{animationDelay: '0.2s'}}>
             <h3 className="text-2xl font-bold text-primary-light mb-4">My Approach</h3>
             <p className="text-text-muted leading-relaxed max-w-3xl mx-auto text-sm sm:text-base">
                 I believe in a collaborative, data-driven approach to consultancy. My goal is to empower organizations and individuals with actionable insights derived from rigorous research and practical experience. Whether you're an NGO seeking to measure your impact, an academic institution looking for research collaboration, or a startup navigating the fintech landscape, I'm here to help you achieve your objectives.
@@ -65,7 +66,7 @@ export const ConsultancyPage: React.FC = () => {
           ))}
         </div>
 
-        <div className="mt-16 text-center glass-card p-8 rounded-xl shadow-xl animate-fadeIn" style={{animationDelay: '0.5s'}}> {/* Collaboration block is a glass-card */}
+        <div className="mt-16 text-center glass-card p-8 rounded-xl shadow-xl animate-fadeIn" style={{animationDelay: '0.5s'}}>
             <h3 className="text-2xl font-bold text-secondary mb-4">Ready to Collaborate?</h3>
             <p className="text-text-muted max-w-xl mx-auto mb-6 text-sm sm:text-base">
                 If you're interested in any of these services or have a specific project in mind, I'd love to hear from you. Let's discuss how we can work together.

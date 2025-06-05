@@ -56,6 +56,7 @@ const Header: React.FC = () => {
     setIsMobileMenuOpen(false); 
   };
 
+  // All navLinksData items will be used for main navigation now
   const mainNavLinks = navLinksData;
 
 
@@ -64,23 +65,21 @@ const Header: React.FC = () => {
       <style> 
         {`
           header.scrolled .glass-card-header {
-            background: rgba(var(--dark-rgb), 0.85); /* Using themed dark color */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 6px 20px rgba(var(--dark-rgb), 0.3); 
+            background: rgba(15, 23, 42, 0.9); 
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25); 
             padding-top: 0.5rem; 
             padding-bottom: 0.5rem; 
           }
           header .glass-card-header {
              padding-top: 1rem; 
              padding-bottom: 1rem; 
-             background: rgba(var(--dark-secondary-rgb), 0.3); /* Initial subtle background */
-             border: 1px solid rgba(var(--primary-rgb), 0.1);
           }
         `}
       </style>
       <div className="container mx-auto px-4"> 
-        <div className="flex justify-between items-center glass-card-header px-6 lg:px-8 rounded-full transition-all duration-300"> {/* Removed glass-card, using specific style */}
+        <div className="flex justify-between items-center glass-card glass-card-header px-6 lg:px-8 rounded-full transition-all duration-300">
           <Link to="/#home" onClick={(e) => handleNavLinkClick("/#home", e)} className="text-xl font-bold flex items-center focus-visible-outline rounded-sm" aria-label="Homepage">
             <span className="text-white">Dr. Jaskirat</span>
             <span className="gradient-text ml-1.5">Singh</span>
@@ -88,14 +87,17 @@ const Header: React.FC = () => {
           
           <nav className="hidden lg:flex items-center space-x-2 lg:space-x-3 xl:space-x-4">
             {mainNavLinks.map((link: NavLinkType) => {
+              const isHashLink = link.path.startsWith('/#');
+              
               return (
                 <RouterNavLink
                   key={link.id}
                   to={link.path}
                   onClick={(e) => handleNavLinkClick(link.path, e)}
-                  className={({ isActive }) =>
+                  className={({ isActive }) => // Use routerIsActive for non-hash links, custom logic for hash links handled by scroll useEffect in AppContent
                     `nav-link-custom ${ isActive ? 'active' : ''} focus-visible-outline`
                   }
+                  // aria-current logic handled by useEffect in AppContent
                 >
                   {link.name}
                 </RouterNavLink>
@@ -105,7 +107,7 @@ const Header: React.FC = () => {
           
           <div className="flex items-center space-x-3">
             <CVLinkButton 
-              className="gradient-bg text-white px-4 py-2 rounded-full text-xs sm:text-sm font-medium hover:opacity-90 transition focus-visible-outline shadow-glow-primary"
+              className="gradient-bg text-white px-4 py-2 rounded-full text-xs sm:text-sm font-medium hover:opacity-90 transition focus-visible-outline"
               text="HTML CV"
               iconClass="fas fa-file-lines mr-1.5"
             />
@@ -138,6 +140,7 @@ const Header: React.FC = () => {
                     className={({isActive}) => 
                         `block py-2.5 nav-link-custom text-base ${isActive ? 'active' : ''} focus-visible-outline rounded-md w-full text-left`
                     }
+                    // aria-current handled by useEffect
                     role="menuitem"
                   >
                     {link.name}
@@ -153,7 +156,7 @@ const Header: React.FC = () => {
 };
 
 const Footer: React.FC = () => (
-  <footer className="py-12 border-t border-slate-800/50 bg-dark/70 backdrop-blur-sm"> {/* Added backdrop-blur for consistency */}
+  <footer className="py-12 border-t border-gray-800/70 bg-dark/50"> 
     <div className="container mx-auto px-4">
       <div className="flex flex-col md:flex-row justify-between mb-10">
         <div className="mb-8 md:mb-0 text-center md:text-left md:w-1/3"> 
@@ -165,7 +168,7 @@ const Footer: React.FC = () => (
           <div>
             <h3 className="text-lg font-semibold mb-4 text-light">Navigation</h3> 
             <ul className="space-y-2.5">
-              {navLinksData.filter(l => !['/consultancy', '/citations', '/#contact'].includes(l.path)).slice(0,4).map(link => ( 
+              {navLinksData.filter(l => !['/consultancy', '/citations', '/#contact'].includes(l.path)).slice(0,4).map(link => ( // Keep this filter for conciseness in footer
                  <li key={`footer-nav-${link.id}`}>
                    <Link 
                      to={link.path} 
@@ -215,7 +218,7 @@ const Footer: React.FC = () => (
         </div>
       </div>
       
-      <hr className="border-slate-800/50 my-8" /> 
+      <hr className="border-gray-800/50 my-8" /> 
       
       <div className="flex flex-col md:flex-row justify-between items-center">
         <p className="text-text-darker-muted text-xs sm:text-sm">© {new Date().getFullYear()} {personalInfoData.name.split(",")[0]}. All rights reserved.</p> 
@@ -259,9 +262,9 @@ const ScrollToTopButton: React.FC = () => {
       id="back-to-top" 
       type="button"
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 p-3.5 rounded-full bg-primary text-white shadow-xl hover:bg-primary-dark transition-all duration-300 focus-visible-outline transform hover:scale-105 ${isVisible ? 'opacity-100 visible shadow-glow-primary' : 'opacity-0 invisible'}`}
+      className={`fixed bottom-6 right-6 p-3.5 rounded-full bg-primary text-white shadow-xl hover:bg-primary-dark transition-all duration-300 focus-visible-outline transform hover:scale-105 ${isVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
       aria-label="Scroll to top"
-      style={{transition: 'opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease'}}
+      style={{transition: 'opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease'}}
     >
       <i className="fas fa-chevron-up text-lg"></i>
     </button>
@@ -298,10 +301,10 @@ const AppContent: React.FC = () => {
         let isActive = false;
 
         if (linkPath) {
-          if (linkPath.startsWith('/#') && location.pathname === '/') { 
+          if (linkPath.startsWith('/#') && location.pathname === '/') { // Hash links on main page
             isActive = linkPath.substring(1) === location.hash || (currentSectionId && linkPath === `/#${currentSectionId}`);
-          } else if (!linkPath.startsWith('/#')) { 
-            isActive = location.pathname === linkPath || (location.pathname === '/' && linkPath === '/#home' && !location.hash && !currentSectionId); 
+          } else if (!linkPath.startsWith('/#')) { // Direct page links
+            isActive = location.pathname === linkPath || (location.pathname === '/' && linkPath === '/#home' && !location.hash && !currentSectionId); // Special case for home
           }
         }
         
@@ -317,8 +320,8 @@ const AppContent: React.FC = () => {
     
     const handleScrollOrPathChange = () => {
       let currentSectionForMainPage: string | undefined = undefined;
-      if (location.pathname === '/') { 
-        currentSectionForMainPage = 'home'; 
+      if (location.pathname === '/') { // Main page with sections
+        currentSectionForMainPage = 'home'; // Default to home
         for (const sectionId of sections) {
           const sectionEl = document.getElementById(sectionId);
           if (sectionEl) {
@@ -343,9 +346,9 @@ const AppContent: React.FC = () => {
 
 
   return (
-    <div className="flex flex-col min-h-screen"> {/* Removed bg-dark to let body background show */}
+    <div className="flex flex-col min-h-screen bg-dark"> 
       <Header />
-      <main ref={mainContentRef} className="flex-grow pt-28 md:pt-32"> {/* Increased top padding slightly for header */}
+      <main ref={mainContentRef} className="flex-grow pt-24 md:pt-28">
         <Routes>
           <Route path="/" element={
             <> 
