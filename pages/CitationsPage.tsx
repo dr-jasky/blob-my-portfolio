@@ -22,27 +22,27 @@ const CitationEntry: React.FC<{ pub: Publication; selectedStyle: CitationStyle, 
 
   return (
     <div 
-      className="glass-card p-5 rounded-lg shadow-lg mb-4 border-l-4 border-neon-blue animate-fadeIn transition-all duration-300 hover:border-neon-pink hover:shadow-xl" // Uses general .glass-card, border-neon-blue, hover:border-neon-pink
+      className="glass-card p-5 rounded-lg shadow-lg mb-4 border-l-4 border-primary animate-fadeIn transition-all duration-300 hover:border-primary-light hover:shadow-xl" // Uses glass-card
       style={{ animationDelay: `${delay}s`}}
       id={pub.id} 
     >
-      <p className="text-sm font-semibold text-neon-blue mb-1">{pub.title}</p> {/* text-neon-blue */}
+      <p className="text-sm font-semibold text-primary-light mb-1">{pub.title}</p>
       <p className="text-xs text-text-muted mb-2 italic">{pub.authors} ({pub.year})</p>
       <div 
-        className="p-3 bg-dark-primary/60 border border-dark-tertiary/60 rounded text-xs sm:text-sm text-text-muted whitespace-pre-line break-words mb-3 scrollbar-thin scrollbar-thumb-neon-blue scrollbar-track-dark-tertiary max-h-40 overflow-y-auto" // bg-dark-primary, border-dark-tertiary, scrollbar-thumb-neon-blue
+        className="p-3 bg-dark/70 border border-slate-700/60 rounded text-xs sm:text-sm text-text-muted whitespace-pre-line break-words mb-3 scrollbar-thin scrollbar-thumb-primary/70 scrollbar-track-dark/30 max-h-40 overflow-y-auto" 
         aria-label={`${selectedStyle} Citation Text`}
       >
         {citationText}
       </div>
       <button
         onClick={handleCopy}
-        className="px-3 py-1.5 text-xs bg-neon-pink/80 text-dark-primary rounded hover:bg-neon-pink transition-colors focus-visible-outline transform hover:scale-105" // bg-neon-pink, text-dark-primary
+        className="px-3 py-1.5 text-xs bg-secondary hover:bg-secondary/80 text-white rounded transition-colors focus-visible-outline transform hover:scale-105 shadow-md"
         aria-label={`Copy ${selectedStyle} citation for ${pub.title}`}
       >
         <i className="fas fa-copy mr-1.5"></i> Copy {selectedStyle}
       </button>
       {copySuccess && (
-        <span role="status" aria-live="polite" className="ml-3 text-sm font-semibold text-neon-green animate-pulseGlow [--tw-shadow-color:theme('colors.neon-green')]"> {/* text-neon-green */}
+        <span role="status" aria-live="polite" className="ml-3 text-sm font-semibold text-accent animate-pulseGlow [--glow-color:rgba(var(--accent-rgb),0.6)]"> {/* Updated animation variable */}
           <i className="fas fa-check-circle mr-1"></i>Copied!
         </span>
       )}
@@ -80,19 +80,19 @@ export const CitationsPage: React.FC = () => {
         title="Publication Citations" 
         id="citations"
         subtitle="Generate citations for my work in various academic styles. Select a style below to update all entries."
-      >
+      > {/* Section is transparent */}
         
-        <div className="mb-10 p-4 glass-card rounded-lg flex flex-col sm:flex-row justify-center items-center gap-3 sticky top-24 z-30 shadow-xl border border-neon-blue/30"> {/* Uses general .glass-card, border-neon-blue */}
-          <span className="text-text-light-primary font-medium mb-2 sm:mb-0 sm:mr-3">Select Citation Style:</span>
+        <div className="mb-10 p-4 glass-card rounded-lg flex flex-col sm:flex-row justify-center items-center gap-3 sticky top-24 z-30 shadow-xl border border-primary-dark/30"> {/* Style selection bar is a glass-card */}
+          <span className="text-light font-medium mb-2 sm:mb-0 sm:mr-3">Select Citation Style:</span>
           <div className="flex flex-wrap justify-center gap-2">
             {citationStyles.map(style => (
               <button
                 key={style}
                 onClick={() => setSelectedStyle(style)}
-                className={`px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200 transform hover:scale-105 focus-visible-outline
+                className={`px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200 transform hover:scale-105 focus-visible-outline shadow-sm
                   ${selectedStyle === style 
-                    ? 'gradient-bg text-dark-primary shadow-md ring-2 ring-offset-2 ring-offset-dark-secondary ring-white/70' // Uses gradient-bg
-                    : 'bg-slate-700/60 text-text-muted hover:bg-slate-600/80 hover:text-text-light-primary'}`}
+                    ? 'gradient-bg text-white shadow-md ring-2 ring-offset-2 ring-offset-dark-secondary ring-white/70' 
+                    : 'bg-slate-700/60 text-text-muted hover:bg-slate-600/80 hover:text-light'}`}
                 aria-pressed={selectedStyle === style}
               >
                 {style}
@@ -107,7 +107,7 @@ export const CitationsPage: React.FC = () => {
 
           return (
             <div key={pubType} className="mb-10">
-              <h3 className="text-2xl font-semibold text-neon-pink mb-5 pb-2 border-b-2 border-neon-pink/30 flex items-center"> {/* text-neon-pink, border-neon-pink */}
+              <h3 className="text-2xl font-semibold text-secondary mb-5 pb-2 border-b-2 border-secondary/30 flex items-center">
                  <i className="fas fa-bookmark mr-3 opacity-80"></i>{pubType}
               </h3>
               <div className="space-y-4">

@@ -56,15 +56,31 @@ const Header: React.FC = () => {
     setIsMobileMenuOpen(false); 
   };
 
-  // All navLinksData items will be used for main navigation now
   const mainNavLinks = navLinksData;
 
 
   return (
     <header ref={headerRef} className="fixed w-full z-50 top-0 transition-all duration-300 py-2.5">
-      {/* CSS for scrolled header moved to global styles in index.html */}
+      <style> 
+        {`
+          header.scrolled .glass-card-header {
+            background: rgba(var(--dark-rgb), 0.85); /* Using themed dark color */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 6px 20px rgba(var(--dark-rgb), 0.3); 
+            padding-top: 0.5rem; 
+            padding-bottom: 0.5rem; 
+          }
+          header .glass-card-header {
+             padding-top: 1rem; 
+             padding-bottom: 1rem; 
+             background: rgba(var(--dark-secondary-rgb), 0.3); /* Initial subtle background */
+             border: 1px solid rgba(var(--primary-rgb), 0.1);
+          }
+        `}
+      </style>
       <div className="container mx-auto px-4"> 
-        <div className="flex justify-between items-center glass-card-header px-6 lg:px-8 rounded-full transition-all duration-300"> {/* Updated to glass-card-header */}
+        <div className="flex justify-between items-center glass-card-header px-6 lg:px-8 rounded-full transition-all duration-300"> {/* Removed glass-card, using specific style */}
           <Link to="/#home" onClick={(e) => handleNavLinkClick("/#home", e)} className="text-xl font-bold flex items-center focus-visible-outline rounded-sm" aria-label="Homepage">
             <span className="text-white">Dr. Jaskirat</span>
             <span className="gradient-text ml-1.5">Singh</span>
@@ -72,17 +88,14 @@ const Header: React.FC = () => {
           
           <nav className="hidden lg:flex items-center space-x-2 lg:space-x-3 xl:space-x-4">
             {mainNavLinks.map((link: NavLinkType) => {
-              // const isHashLink = link.path.startsWith('/#'); // Not directly used here anymore for isActive
-              
               return (
                 <RouterNavLink
                   key={link.id}
                   to={link.path}
                   onClick={(e) => handleNavLinkClick(link.path, e)}
-                  className={({ isActive }) => 
+                  className={({ isActive }) =>
                     `nav-link-custom ${ isActive ? 'active' : ''} focus-visible-outline`
                   }
-                  // aria-current logic handled by useEffect in AppContent
                 >
                   {link.name}
                 </RouterNavLink>
@@ -92,7 +105,7 @@ const Header: React.FC = () => {
           
           <div className="flex items-center space-x-3">
             <CVLinkButton 
-              className="gradient-bg text-dark-primary px-4 py-2 rounded-full text-xs sm:text-sm font-medium hover:opacity-90 transition focus-visible-outline" /* Ensured text-dark-primary for contrast on gradient */
+              className="gradient-bg text-white px-4 py-2 rounded-full text-xs sm:text-sm font-medium hover:opacity-90 transition focus-visible-outline shadow-glow-primary"
               text="HTML CV"
               iconClass="fas fa-file-lines mr-1.5"
             />
@@ -112,7 +125,7 @@ const Header: React.FC = () => {
         {isMobileMenuOpen && (
           <div 
             id="mobile-menu" 
-            className="lg:hidden glass-card mt-2.5 rounded-xl py-4 absolute w-[calc(100%-2rem)] left-1/2 transform -translate-x-1/2 shadow-xl" /* Uses general glass-card */
+            className="lg:hidden glass-card mt-2.5 rounded-xl py-4 absolute w-[calc(100%-2rem)] left-1/2 transform -translate-x-1/2 shadow-xl"
             role="menu"
           > 
             <div className="flex flex-col space-y-1 px-5">
@@ -140,17 +153,17 @@ const Header: React.FC = () => {
 };
 
 const Footer: React.FC = () => (
-  <footer className="py-12 border-t border-dark-tertiary/70 bg-dark-primary/80"> {/* Darker footer background */}
+  <footer className="py-12 border-t border-slate-800/50 bg-dark/70 backdrop-blur-sm"> {/* Added backdrop-blur for consistency */}
     <div className="container mx-auto px-4">
       <div className="flex flex-col md:flex-row justify-between mb-10">
         <div className="mb-8 md:mb-0 text-center md:text-left md:w-1/3"> 
-          <h2 className="text-2xl font-bold mb-4 text-text-light-primary">{personalInfoData.name.split(",")[0]}</h2>
-          <p className="text-text-light-secondary text-sm max-w-sm mx-auto md:mx-0">{personalInfoData.tagline}</p> 
+          <h2 className="text-2xl font-bold mb-4 text-light">{personalInfoData.name.split(",")[0]}</h2>
+          <p className="text-text-muted text-sm max-w-sm mx-auto md:mx-0">{personalInfoData.tagline}</p> 
         </div>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 text-center md:text-left md:w-2/3"> 
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-text-light-primary">Navigation</h3> 
+            <h3 className="text-lg font-semibold mb-4 text-light">Navigation</h3> 
             <ul className="space-y-2.5">
               {navLinksData.filter(l => !['/consultancy', '/citations', '/#contact'].includes(l.path)).slice(0,4).map(link => ( 
                  <li key={`footer-nav-${link.id}`}>
@@ -171,7 +184,7 @@ const Footer: React.FC = () => (
                          window.scrollTo({ top: 0, behavior: 'smooth' });
                        }
                      }} 
-                     className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm"
+                     className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm"
                    >
                      {link.name}
                    </Link>
@@ -181,35 +194,35 @@ const Footer: React.FC = () => (
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-text-light-primary">Resources</h3>
+            <h3 className="text-lg font-semibold mb-4 text-light">Resources</h3>
             <ul className="space-y-2.5">
-              <li><Link to="/#research" onClick={(e)=>{e.preventDefault(); document.getElementById('research')?.scrollIntoView({behavior:'smooth', block:'start'})}} className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm">Publications</Link></li>
-              <li><CVLinkButton text="HTML CV" className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm" iconClass="fas fa-file-lines mr-1.5 text-xs" /></li>
-              <li><Link to="/consultancy" className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm">Consultancy</Link></li>
-              <li><Link to="/citations" className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm">Citations</Link></li>
+              <li><Link to="/#research" onClick={(e)=>{e.preventDefault(); document.getElementById('research')?.scrollIntoView({behavior:'smooth', block:'start'})}} className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm">Publications</Link></li>
+              <li><CVLinkButton text="HTML CV" className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm" iconClass="fas fa-file-lines mr-1.5 text-xs" /></li>
+              <li><Link to="/consultancy" className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm">Consultancy</Link></li>
+              <li><Link to="/citations" className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm">Citations</Link></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-text-light-primary">Connect</h3>
+            <h3 className="text-lg font-semibold mb-4 text-light">Connect</h3>
             <ul className="space-y-2.5">
-              <li><a href={personalInfoData.linkedIn} target="_blank" rel="noopener noreferrer" className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm">LinkedIn</a></li>
-              <li><a href={personalInfoData.googleScholar} target="_blank" rel="noopener noreferrer" className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm">Google Scholar</a></li>
-              <li><a href={personalInfoData.researchGate || "#"} target="_blank" rel="noopener noreferrer" className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm">ResearchGate</a></li>
-              <li><Link to="/#contact" onClick={(e) => {e.preventDefault(); document.getElementById('contact')?.scrollIntoView({behavior:'smooth'});}} className="text-text-light-secondary hover:text-neon-blue transition text-sm focus-visible-outline rounded-sm">Contact</Link></li>
+              <li><a href={personalInfoData.linkedIn} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm">LinkedIn</a></li>
+              <li><a href={personalInfoData.googleScholar} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm">Google Scholar</a></li>
+              <li><a href={personalInfoData.researchGate || "#"} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm">ResearchGate</a></li>
+              <li><Link to="/#contact" onClick={(e) => {e.preventDefault(); document.getElementById('contact')?.scrollIntoView({behavior:'smooth'});}} className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm">Contact</Link></li>
             </ul>
           </div>
         </div>
       </div>
       
-      <hr className="border-dark-tertiary/50 my-8" /> 
+      <hr className="border-slate-800/50 my-8" /> 
       
       <div className="flex flex-col md:flex-row justify-between items-center">
-        <p className="text-text-muted text-xs sm:text-sm">© {new Date().getFullYear()} {personalInfoData.name.split(",")[0]}. All rights reserved.</p> 
+        <p className="text-text-darker-muted text-xs sm:text-sm">© {new Date().getFullYear()} {personalInfoData.name.split(",")[0]}. All rights reserved.</p> 
         <div className="flex items-center mt-4 md:mt-0 text-xs sm:text-sm"> 
-          <span className="text-text-muted">Designed with</span>
-          <i className="fas fa-heart mx-1.5 text-neon-pink/80"></i> 
-          <span className="text-neon-blue ml-1">& Innovation</span> 
+          <span className="text-text-darker-muted">Designed with</span>
+          <i className="fas fa-heart mx-1.5 text-red-500/80"></i> 
+          <span className="text-primary-light ml-1">& Innovation</span> 
         </div>
       </div>
     </div>
@@ -246,9 +259,9 @@ const ScrollToTopButton: React.FC = () => {
       id="back-to-top" 
       type="button"
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 p-3.5 rounded-full bg-neon-blue text-dark-primary shadow-xl hover:bg-neon-pink transition-all duration-300 focus-visible-outline transform hover:scale-105 ${isVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+      className={`fixed bottom-6 right-6 p-3.5 rounded-full bg-primary text-white shadow-xl hover:bg-primary-dark transition-all duration-300 focus-visible-outline transform hover:scale-105 ${isVisible ? 'opacity-100 visible shadow-glow-primary' : 'opacity-0 invisible'}`}
       aria-label="Scroll to top"
-      style={{transition: 'opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease'}}
+      style={{transition: 'opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease'}}
     >
       <i className="fas fa-chevron-up text-lg"></i>
     </button>
@@ -285,10 +298,10 @@ const AppContent: React.FC = () => {
         let isActive = false;
 
         if (linkPath) {
-          if (linkPath.startsWith('/#') && location.pathname === '/') { // Hash links on main page
+          if (linkPath.startsWith('/#') && location.pathname === '/') { 
             isActive = linkPath.substring(1) === location.hash || (currentSectionId && linkPath === `/#${currentSectionId}`);
-          } else if (!linkPath.startsWith('/#')) { // Direct page links
-            isActive = location.pathname === linkPath || (location.pathname === '/' && linkPath === '/#home' && !location.hash && !currentSectionId); // Special case for home
+          } else if (!linkPath.startsWith('/#')) { 
+            isActive = location.pathname === linkPath || (location.pathname === '/' && linkPath === '/#home' && !location.hash && !currentSectionId); 
           }
         }
         
@@ -304,8 +317,8 @@ const AppContent: React.FC = () => {
     
     const handleScrollOrPathChange = () => {
       let currentSectionForMainPage: string | undefined = undefined;
-      if (location.pathname === '/') { // Main page with sections
-        currentSectionForMainPage = 'home'; // Default to home
+      if (location.pathname === '/') { 
+        currentSectionForMainPage = 'home'; 
         for (const sectionId of sections) {
           const sectionEl = document.getElementById(sectionId);
           if (sectionEl) {
@@ -330,9 +343,9 @@ const AppContent: React.FC = () => {
 
 
   return (
-    <div className="flex flex-col min-h-screen bg-dark-deep">  {/* Updated body class */}
+    <div className="flex flex-col min-h-screen"> {/* Removed bg-dark to let body background show */}
       <Header />
-      <main ref={mainContentRef} className="flex-grow pt-24 md:pt-28">
+      <main ref={mainContentRef} className="flex-grow pt-28 md:pt-32"> {/* Increased top padding slightly for header */}
         <Routes>
           <Route path="/" element={
             <> 

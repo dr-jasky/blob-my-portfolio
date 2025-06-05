@@ -6,26 +6,26 @@ import { Publication, PublicationType, ImpactMetric } from '../types';
 import { generateAPA, generateBibTeX } from '../utils/citationGenerators'; 
 
 const ImpactMetricTag: React.FC<{ metric: ImpactMetric }> = ({ metric }) => {
-  let colorClasses = "bg-neon-blue/30 text-neon-blue border-neon-blue/50"; 
+  let colorClasses = "bg-primary/20 text-primary-light"; 
   const metricValueStr = metric.value.toString().toUpperCase();
 
   if (metricValueStr.includes("Q1")) {
-    colorClasses = "bg-neon-green/30 text-neon-green border-neon-green/50"; 
+    colorClasses = "bg-accent/20 text-accent"; 
   } else if (metricValueStr.includes("Q2")) {
-    colorClasses = "bg-neon-blue/40 text-neon-blue border-neon-blue/60"; 
+    colorClasses = "bg-yellow-500/20 text-yellow-400"; 
   } else if (metricValueStr.includes("Q3")) {
-    colorClasses = "bg-neon-purple/30 text-neon-purple border-neon-purple/50";
+    colorClasses = "bg-orange-500/20 text-orange-400";
   } else if (metricValueStr.includes("ABDC: A*") || metricValueStr.includes("ABDC: A")) {
-    colorClasses = "bg-neon-pink/40 text-neon-pink border-neon-pink/60";
+    colorClasses = "bg-red-600/20 text-red-400";
   } else if (metricValueStr.includes("ABDC: B")) {
-    colorClasses = "bg-indigo-700/40 text-indigo-300 border-indigo-500/60"; // Kept indigo for variety if needed
+    colorClasses = "bg-purple-600/20 text-purple-400";
   } else if (metricValueStr.includes("ABDC: C")) { 
-    colorClasses = "bg-purple-700/40 text-purple-300 border-purple-500/60"; // Kept purple for variety
+    colorClasses = "bg-indigo-600/20 text-indigo-400";
   }
   
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${colorClasses} shadow-sm transition-all duration-300 hover:brightness-125 border`}>
-      {metric.icon && <i className={`${metric.icon} mr-1 text-xs opacity-80`}></i>}
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${colorClasses} shadow-sm transition-all duration-300 hover:brightness-125 border border-current/30`}>
+      {metric.icon && <i className={`${metric.icon} mr-1 text-xs`}></i>}
       {metric.value}
     </span>
   );
@@ -52,11 +52,11 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
   const cardId = `pub-${pub.id}`;
 
   const getTagColor = (index: number) => {
-    const colors = [
-      "bg-neon-blue/20 text-neon-blue border-neon-blue/40",
-      "bg-neon-pink/20 text-neon-pink border-neon-pink/40",
-      "bg-neon-green/20 text-neon-green border-neon-green/40",
-      "bg-neon-purple/20 text-neon-purple border-neon-purple/40",
+    const colors = [ // Using theme colors
+      "bg-primary/20 text-primary-light border-primary/30",
+      "bg-secondary/20 text-secondary border-secondary/30",
+      "bg-accent/20 text-accent border-accent/30",
+      "bg-slate-700/50 text-text-muted border-slate-600/50",
     ];
     return colors[index % colors.length];
   }
@@ -64,26 +64,24 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
   return (
     <div 
       id={cardId} 
-      className="glass-card p-5 rounded-xl shadow-lg hover-card h-full min-h-[340px] sm:min-h-[360px] flex flex-col transition-all duration-300 animate-fadeIn focus-visible-outline border-2 border-transparent hover:border-neon-blue" // hover border to neon-blue
+      className="glass-card p-5 rounded-xl shadow-lg hover-card h-full min-h-[340px] sm:min-h-[360px] flex flex-col transition-all duration-300 animate-fadeIn focus-visible-outline border-2 border-transparent hover:border-primary-light/70" // hover-card provides subtle lift and shadow
       style={{ animationDelay: `${delay}s`}}
       tabIndex={0} 
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowDetailsModal(true);}}
     >
-      {/* Top Section: Year & Metrics */}
       <div className="flex justify-between items-start mb-3">
         <div className="flex flex-wrap gap-1.5">
           {pub.impactMetrics?.map(metric => (
             <ImpactMetricTag key={metric.name+metric.value} metric={metric} />
           ))}
         </div>
-        <span className="text-sm text-text-light-secondary font-semibold ml-2 flex-shrink-0">
+        <span className="text-sm text-text-darker-muted font-semibold ml-2 flex-shrink-0">
           {pub.year.toString().replace("Expected","Exp.").replace("Communicated", "Comm.")}
         </span>
       </div>
 
-      {/* Middle Section: Core Info (Title, Authors, Source) */}
       <div className="flex-grow mb-3">
-        <h3 className="text-lg font-semibold mb-1.5 text-text-light-primary leading-tight line-clamp-4"
+        <h3 className="text-lg font-semibold mb-1.5 text-light leading-tight line-clamp-4"
             title={pub.title}>
           {pub.title}
         </h3>
@@ -94,17 +92,16 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
           <span className="font-medium text-text-muted">Source:</span> {pub.source}
         </p>
         {pub.status && (
-          <p className="text-xs text-neon-green mt-1.5"> {/* text-neon-green for status */}
+          <p className="text-xs text-accent mt-1.5">
             <i className="fas fa-info-circle mr-1"></i>
             {pub.status}
           </p>
         )}
       </div>
 
-      {/* Bottom Section: Tags & Action Button */}
       <div className="mt-auto">
         {pub.tags && pub.tags.length > 0 && (
-          <div className="pt-2 border-t border-dark-tertiary/50 mb-4"> {/* border-dark-tertiary */}
+          <div className="pt-2 border-t border-slate-700/50 mb-4">
             <div className="flex flex-wrap gap-1.5">
               {pub.tags.slice(0, 3).map((tag, index) => (
                 <span 
@@ -119,30 +116,29 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
         )}
         <button 
           onClick={() => setShowDetailsModal(true)}
-          className="w-full gradient-bg text-dark-primary py-2.5 px-3 rounded-lg text-center text-sm font-medium hover:opacity-90 transition transform hover:scale-[1.02] focus-visible-outline"
+          className="w-full gradient-bg text-white py-2.5 px-3 rounded-lg text-center text-sm font-medium hover:opacity-90 transition transform hover:scale-[1.02] focus-visible-outline shadow-md hover:shadow-lg"
           aria-label={`View abstract and citation for ${pub.title}`}
         >
           <i className="fas fa-book-open mr-1.5"></i> View Abstract & Cite
         </button>
       </div>
 
-      {/* Details Modal */}
       {showDetailsModal && (
         <div 
           className="fixed inset-0 bg-black/85 backdrop-blur-lg flex items-center justify-center z-[100] p-4 animate-fadeIn"
           onClick={() => setShowDetailsModal(false)} role="dialog" aria-modal="true" aria-labelledby={`details-title-${pub.id}`}
         >
           <div 
-            className="bg-dark-secondary p-6 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-neon-blue/30" // bg-dark-secondary, border-neon-blue
+            className="bg-dark-secondary p-6 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border border-primary-light/50" 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4 flex-shrink-0">
-              <h4 id={`details-title-${pub.id}`} className="text-xl font-bold text-text-light-primary line-clamp-2" title={pub.title}>
+              <h4 id={`details-title-${pub.id}`} className="text-xl font-bold text-light line-clamp-2" title={pub.title}>
                 {pub.title}
               </h4>
               <button 
                 onClick={() => setShowDetailsModal(false)} 
-                className="text-text-muted hover:text-text-light-primary text-3xl leading-none focus-visible-outline rounded-full w-8 h-8 flex items-center justify-center hover:bg-dark-tertiary/50 transition-colors flex-shrink-0 ml-4" aria-label="Close details modal"
+                className="text-text-muted hover:text-light text-3xl leading-none focus-visible-outline rounded-full w-10 h-10 flex items-center justify-center hover:bg-slate-700/50 transition-colors flex-shrink-0 ml-4" aria-label="Close details modal"
               >
                 &times;
               </button>
@@ -155,8 +151,8 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
               <span className="font-medium">Source:</span> {pub.source} {pub.details ? `(${pub.details})` : ''}
             </p>
 
-            <div className="overflow-y-auto mb-5 scrollbar-thin scrollbar-thumb-neon-blue scrollbar-track-dark-tertiary pr-2 flex-grow min-h-[120px]">
-              <h5 className="text-md font-semibold text-neon-blue mb-2">Abstract/Summary:</h5>
+            <div className="overflow-y-auto mb-5 scrollbar-thin scrollbar-thumb-primary scrollbar-track-dark-tertiary pr-2 flex-grow min-h-[120px]">
+              <h5 className="text-md font-semibold text-primary-light mb-2">Abstract/Summary:</h5>
               <p className="text-text-muted text-sm leading-relaxed">
                 {pub.summary || pub.insightSnippet || "Detailed abstract not available for this publication."}
               </p>
@@ -169,7 +165,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
                     href={pub.doiLink} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="bg-neon-blue/80 text-dark-primary py-2 px-4 rounded-lg text-center text-sm font-medium hover:bg-neon-blue transition focus-visible-outline transform hover:scale-105"
+                    className="bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg text-center text-sm font-medium transition focus-visible-outline transform hover:scale-105 shadow-md"
                     aria-label={`Read full paper of ${pub.title} via DOI`}
                   >
                     <i className="fas fa-external-link-alt mr-1.5"></i> DOI Link
@@ -180,7 +176,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
                     href={pub.link} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="bg-neon-blue/80 text-dark-primary py-2 px-4 rounded-lg text-center text-sm font-medium hover:bg-neon-blue transition focus-visible-outline transform hover:scale-105"
+                    className="bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg text-center text-sm font-medium transition focus-visible-outline transform hover:scale-105 shadow-md"
                     aria-label={`View source for ${pub.title}`}
                   >
                     <i className="fas fa-link mr-1.5"></i> View Source
@@ -188,7 +184,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
                 )}
               </div>
 
-              <div className="space-y-3 border-t border-dark-tertiary/50 pt-4"> {/* border-dark-tertiary */}
+              <div className="space-y-3 border-t border-slate-700/50 pt-4">
                 <div>
                   <label htmlFor={`apa-citation-${pub.id}`} className="block text-sm font-medium text-text-muted mb-1">
                     APA:
@@ -198,11 +194,11 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
                     readOnly 
                     value={apaCitation} 
                     rows={3} 
-                    className="w-full p-2 text-xs bg-dark-primary/60 border border-dark-tertiary/70 rounded-md text-text-muted focus:outline-none focus:ring-1 focus:ring-neon-blue resize-none scrollbar-thin scrollbar-thumb-neon-blue/70 scrollbar-track-dark-primary/30" // bg-dark-primary
+                    className="w-full p-2 text-xs bg-dark/70 border border-slate-600 rounded-md text-text-muted focus:outline-none focus:ring-1 focus:ring-primary resize-none scrollbar-thin scrollbar-thumb-primary/70 scrollbar-track-dark/30"
                   />
                   <button 
                     onClick={() => handleCopy(apaCitation, 'APA')} 
-                    className="mt-1.5 text-xs bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-md transition-colors focus-visible-outline"
+                    className="mt-1.5 text-xs bg-slate-600 hover:bg-slate-500 text-white px-3 py-1.5 rounded-md transition-colors focus-visible-outline shadow-sm"
                   >
                     Copy APA
                   </button>
@@ -217,11 +213,11 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
                     readOnly 
                     value={bibtexCitation} 
                     rows={4} 
-                    className="w-full p-2 text-xs bg-dark-primary/60 border border-dark-tertiary/70 rounded-md text-text-muted focus:outline-none focus:ring-1 focus:ring-neon-blue resize-none scrollbar-thin scrollbar-thumb-neon-blue/70 scrollbar-track-dark-primary/30" // bg-dark-primary
+                    className="w-full p-2 text-xs bg-dark/70 border border-slate-600 rounded-md text-text-muted focus:outline-none focus:ring-1 focus:ring-primary resize-none scrollbar-thin scrollbar-thumb-primary/70 scrollbar-track-dark/30"
                   />
                   <button 
                     onClick={() => handleCopy(bibtexCitation, 'BibTeX')} 
-                    className="mt-1.5 text-xs bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-md transition-colors focus-visible-outline"
+                    className="mt-1.5 text-xs bg-slate-600 hover:bg-slate-500 text-white px-3 py-1.5 rounded-md transition-colors focus-visible-outline shadow-sm"
                   >
                     Copy BibTeX
                   </button>
@@ -230,7 +226,7 @@ const PublicationStaticCard: React.FC<{ pub: Publication; delay: number }> = ({ 
             </div>
             
             {copySuccess && (
-              <p role="status" aria-live="polite" className="text-sm text-neon-green mt-3 text-center flex-shrink-0 font-semibold">
+              <p role="status" aria-live="polite" className="text-sm text-accent mt-3 text-center flex-shrink-0 font-semibold animate-pulseGlow [--glow-color:rgba(var(--accent-rgb),0.6)]">
                 <i className="fas fa-check-circle mr-1.5"></i>{copySuccess}
               </p>
             )}
@@ -256,31 +252,33 @@ export const ResearchPage: React.FC = () => {
           
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           
+          // Enhanced focus styling
           element.classList.add(
             'ring-4', 
-            'ring-neon-pink', // Use a neon color for highlight
+            'ring-accent', 
             'ring-offset-4', 
-            'ring-offset-dark-secondary', 
-            'rounded-xl',
-            'shadow-2xl', 'shadow-neon-pink', // Neon shadow
-            'z-10', 
-            'relative', 
+            'ring-offset-dark-secondary', // Ensure this color is defined or use a theme dark color
+            'rounded-xl', // Ensure card itself has rounded corners for this to look good
+            'shadow-2xl', 'shadow-accent', 
+            'z-10', // Bring to front
+            'relative', // For z-index
             'transition-all', 'duration-500', 'ease-out' 
           );
           
-          setTimeout(() => {
+          setTimeout(() => { // Remove the highlight after some time
             element.classList.remove(
               'ring-4', 
-              'ring-neon-pink', 
+              'ring-accent', 
               'ring-offset-4', 
               'ring-offset-dark-secondary',
-              'shadow-2xl', 'shadow-neon-pink',
+              'shadow-2xl', 'shadow-accent',
               'z-10',
               'relative'
             );
-             element.classList.remove('transition-all', 'duration-500', 'ease-out');
-          }, 4500); 
-        }, 300); 
+             // Keep transition classes or remove if not needed for other interactions
+             // element.classList.remove('transition-all', 'duration-500', 'ease-out');
+          }, 4500); // Highlight duration
+        }, 300); // Delay to allow page to render
       }
     }
   }, []);
@@ -289,7 +287,7 @@ export const ResearchPage: React.FC = () => {
     <section id="research" className="py-16 md:py-20 relative animate-fadeIn"> 
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="section-title-custom text-3xl md:text-4xl font-bold text-text-light-primary">
+          <h2 className="section-title-custom text-3xl md:text-4xl font-bold text-light">
             My Research Portfolio
           </h2>
           <p className="text-lg md:text-xl text-text-muted mt-4 max-w-3xl mx-auto">
@@ -311,7 +309,7 @@ export const ResearchPage: React.FC = () => {
           return (
             <div key={type} className="mb-12 md:mb-16 animate-fadeIn" 
                  style={{animationDelay: `${0.2 + typeIndex * 0.1}s`}}>
-              <h3 className="text-2xl md:text-3xl font-semibold text-neon-blue mb-6 md:mb-8 pb-2 border-b-2 border-neon-blue/30"> {/* text-neon-blue, border-neon-blue */}
+              <h3 className="text-2xl md:text-3xl font-semibold text-primary-light mb-6 md:mb-8 pb-2 border-b-2 border-primary/30">
                 {type}
               </h3>
               
@@ -332,7 +330,7 @@ export const ResearchPage: React.FC = () => {
              style={{animationDelay: `${0.2 + publicationTypes.length * 0.1 + 0.2}s`}}>
           <Link 
             to="/citations" 
-            className="gradient-bg text-dark-primary px-8 py-3.5 rounded-full font-semibold flex items-center hover:shadow-lg hover:shadow-neon-blue/40 transition-all duration-300 transform hover:scale-105 focus-visible-outline text-base" // text-dark-primary for contrast
+            className="gradient-bg text-white px-8 py-3.5 rounded-full font-semibold flex items-center hover:shadow-lg hover:shadow-primary/40 transition-all duration-300 transform hover:scale-105 focus-visible-outline text-base"
           >
             <i className="fas fa-stream mr-2.5"></i> 
             View All Publications / Generate Citations
