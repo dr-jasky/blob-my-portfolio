@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface SectionProps {
@@ -29,7 +28,7 @@ export const Section: React.FC<SectionProps> = ({
           <TitleComponent className={`section-title-custom ${titleClassName}`}>
             {title}
           </TitleComponent>
-          {subtitle && <p className="text-lg md:text-xl text-muted mt-0 max-w-3xl mx-auto -translate-y-8">{subtitle}</p>} {/* Adjusted subtitle position */}
+          {subtitle && <p className="text-lg md:text-xl text-text-muted mt-3 max-w-3xl mx-auto">{subtitle}</p>} {/* Adjusted subtitle position */}
         </div>
         {children}
       </div>

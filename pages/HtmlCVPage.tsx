@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { personalInfoData, experienceData, educationData, certificationsData, publicationsData, skillCategoriesData } from '../data';
 import { PublicationType, Publication as PublicationItemType, SkillValueItem, AcademicSkillListItem } from '../types';

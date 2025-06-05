@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { personalInfoData, publicationsData, testimonialsData } from '../data';
@@ -58,7 +57,7 @@ const HeroSection: React.FC = () => {
         {personalInfoData.tagline}
       </p>
       
-      {/* Detailed professional summary removed from here */}
+      {/* Detailed professional summary removed from here, tagline and keywords carry the weight now. */}
       
       {personalInfoData.currentFocusKeywords && personalInfoData.currentFocusKeywords.length > 0 && (
         <div className="my-6 md:my-8 max-w-3xl mx-auto w-full animate-fadeIn" style={{ animationDelay: `${keywordsTitleDelay}s` }}>
@@ -103,7 +102,7 @@ const HeroSection: React.FC = () => {
         <Link 
           to="/#research"
           onClick={(e) => { e.preventDefault(); document.getElementById('research')?.scrollIntoView({behavior:'smooth', block:'start'});}}
-          className="inline-block gradient-bg-alt text-dark-primary font-semibold py-3.5 px-10 rounded-lg shadow-neon-glow-green transition-all duration-300 transform hover:scale-105 hover:opacity-90 text-lg focus-visible-outline"
+          className="inline-block gradient-bg text-white font-semibold py-3.5 px-10 rounded-lg shadow-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-lg focus-visible-outline"
         >
           <i className="fas fa-atom mr-2"></i>Explore Research
         </Link>
@@ -216,6 +215,7 @@ const ResearchHighlightCard: React.FC<{ pub: Publication }> = ({ pub }) => (
           src={pub.featuredImageUrl} 
           alt={`Visual representation for ${pub.title}`} 
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+          loading="lazy"
         />
          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
       </div>

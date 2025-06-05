@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, NavLink as RouterNavLink, useLocation, Link } from 'react-router-dom';
 import { personalInfoData, navLinksData, contactLinksData } from './data'; 
@@ -13,6 +12,7 @@ import { HtmlCVPage } from './pages/HtmlCVPage';
 import { CitationsPage } from './pages/CitationsPage';
 import { NavLink as NavLinkType } from './types';
 import { CVLinkButton } from './components/CVLinkButton';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 
 const Header: React.FC = () => {
@@ -363,6 +363,8 @@ const AppContent: React.FC = () => {
           <Route path="/consultancy" element={<ConsultancyPage />} />
           <Route path="/cv-html" element={<HtmlCVPage />} />
           <Route path="/citations" element={<CitationsPage />} />
+          {/* Add route for InteractiveCVPage if it's meant to be navigable */}
+          {/* <Route path="/interactive-cv" element={<InteractiveCVPage />} /> */}
         </Routes>
       </main>
       <Footer />
@@ -374,7 +376,9 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <HashRouter>
-      <AppContent />
+      <ErrorBoundary>
+        <AppContent />
+      </ErrorBoundary>
     </HashRouter>
   );
 };

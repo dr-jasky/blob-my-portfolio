@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { publicationsData } from '../data';
 import { Publication, PublicationType, CitationStyle } from '../types';

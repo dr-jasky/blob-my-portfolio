@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { personalInfoData, educationData } from '../data';
@@ -37,8 +36,35 @@ const EducationItemCard: React.FC<{ item: EducationItemType, iconColorClass: str
 export const AboutPage: React.FC = () => {
   const educationIconColors = ['bg-primary-dark', 'bg-secondary']; // Cycle for education cards, using theme variables
 
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": personalInfoData.name,
+    "jobTitle": personalInfoData.title,
+    "description": personalInfoData.professionalSummary?.substring(0, 250) + "...", // Short description
+    "image": personalInfoData.profileImageUrl,
+    "email": `mailto:${personalInfoData.email}`,
+    "telephone": personalInfoData.phone,
+    "url": "https://dr-jaskirat-singh.netlify.app/#about", // URL to this about page
+    "sameAs": [
+      personalInfoData.linkedIn,
+      personalInfoData.googleScholar,
+      personalInfoData.orcid,
+      personalInfoData.researchGate,
+      personalInfoData.ssrnProfileUrl,
+      personalInfoData.academiaUrl
+    ].filter(Boolean), // Filter out undefined URLs
+    "alumniOf": educationData.map(edu => ({
+      "@type": "EducationalOrganization",
+      "name": edu.institution
+    })),
+    "knowsAbout": personalInfoData.currentFocusKeywords || ["Finance", "Technology", "Socio-economic Development", "Financial Inclusion", "Urban Poverty"]
+  };
+
+
   return (
     <section id="about" className="py-20 relative animate-fadeIn">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <div className="container mx-auto px-4">
             <h2 className="section-title text-3xl md:text-4xl font-bold mb-16 text-center text-light">About Me</h2>
             
