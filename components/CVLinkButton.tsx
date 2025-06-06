@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { personalInfoData } from '../data';
@@ -10,8 +11,8 @@ interface CVLinkButtonProps {
 }
 
 export const CVLinkButton: React.FC<CVLinkButtonProps> = ({
-  className = "gradient-bg text-white px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 transition inline-flex items-center focus-visible-outline",
-  iconClass = "fas fa-file-alt mr-2", 
+  className = "btn-base gradient-bg-alt", 
+  iconClass = "fas fa-file-lines", 
   text = "View HTML CV",
   target,
 }) => {
@@ -22,17 +23,22 @@ export const CVLinkButton: React.FC<CVLinkButtonProps> = ({
 
   const content = (
     <>
-      <i className={iconClass}></i>
+      {iconClass && <i className={iconClass}></i>}
       {text}
     </>
   );
   
-  // If cvUrl is an external link or meant to open in new tab
-  if (personalInfoData.cvUrl.startsWith('http') || target === "_blank") {
+  // Ensure focus-visible-outline is always part of the className for accessibility
+  // If className prop doesn't include btn-base, it might look unstyled.
+  // It's better if the consuming component ensures btn-base is there or this component forces it.
+  // For now, we assume className will include btn-base if a full button style is desired.
+  const combinedClassName = `${className} focus-visible-outline`;
+
+  if (personalInfoData.cvUrl.startsWith('http') || target === "_blank" || personalInfoData.cvUrl.endsWith('.pdf')) { // Added check for PDF
     return (
       <a 
         href={personalInfoData.cvUrl} 
-        className={`${className} focus-visible-outline`} // Ensure focus outline is applied
+        className={combinedClassName}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -41,11 +47,10 @@ export const CVLinkButton: React.FC<CVLinkButtonProps> = ({
     );
   }
 
-  // Link to the HTML CV page (e.g., /cv-html)
   return (
     <Link 
       to={personalInfoData.cvUrl} 
-      className={`${className} focus-visible-outline`} // Ensure focus outline is applied
+      className={combinedClassName}
     >
       {content}
     </Link>

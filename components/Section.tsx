@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface SectionProps {
@@ -7,7 +8,7 @@ interface SectionProps {
   className?: string;
   titleClassName?: string;
   subtitle?: string;
-  titleAs?: 'h1' | 'h2' | 'h3'; // Allow choosing the heading level
+  titleAs?: 'h1' | 'h2' | 'h3'; 
 }
 
 export const Section: React.FC<SectionProps> = ({ 
@@ -22,13 +23,18 @@ export const Section: React.FC<SectionProps> = ({
   const TitleComponent = titleAs;
 
   return (
-    <section id={id} className={`py-16 md:py-20 relative ${className}`}> {/* Increased padding */}
+    <section id={id} className={`py-24 md:py-28 relative ${className}`}> {/* Increased vertical padding */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-16 md:mb-20"> 
           <TitleComponent className={`section-title-custom ${titleClassName}`}>
             {title}
           </TitleComponent>
-          {subtitle && <p className="text-lg md:text-xl text-text-muted mt-3 max-w-3xl mx-auto">{subtitle}</p>} {/* Adjusted subtitle position */}
+          {subtitle && (
+            <p className="text-lg md:text-xl text-text-muted mt-1 max-w-3xl mx-auto"> 
+              {/* Removed inline style for 'top'. CSS in index.html will handle spacing */}
+              {subtitle}
+            </p>
+          )}
         </div>
         {children}
       </div>

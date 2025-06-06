@@ -1,7 +1,6 @@
+
 import { PersonalInfo, Publication, Experience, EducationItem, Certification, SkillCategory, ContactLink, NavLink, PublicationType, ConsultancyService, Testimonial, ExpertiseAreaItem, SkillValueItem, AcademicSkillListItem } from './types';
 
-// Reminder: For optimal performance and reliability, consider downloading the profileImageUrl 
-// (https://files.catbox.moe/kdofh7.JPG) and serving it locally from your /public folder.
 export const personalInfoData: PersonalInfo = {
   name: "Dr. Jaskirat Singh",
   title: "Researcher, Educator, Innovator",
@@ -640,26 +639,4 @@ export const certificationsData: Certification[] = [
   { id: "cert8", name: "SPSS Masterclass: Learn SPSS From Scratch to Advanced", institution: "Udemy", year: 2022 },
 ];
 
-export const testimonialsData: Testimonial[] = [
-  {
-    id: "t1",
-    quote: "Dr. Singh's research insights were invaluable to our project. His dedication and analytical skills are truly commendable, leading to significant advancements in our understanding.",
-    author: "Dr. Emily Carter",
-    authorTitle: "Lead Researcher, Global Development Institute",
-    avatarUrl: "https://randomuser.me/api/portraits/women/44.jpg" 
-  },
-  {
-    id: "t2",
-    quote: "Working with Jaskirat has been a pleasure. He brings a unique perspective and rigorous approach to complex socio-economic challenges, consistently delivering high-quality work.",
-    author: "Prof. Alistair Finch",
-    authorTitle: "Head of Economics, University of Advanced Studies",
-    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg" 
-  },
-  {
-    id: "t3",
-    quote: "His pro-bono consultancy for our NGO dramatically improved our impact assessment framework. Highly recommend his expertise and commitment to social good!",
-    author: "Maria Gonzalez",
-    authorTitle: "Director, Community Uplift Foundation",
-    // No avatar for this one, to test fallback or absence
-  }
-];
+export const testimonialsData: Testimonial[] = [];

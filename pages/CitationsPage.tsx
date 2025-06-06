@@ -1,4 +1,6 @@
-import React, { useState, useMemo } from 'react';
+
+import React, { useState, useMemo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { publicationsData } from '../data';
 import { Publication, PublicationType, CitationStyle } from '../types';
 import { Section } from '../components/Section';
@@ -12,7 +14,7 @@ const CitationEntry: React.FC<{ pub: Publication; selectedStyle: CitationStyle, 
     try {
       await navigator.clipboard.writeText(citationText);
       setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2500);
+      setTimeout(() => setCopySuccess(false), 2800);
     } catch (err) {
       console.error(`Failed to copy ${selectedStyle} citation: `, err);
       alert(`Failed to copy ${selectedStyle} citation.`);
@@ -21,28 +23,28 @@ const CitationEntry: React.FC<{ pub: Publication; selectedStyle: CitationStyle, 
 
   return (
     <div 
-      className="glass-card p-5 rounded-lg shadow-lg mb-4 border-l-4 border-primary animate-fadeIn transition-all duration-300 hover:border-primary-light hover:shadow-xl"
-      style={{ animationDelay: `${delay}s`}}
-      id={pub.id} // Added ID for potential deep linking from research page
+      className="glass-card p-6 md:p-7 rounded-xl shadow-xl mb-6 border-l-4 border-primary-dark animate-fadeIn transition-all duration-300 hover-card publication-card-custom"
+      style={{ animationDelay: `${delay}s`, borderLeftColor: 'var(--primary-light)'}} // Standardized left border
+      id={`citation-${pub.id}`}
     >
-      <p className="text-sm font-semibold text-primary-light mb-1">{pub.title}</p>
-      <p className="text-xs text-text-muted mb-2 italic">{pub.authors} ({pub.year})</p>
+      <p className="text-md font-semibold text-primary-light mb-2 line-clamp-2" title={pub.title}>{pub.title}</p>
+      <p className="text-xs text-text-muted mb-3.5 italic">{pub.authors} ({pub.year})</p>
       <div 
-        className="p-3 bg-dark/60 border border-gray-700/60 rounded text-xs sm:text-sm text-text-muted whitespace-pre-line break-words mb-3 scrollbar-thin scrollbar-thumb-primary/70 scrollbar-track-dark/30 max-h-40 overflow-y-auto" 
+        className="p-4 bg-dark/75 border border-slate-600/60 rounded-lg text-xs sm:text-sm text-text-main whitespace-pre-line break-words mb-4 scrollbar-thin scrollbar-thumb-primary/80 scrollbar-track-dark/60 max-h-52 overflow-y-auto backdrop-blur-sm shadow-inner" 
         aria-label={`${selectedStyle} Citation Text`}
       >
         {citationText}
       </div>
       <button
         onClick={handleCopy}
-        className="px-3 py-1.5 text-xs bg-secondary/80 text-white rounded hover:bg-secondary transition-colors focus-visible-outline transform hover:scale-105"
+        className="btn-base btn-neon-outline !border-secondary !text-secondary hover:!bg-secondary hover:!text-dark !py-2 !px-4 !text-xs"
         aria-label={`Copy ${selectedStyle} citation for ${pub.title}`}
       >
-        <i className="fas fa-copy mr-1.5"></i> Copy {selectedStyle}
+        <i className="fas fa-copy"></i> Copy {selectedStyle}
       </button>
       {copySuccess && (
-        <span role="status" aria-live="polite" className="ml-3 text-sm font-semibold text-accent animate-pulseGlow [--tw-shadow-color:theme('colors.accent')]">
-          <i className="fas fa-check-circle mr-1"></i>Copied!
+        <span role="status" aria-live="polite" className="ml-4 text-sm font-semibold text-accent animate-pulseGlow [--tw-shadow-color:var(--accent)]">
+          <i className="fas fa-check-circle mr-1.5"></i>Copied!
         </span>
       )}
     </div>
@@ -53,6 +55,29 @@ export const CitationsPage: React.FC = () => {
   const [selectedStyle, setSelectedStyle] = useState<CitationStyle>('APA');
   const citationStyles: CitationStyle[] = ['APA', 'Chicago', 'Harvard', 'Vancouver', 'MLA'];
   const publicationTypesOrder = Object.values(PublicationType);
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const pubId = queryParams.get('pubId');
+    if (pubId) {
+      const element = document.getElementById(`citation-${pubId}`);
+      if (element) {
+        setTimeout(() => {
+          const headerOffset = 120; 
+          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementPosition - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+          element.classList.add('!border-accent', 'ring-4', 'ring-accent', 'ring-offset-4', 'ring-offset-dark-secondary', 'shadow-2xl', 'shadow-accent/50', 'transform', 'scale-105');
+          setTimeout(() => {
+            element.classList.remove('!border-accent', 'ring-4', 'ring-accent', 'ring-offset-4', 'ring-offset-dark-secondary', 'shadow-2xl', 'shadow-accent/50', 'transform', 'scale-105');
+             element.classList.add('scale-100');
+          }, 4000);
+        }, 300);
+      }
+    }
+  }, [location]);
+
 
   const sortedPublicationsByType = useMemo(() => {
     const grouped: { [key in PublicationType]?: Publication[] } = {};
@@ -81,17 +106,17 @@ export const CitationsPage: React.FC = () => {
         subtitle="Generate citations for my work in various academic styles. Select a style below to update all entries."
       >
         
-        <div className="mb-10 p-4 glass-card rounded-lg flex flex-col sm:flex-row justify-center items-center gap-3 sticky top-24 z-30 shadow-xl border border-primary-dark/30">
-          <span className="text-light font-medium mb-2 sm:mb-0 sm:mr-3">Select Citation Style:</span>
-          <div className="flex flex-wrap justify-center gap-2">
+        <div className="mb-14 p-6 glass-card rounded-xl flex flex-col sm:flex-row justify-center items-center gap-5 sticky top-[calc(var(--header-height,90px)_+_10px)] z-30 shadow-2xl border-primary-dark/50 backdrop-blur-md">
+          <span className="text-light font-semibold mb-2 sm:mb-0 sm:mr-4 text-md">Select Citation Style:</span>
+          <div className="flex flex-wrap justify-center gap-3">
             {citationStyles.map(style => (
               <button
                 key={style}
                 onClick={() => setSelectedStyle(style)}
-                className={`px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200 transform hover:scale-105 focus-visible-outline
+                className={`btn-base !text-xs sm:!text-sm !py-2 !px-4 
                   ${selectedStyle === style 
-                    ? 'gradient-bg text-white shadow-md ring-2 ring-offset-2 ring-offset-dark-secondary ring-white/70' 
-                    : 'bg-slate-700/60 text-text-muted hover:bg-slate-600/80 hover:text-light'}`}
+                    ? 'gradient-bg text-white ring-2 ring-offset-2 ring-offset-dark-tertiary ring-white/80' 
+                    : 'bg-slate-700/80 text-text-muted hover:bg-slate-600/95 hover:text-light border border-slate-600/60 backdrop-blur-sm'}`}
                 aria-pressed={selectedStyle === style}
               >
                 {style}
@@ -105,17 +130,17 @@ export const CitationsPage: React.FC = () => {
           if (!publicationsOfType || publicationsOfType.length === 0) return null;
 
           return (
-            <div key={pubType} className="mb-10">
-              <h3 className="text-2xl font-semibold text-secondary mb-5 pb-2 border-b-2 border-secondary/30 flex items-center">
-                 <i className="fas fa-bookmark mr-3 opacity-80"></i>{pubType}
+            <div key={pubType} className="mb-12">
+              <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-7 pb-3.5 border-b-2 border-secondary/50 flex items-center text-shadow-neon-pink">
+                 <i className={`fas ${pubType === PublicationType.Journal ? 'fa-newspaper' : pubType === PublicationType.BookChapter ? 'fa-book-open' : pubType === PublicationType.Conference ? 'fa-microphone-alt' : 'fa-flask'} mr-4 text-2xl opacity-80`}></i>{pubType}
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {publicationsOfType.map((pub, pubIndex) => (
                   <CitationEntry 
                     key={pub.id} 
                     pub={pub} 
                     selectedStyle={selectedStyle} 
-                    delay={0.1 + (typeIndex * 0.05) + (pubIndex * 0.02)} // Staggered animation
+                    delay={0.1 + (typeIndex * 0.06) + (pubIndex * 0.025)}
                   />
                 ))}
               </div>

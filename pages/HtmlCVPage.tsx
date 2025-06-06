@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { personalInfoData, experienceData, educationData, certificationsData, publicationsData, skillCategoriesData } from '../data';
 import { PublicationType, Publication as PublicationItemType, SkillValueItem, AcademicSkillListItem } from '../types';
@@ -21,11 +22,12 @@ export const HtmlCVPage: React.FC = () => {
     const cvContentElement = document.getElementById('cv-content-area');
     if (cvContentElement) {
       const cvClone = cvContentElement.cloneNode(true) as HTMLElement;
-      const buttonInClone = cvClone.querySelector('.no-print-in-download');
-      if (buttonInClone) {
-        buttonInClone.remove();
-      }
-      const cvHtml = cvClone.innerHTML;
+      // Remove the action buttons container from the clone if it's part of cv-content-area (it's not in this setup)
+      // const buttonInClone = cvClone.querySelector('.no-print-in-download'); // This class is on the button container itself
+      // if (buttonInClone) {
+      //   buttonInClone.remove(); // This would remove the button if it was inside cv-content-area
+      // }
+      const cvHtml = cvContentElement.innerHTML;
       
       const fullHtml = `<!DOCTYPE html>
 <html lang="en">
@@ -54,7 +56,7 @@ export const HtmlCVPage: React.FC = () => {
     .skills-list span { display: inline-block; background-color: #f0f0f0; color: #555; padding: 3px 8px; margin-right: 5px; margin-bottom: 5px; border-radius: 3px; font-size: 13px; }
     .publication-source { font-style: italic; }
     .publication-details { font-size: 0.9em; color: #666; }
-    .no-print-in-download { display: none !important; }
+    /* .no-print-in-download { display: none !important; } */ /* This class is on the container, not needed for inner HTML */
   </style>
 </head>
 <body>
@@ -81,61 +83,69 @@ export const HtmlCVPage: React.FC = () => {
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Georgia&family=Helvetica+Neue&family=Arial&display=swap');
         
-        .cv-page-container { background-color: #f4f4f4; padding: 20px 0; }
+        .cv-page-container { background-color: var(--dark); padding: 20px 0; }
         .cv-print-area { 
-          max-width: 880px; 
+          max-width: 920px; 
           margin: 20px auto; 
-          padding: 30px 40px; 
+          padding: 35px 45px; 
           background-color: #ffffff; 
-          color: #333333;
+          color: #2d2d2d;
           font-family: 'Georgia', 'Times New Roman', Times, serif; 
-          line-height: 1.5;
-          box-shadow: 0 0 15px rgba(0,0,0,0.1);
-          border: 1px solid #ddd;
+          line-height: 1.55;
+          box-shadow: 0 8px 30px rgba(var(--dark-rgb),0.25); 
+          border: 1px solid #ccc;
+          border-radius: 12px; 
         }
-        .cv-print-area h1, .cv-print-area h2, .cv-print-area h3, .cv-print-area h4 { font-family: 'Helvetica Neue', Arial, sans-serif; color: #222; }
-        .cv-print-area a { color: #007bff; text-decoration: none; }
+        .cv-print-area h1, .cv-print-area h2, .cv-print-area h3, .cv-print-area h4 { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; }
+        .cv-print-area a { color: #0055aa; text-decoration: none; } /* Slightly darker blue for better contrast */
         .cv-print-area a:hover { text-decoration: underline; }
 
-        .cv-header { text-align: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #666; }
-        .cv-header h1 { font-size: 28px; margin: 0 0 5px 0; font-weight: bold; }
-        .cv-header p { font-size: 15px; margin: 3px 0; color: #555; }
-        .cv-header .contact-info span { margin: 0 6px; } /* Adjusted margin */
+        .cv-header { text-align: center; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 2px solid #555; }
+        .cv-header h1 { font-size: 30px; margin: 0 0 8px 0; font-weight: bold; }
+        .cv-header p { font-size: 15px; margin: 4px 0; color: #4a4a4a; }
+        .cv-header .contact-info span { margin: 0 8px; } 
 
-        .cv-section { margin-bottom: 20px; }
-        .cv-section-title { font-size: 20px; font-weight: bold; color: #333; border-bottom: 1px solid #aaa; padding-bottom: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;}
-        .cv-subsection { margin-bottom: 15px; }
-        .cv-subsection-title { font-size: 17px; font-weight: bold; color: #444; margin-bottom: 6px; }
+        .cv-section { margin-bottom: 25px; }
+        .cv-section-title { font-size: 22px; font-weight: bold; color: #2c2c2c; border-bottom: 1.5px solid #999; padding-bottom: 6px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1.2px;}
+        .cv-subsection { margin-bottom: 18px; }
+        .cv-subsection-title { font-size: 18px; font-weight: bold; color: #3a3a3a; margin-bottom: 8px; }
         
-        .cv-item { margin-bottom: 12px; page-break-inside: avoid; }
-        .cv-item .role, .cv-item .degree { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 2px;}
-        .cv-item .organization, .cv-item .institution { font-size: 15px; font-style: italic; color: #555; margin-bottom: 2px;}
-        .cv-item .period, .cv-item .location { font-size: 14px; color: #777; margin-bottom: 3px; }
-        .cv-item ul { list-style-position: outside; margin-left: 20px; padding-left: 5px; font-size: 14px; }
-        .cv-item ul li { margin-bottom: 5px; line-height: 1.4; }
-        .cv-item p { margin: 3px 0; font-size: 14px; }
+        .cv-item { margin-bottom: 15px; page-break-inside: avoid; }
+        .cv-item .role, .cv-item .degree { font-size: 17px; font-weight: bold; color: #2a2a2a; margin-bottom: 3px;}
+        .cv-item .organization, .cv-item .institution { font-size: 16px; font-style: italic; color: #505050; margin-bottom: 3px;}
+        .cv-item .period, .cv-item .location { font-size: 14px; color: #6a6a6a; margin-bottom: 4px; }
+        .cv-item ul { list-style-position: outside; margin-left: 22px; padding-left: 6px; font-size: 15px; }
+        .cv-item ul li { margin-bottom: 6px; line-height: 1.45; }
+        .cv-item p { margin: 4px 0; font-size: 15px; }
 
-        .skills-list { margin-top: 5px; }
-        .skills-list-item { display: inline-block; background-color: #e9ecef; color: #495057; padding: 4px 10px; margin-right: 6px; margin-bottom: 6px; border-radius: 4px; font-size: 13px; }
+        .skills-list { margin-top: 6px; }
+        .skills-list-item { display: inline-block; background-color: #e8e8e8; color: #383838; padding: 5px 12px; margin-right: 8px; margin-bottom: 8px; border-radius: 5px; font-size: 14px; border: 1px solid #dcdcdc; }
         
-        .publication-item { margin-bottom: 10px; }
+        .publication-item { margin-bottom: 12px; font-size: 14.5px; }
         .publication-item .authors { font-weight: normal; }
         .publication-item .title { font-weight: bold; }
         .publication-item .source { font-style: italic; }
-        .publication-item .details, .publication-item .status { font-size: 0.9em; color: #666; }
+        .publication-item .details, .publication-item .status { font-size: 0.92em; color: #5a5a5a; }
 
         .cert-item .name { font-weight: bold; }
-        .cert-item .institution-year { font-size: 0.95em; color: #555; }
+        .cert-item .institution-year { font-size: 0.95em; color: #505050; }
 
-        .additional-info dt { font-weight: bold; float: left; width: 150px; clear: left; }
-        .additional-info dd { margin-left: 160px; margin-bottom: 5px; }
+        .additional-info dt { font-weight: bold; float: left; width: 160px; clear: left; }
+        .additional-info dd { margin-left: 170px; margin-bottom: 6px; }
 
-        .no-print, .no-print-in-download { text-align: center; margin: 20px 0; }
-        .no-print button, .no-print-in-download button {
-          background-color: #007bff; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;
-          font-family: 'Helvetica Neue', Arial, sans-serif;
+        .action-buttons-container { 
+          text-align: center; margin: 25px auto; padding: 20px 25px; 
+          position: sticky; top: calc(var(--header-height, 90px) + 15px); z-index: 50;
+          max-width: 450px; /* Limit width of this container */
         }
-        .no-print button:hover, .no-print-in-download button:hover { background-color: #0056b3; }
+        .action-buttons-container.glass-card { /* Applied dynamically via className */
+            /* Styles from global .glass-card will apply */
+        }
+        .action-buttons-container button { /* Styles for button inside the container */
+          /* Using .btn-base and .gradient-bg or .btn-neon-outline applied via className */
+        }
+        .action-buttons-container p { font-size: 13px; color: var(--text-muted); margin-top: 12px; font-family: 'Inter', sans-serif; }
+
 
         @media print {
           body { margin: 0; padding: 0; background-color: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -143,21 +153,22 @@ export const HtmlCVPage: React.FC = () => {
           .cv-print-area { 
             max-width: 100%; 
             margin: 0; 
-            padding: 20mm 15mm; 
+            padding: 15mm 12mm; 
             box-shadow: none; 
             border: none; 
-            font-size: 11pt; 
+            font-size: 10.5pt; 
+            border-radius: 0;
           }
-          .cv-header h1 { font-size: 22pt; }
-          .cv-header p { font-size: 10pt; }
-          .cv-section-title { font-size: 14pt; }
-          .cv-subsection-title { font-size: 12pt; }
-          .cv-item .role, .cv-item .degree { font-size: 11pt; }
+          .cv-header h1 { font-size: 20pt; }
+          .cv-header p { font-size: 9.5pt; }
+          .cv-section-title { font-size: 13pt; }
+          .cv-subsection-title { font-size: 11.5pt; }
+          .cv-item .role, .cv-item .degree { font-size: 10.5pt; }
           .cv-item .organization, .cv-item .institution { font-size: 10pt; }
           .cv-item .period, .cv-item .location, .cv-item p, .cv-item ul li { font-size: 10pt; }
-          .skills-list-item { font-size: 9pt; padding: 2px 6px; background-color: #f0f0f0 !important; color: #333 !important; border: 1px solid #ddd;}
+          .skills-list-item { font-size: 9pt; padding: 3px 7px; background-color: #eaeaea !important; color: #333 !important; border: 1px solid #d0d0d0;}
 
-          .no-print, .no-print-in-download, .hide-in-print { display: none !important; }
+          .no-print, .action-buttons-container { display: none !important; }
           a { color: #000 !important; text-decoration: none !important; } 
           .cv-section, .cv-item { page-break-inside: avoid; }
           h1, h2, h3, h4 { page-break-after: avoid; }
@@ -165,17 +176,17 @@ export const HtmlCVPage: React.FC = () => {
       `}} />
 
       <div className="cv-page-container">
-        <div className="no-print-in-download hide-in-print" style={{paddingTop: '20px', textAlign: 'center'}}>
-          <button onClick={handleDownloadHtml}>
-            <i className="fas fa-download mr-2"></i>Download as HTML
+        <div className="action-buttons-container glass-card no-print"> {/* Added glass-card for on-screen premium look */}
+          <button onClick={handleDownloadHtml} className="btn-base gradient-bg focus-visible-outline w-full">
+            <i className="fas fa-download"></i>Download as HTML
           </button>
-           <p className="text-xs text-gray-600 mt-2">For PDF, use your browser's Print to PDF option (Ctrl/Cmd + P).</p>
+           <p>For PDF, use your browser's Print to PDF option (Ctrl/Cmd + P).</p>
         </div>
 
         <article id="cv-content-area" className="cv-print-area">
           <header className="cv-header">
             <h1>{personalInfoData.name.replace(", Postdoc & Ph.D.", "").replace("Ph.D.", "Ph.D.")}</h1>
-            <p>{personalInfoData.title}</p> {/* Added main title */}
+            <p>{personalInfoData.title}</p>
             {personalInfoData.subtitle && <p>{personalInfoData.subtitle}</p>}
             <p className="contact-info">
               <span><a href={`mailto:${personalInfoData.email}`}>{personalInfoData.email}</a></span> |
@@ -183,7 +194,6 @@ export const HtmlCVPage: React.FC = () => {
               <span><a href={personalInfoData.googleScholar} target="_blank" rel="noopener noreferrer">Google Scholar</a></span> |
               <span><a href={personalInfoData.orcid} target="_blank" rel="noopener noreferrer">ORCID</a></span>
               {personalInfoData.researchGate && <span> | <a href={personalInfoData.researchGate} target="_blank" rel="noopener noreferrer">ResearchGate</a></span>}
-              {personalInfoData.academiaUrl && <span> | <a href={personalInfoData.academiaUrl} target="_blank" rel="noopener noreferrer">Academia.edu</a></span>}
             </p>
              <p>Citizen of India | Permanent Resident of Canada</p>
           </header>
@@ -223,7 +233,7 @@ export const HtmlCVPage: React.FC = () => {
              <ul className="list-disc list-inside">
                 <li><strong>ICSSR Postdoctoral Fellowship (2022):</strong> Among the top 100 selected from over 3,000 applicants. Only candidate in Punjab selected for this fellowship in Management (General Category) in 2022.</li>
                 <li><strong>Junior Research Fellowship (JRF) in Management (2013):</strong> Granted by UGC to the top 1% of national applicants.</li>
-                <li><strong>Cleared UGC-NET (Management) Thrice:</strong> Dec 2011 [Roll No. 73170403], Dec 2012 [Roll No. 73170144], Jun 2013 [Roll No. 73170194].</li>
+                <li><strong>Cleared UGC-NET (Management) Thrice:</strong> Dec 2011, Dec 2012, Jun 2013.</li>
                 <li><strong>Canadian Securities Course (CSC) (Completed 2023):</strong> Demonstrates proficiency in Canadian financial markets.</li>
                 <li><strong>MBA Program Topper (2010-2012):</strong> Ranked #1 with merit scholarship, Punjabi University.</li>
                 <li><strong>Peer Review Excellence:</strong> Contributed over 20+ peer reviews for Scopus-indexed (Q1/Q2) international journals.</li>
@@ -254,32 +264,27 @@ export const HtmlCVPage: React.FC = () => {
           
           <CVSection title="Peer Review Activity">
               <ul className="list-disc list-inside">
-                  <li>Active peer reviewer contributing to academic rigor for <strong>6</strong> international journals <span className="text-xs text-gray-500">[Scopus Q1-Q2 / ABDC / SSCI / Web of Science / PubMed]</span>.</li>
+                  <li>Active peer reviewer for <strong>6</strong> international journals (Scopus Q1-Q2 / ABDC / SSCI / Web of Science / PubMed).</li>
                   <li><strong>Total Reviews Completed:</strong> 20+</li>
-                  <li><strong>Journals Reviewed For:</strong> <em>Quality & Quantity</em> (Springer), <em>Frontiers in Public Health</em>, <em>Global Business Review</em> (Sage), <em>International Journal of Social Economics</em> (Emerald), <em>Socio-Economic Planning Sciences</em> (Elsevier), <em>Qeios</em>.</li>
-                  <li className="text-xs text-gray-500">(Activity verifiable via ORCID / Web of Science / Elsevier Editorial System)</li>
+                  <li><strong>Journals:</strong> <em>Quality & Quantity</em> (Springer), <em>Frontiers in Public Health</em>, <em>Global Business Review</em> (Sage), <em>International Journal of Social Economics</em> (Emerald), <em>Socio-Economic Planning Sciences</em> (Elsevier), <em>Qeios</em>.</li>
+                  <li className="text-xs text-gray-500">(Activity verifiable via ORCID / Web of Science / EES)</li>
               </ul>
           </CVSection>
 
           <CVSection title="Thesis Evaluation & Supervision">
                <ul className="list-disc list-inside">
-                  <li>Evaluated, guided, and peer-reviewed over <strong>30+ postgraduate & Ph.D. theses</strong> across Management, Finance, Economics, and Organizational Development.</li>
-                  <li>Ensured adherence to rigorous research methodologies and high academic standards.</li>
-                  <li>Provided constructive feedback on research design, literature review, data analysis, and conclusion synthesis.</li>
-                  <li>Developed and implemented standardized rubrics for objective thesis evaluation.</li>
+                  <li>Evaluated, guided, and peer-reviewed over <strong>30+ postgraduate & Ph.D. theses</strong> (Management, Finance, Economics, Org. Development).</li>
+                  <li>Ensured rigorous research methodologies and high academic standards.</li>
               </ul>
           </CVSection>
 
           <CVSection title="Project Involvement">
-              <CVSubSection title="1. Promoting Australia-India Tourism through Pairing Canberra and New Delhi">
-                  <p><em>Grant Proposal Applied: Oct 2024</em></p>
-                  <p><strong>Role:</strong> Proposed Project Manager</p>
-                  <p><strong>Focus:</strong> Economic impact assessment, cross-cultural strategies.</p>
-                  <p><strong>Applicants:</strong> Dr. Sarvjeet Kaur & Dr. Naomi Dale (University of Canberra)</p>
+              <CVSubSection title="1. Promoting Australia-India Tourism: Canberra-New Delhi Pairing">
+                  <p><em>Grant Proposal Applied: Oct 2024</em> | <strong>Role:</strong> Proposed Project Manager</p>
+                  <p><strong>Focus:</strong> Economic impact, cross-cultural strategies. | <strong>Applicants:</strong> Dr. Sarvjeet Kaur & Dr. Naomi Dale (Univ. of Canberra)</p>
               </CVSubSection>
               <CVSubSection title="2. ICSSR PVTG Major Project Application">
-                   <p><strong>Role:</strong> Applied as Co-Director cum Research Associate</p>
-                   <p><strong>Director/PI:</strong> Dr. Gurdip Batra</p>
+                   <p><strong>Role:</strong> Applied as Co-Director cum Research Associate | <strong>Director/PI:</strong> Dr. Gurdip Batra</p>
               </CVSubSection>
           </CVSection>
           
@@ -288,7 +293,7 @@ export const HtmlCVPage: React.FC = () => {
                 <dt>Languages:</dt><dd>English (Fluent), Punjabi (Native), Hindi (Fluent)</dd>
                 <dt>Work Eligibility:</dt><dd>Citizen of India; Permanent Resident of Canada</dd>
                 <dt>IELTS (General):</dt><dd>Overall Band 8.0 (L: 8.5, R: 9.0, W: 7.0, S: 7.0)</dd>
-                <dt>Hobbies & Interests:</dt><dd>Gardening, Internet Researching, Sports (Cricket & Badminton), Listening to Music, Cooking, Meditation & Yoga.</dd>
+                <dt>Interests:</dt><dd>Gardening, Internet Research, Cricket, Badminton, Music, Cooking, Meditation, Yoga.</dd>
             </dl>
           </CVSection>
 
@@ -316,7 +321,6 @@ export const HtmlCVPage: React.FC = () => {
             })}
           </CVSection>
           
-
             <CVSection title="References">
                  <div className="cv-item">
                     <p><strong>Dr. Gurdip Singh Batra</strong>, Former Professor and Dean, School of Management Studies (SMS), Punjabi University, Patiala.</p>
