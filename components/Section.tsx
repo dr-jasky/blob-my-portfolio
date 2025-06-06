@@ -18,20 +18,19 @@ export const Section: React.FC<SectionProps> = ({
   className = '', 
   titleClassName = '', 
   subtitle ,
-  titleAs = 'h2'
+  titleAs = 'h2' // Default to h2 for sections
 }) => {
   const TitleComponent = titleAs;
 
   return (
-    <section id={id} className={`py-24 md:py-28 relative ${className}`}> {/* Increased vertical padding */}
+    <section id={id} className={`py-20 md:py-24 xl:py-28 relative ${className}`}> {/* Standardized padding */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 md:mb-20"> 
+        <div className="text-center mb-14 md:mb-16">  {/* Consistent bottom margin */}
           <TitleComponent className={`section-title-custom ${titleClassName}`}>
             {title}
           </TitleComponent>
           {subtitle && (
-            <p className="text-lg md:text-xl text-text-muted mt-1 max-w-3xl mx-auto"> 
-              {/* Removed inline style for 'top'. CSS in index.html will handle spacing */}
+            <p className="text-md md:text-lg text-text-muted mt-4 max-w-3xl mx-auto leading-relaxed"> {/* Adjusted mt and text size */}
               {subtitle}
             </p>
           )}
