@@ -6,60 +6,44 @@ import { Section } from '../components/Section';
 import { KeyStat, Publication, Testimonial, PublicationType } from '../types';
 
 const HeroSection: React.FC = () => {
-  const baseDelay = 0.1;
-  const taglineDelay = baseDelay + 0.6; // Increased spacing
-  const keywordsTitleDelay = taglineDelay + 0.4; 
-  const keywordsContainerBaseDelay = keywordsTitleDelay + 0.25; 
-  const numKeywords = personalInfoData.currentFocusKeywords?.length || 0;
-  const keywordItemDelayIncrement = 0.08;
-  const keywordsFinishTime = keywordsContainerBaseDelay + (numKeywords > 0 ? (numKeywords -1) * keywordItemDelayIncrement : 0) + 0.15; 
-
-  const keyMetricsBaseDelay = keywordsFinishTime + 0.4; 
-  const numStats = personalInfoData.keyStats?.length || 0;
-  const keyMetricsContainerDelay = keyMetricsBaseDelay - 0.15; 
-  const keyMetricsItemDelayIncrement = 0.13;
-  const keyMetricsFinishTime = keyMetricsBaseDelay + (numStats > 0 ? (numStats -1) * keyMetricsItemDelayIncrement : 0) + 0.15;
-  const actionButtonsDelay = keyMetricsFinishTime + 0.25;
-
   return (
-  <div className="min-h-[calc(100vh-var(--header-height,5rem))] flex flex-col items-center justify-center text-center bg-transparent pt-12 pb-16 md:pt-16 md:pb-20 relative overflow-hidden"> {/* Added padding top/bottom */}
+  <div className="min-h-[calc(100vh-var(--header-height,5rem))] flex flex-col items-center justify-center text-center bg-transparent pt-12 pb-16 md:pt-16 md:pb-20 relative">
     <div className="relative z-10 px-4 flex flex-col items-center w-full">
       <img 
         src={personalInfoData.profileImageUrl} 
         alt={personalInfoData.name} 
-        className="w-36 h-36 sm:w-44 sm:h-44 rounded-full mx-auto mb-6 border-4 border-neon-blue/80 shadow-neon-glow-blue object-cover animate-fadeIn"
-        style={{animationDelay: `${baseDelay}s`, objectPosition: 'center 15%' }} 
+        className="w-36 h-36 sm:w-44 sm:h-44 rounded-full mx-auto mb-6 border-4 border-accent-primary/70 object-cover"
+        style={{ objectPosition: 'center 15%' }} 
       />
-      <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold text-light mb-3 animate-fadeIn" style={{animationDelay: `${baseDelay + 0.2}s`}}>
-        Dr. Jaskirat <span className="gradient-text">Singh</span>
+      <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold text-text-light mb-3">
+        Dr. Jaskirat <span className="text-accent-primary">Singh</span>
       </h1>
-      <p className="text-xl sm:text-2xl mb-2 animate-fadeIn" style={{animationDelay: `${baseDelay + 0.35}s`}}>
-        <span className="text-neon-blue text-shadow-neon-blue">Researcher</span>
-        <span className="text-text-muted mx-2.5">&bull;</span>
-        <span className="text-neon-pink text-shadow-neon-pink">Educator</span>
-        <span className="text-text-muted mx-2.5">&bull;</span>
-        <span className="text-neon-green text-shadow-neon-green">Innovator</span>
+      <p className="text-xl sm:text-2xl mb-2">
+        <span className="text-accent-primary">Researcher</span>
+        <span className="text-text-medium mx-2.5">&bull;</span>
+        <span className="text-accent-secondary">Educator</span>
+        <span className="text-text-medium mx-2.5">&bull;</span>
+        <span className="text-accent-tertiary">Innovator</span>
       </p>
-      <p className="text-sm text-text-darker-muted mb-6 animate-fadeIn" style={{animationDelay: `${baseDelay + 0.4}s`}}>
+      <p className="text-sm text-text-muted mb-6">
         {personalInfoData.subtitle} 
       </p>
 
-      {/* Ensure tagline is not cut off */}
-      <p className="text-lg sm:text-xl md:text-2xl text-neon-green text-shadow-neon-green mb-8 max-w-3xl px-2 animate-fadeIn" style={{animationDelay: `${taglineDelay}s`}}>
+      <p className="text-lg sm:text-xl md:text-2xl text-accent-tertiary mb-8 max-w-3xl px-2">
         {personalInfoData.tagline}
       </p>
       
       {personalInfoData.currentFocusKeywords && personalInfoData.currentFocusKeywords.length > 0 && (
-        <div className="my-6 md:my-8 max-w-xl mx-auto w-full animate-fadeIn" style={{ animationDelay: `${keywordsTitleDelay}s` }}>
-          <p className="text-sm text-neon-pink mb-3.5 font-semibold text-shadow-neon-pink">
+        <div className="my-6 md:my-8 max-w-xl mx-auto w-full">
+          <p className="text-sm text-accent-secondary mb-3.5 font-semibold">
             Key Focus Areas & Keywords
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {personalInfoData.currentFocusKeywords.map((keyword, index) => (
+            {personalInfoData.currentFocusKeywords.map((keyword) => (
               <span
                 key={keyword}
-                className="px-3.5 py-2 glass-card !rounded-full text-xs sm:text-[0.8rem] font-medium transition-all duration-300 hover:border-neon-green/60 hover:shadow-neon-glow-green hover:scale-105 cursor-default animate-fadeIn text-neon-green"
-                style={{ background: 'rgba(var(--neon-green-rgb), 0.1)', animationDelay: `${keywordsContainerBaseDelay + index * keywordItemDelayIncrement}s`, borderColor: 'rgba(var(--neon-green-rgb),0.3)' }}
+                className="px-3.5 py-2 glass-card !rounded-full text-xs sm:text-[0.8rem] font-medium cursor-default text-accent-tertiary"
+                style={{ background: 'rgba(var(--accent-tertiary-rgb), 0.08)', borderColor: 'rgba(var(--accent-tertiary-rgb),0.25)' }}
               >
                 {keyword}
               </span>
@@ -69,26 +53,26 @@ const HeroSection: React.FC = () => {
       )}
         
       {personalInfoData.keyStats && (
-         <div className="mt-8 mb-8 md:mb-10 animate-fadeIn w-full max-w-4xl" style={{ animationDelay: `${keyMetricsContainerDelay}s`}}>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5"> {/* Adjusted grid for better fit */}
-            {personalInfoData.keyStats.map((stat, index) => (
+         <div className="mt-8 mb-8 md:mb-10 w-full max-w-4xl">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+            {personalInfoData.keyStats.map((stat) => (
               <div 
                 key={stat.id} 
-                className="glass-card p-4 sm:p-5 text-center hover-card animate-fadeIn flex flex-col items-center justify-center" // Centering content
-                style={{ animationDelay: `${keyMetricsBaseDelay + index * keyMetricsItemDelayIncrement}s`, '--hover-glow-rgb': 'var(--neon-blue-rgb)'} as React.CSSProperties}
+                className="glass-card p-4 sm:p-5 text-center flex flex-col items-center justify-center"
+                style={{ '--hover-glow-rgb': 'var(--accent-primary-rgb)'} as React.CSSProperties} // Kept for potential subtle border hover
               >
-                {stat.icon && <i className={`${stat.icon} text-2xl sm:text-3xl text-neon-blue mb-2.5 text-shadow-neon-blue`}></i>}
-                <div className="text-2xl sm:text-3xl font-bold text-light">
-                  {stat.value}{stat.suffix && <span className="text-neon-blue text-lg sm:text-xl">{stat.suffix}</span>}
+                {stat.icon && <i className={`${stat.icon} text-2xl sm:text-3xl text-accent-primary mb-2.5`}></i>}
+                <div className="text-2xl sm:text-3xl font-bold text-text-light">
+                  {stat.value}{stat.suffix && <span className="text-accent-primary text-lg sm:text-xl">{stat.suffix}</span>}
                 </div>
-                <p className="text-xs sm:text-sm text-text-muted mt-1.5 leading-tight">{stat.label}</p>
+                <p className="text-xs sm:text-sm text-text-medium mt-1.5 leading-tight">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-fadeIn mt-4" style={{animationDelay: `${actionButtonsDelay}s`}}>
+      <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mt-4">
         <Link 
           to="/#research"
           onClick={(e) => { 
@@ -101,13 +85,13 @@ const HeroSection: React.FC = () => {
                 window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
               }
           }}
-          className="btn-base gradient-bg-alt text-md !py-3 !px-9" // Adjusted padding & font size
+          className="btn-base btn-solid-primary text-md !py-3 !px-9"
         >
           <i className="fas fa-atom"></i>Explore Research
         </Link>
         <Link 
           to="/consultancy"
-          className="btn-base btn-neon-outline text-md !py-3 !px-9" // Adjusted padding & font size
+          className="btn-base btn-outline-accent text-md !py-3 !px-9"
         >
           <i className="fas fa-hands-helping"></i>Offer Consultancy
         </Link>
@@ -117,16 +101,16 @@ const HeroSection: React.FC = () => {
 );
 }
 
-const ImpactCard: React.FC<{ title: string; linkTo: string; icon: string; description: string; colorClass: string; delay: number; }> = ({ title, linkTo, icon, description, colorClass, delay }) => {
-  const neonColorVar = 
-    colorClass === 'neon-blue' ? 'var(--neon-blue)' :
-    colorClass === 'neon-pink' ? 'var(--neon-pink)' :
-    'var(--neon-green)';
+const ImpactCard: React.FC<{ title: string; linkTo: string; icon: string; description: string; colorClass: string; delay?: number; }> = ({ title, linkTo, icon, description, colorClass }) => {
+  const accentColorVar = 
+    colorClass === 'accent-primary' ? 'var(--accent-primary)' :
+    colorClass === 'accent-secondary' ? 'var(--accent-secondary)' :
+    'var(--accent-tertiary)';
   
-  const neonRgbVar = 
-    colorClass === 'neon-blue' ? 'var(--neon-blue-rgb)' :
-    colorClass === 'neon-pink' ? 'var(--neon-pink-rgb)' :
-    'var(--neon-green-rgb)';
+  const accentRgbVar = 
+    colorClass === 'accent-primary' ? 'var(--accent-primary-rgb)' :
+    colorClass === 'accent-secondary' ? 'var(--accent-secondary-rgb)' :
+    'var(--accent-tertiary-rgb)';
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (linkTo.startsWith("/#")) {
@@ -140,51 +124,48 @@ const ImpactCard: React.FC<{ title: string; linkTo: string; icon: string; descri
             window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
         }
     }
-    // For external or full page links, default behavior is fine.
   };
 
   return (
     <Link 
       to={linkTo} 
       onClick={handleLinkClick}
-      className={`group block glass-card p-6 md:p-7 hover-card animate-fadeIn h-full flex flex-col`}
+      className={`group block glass-card p-6 md:p-7 h-full flex flex-col`}
       style={{ 
-        animationDelay: `${delay}s`,
         // @ts-ignore
-        '--hover-glow-color': neonColorVar,
-        '--hover-glow-rgb': neonRgbVar,
+        '--hover-glow-color': accentColorVar, // Kept for potential future subtle use
+        '--hover-glow-rgb': accentRgbVar,     // Kept for potential future subtle use
       } as React.CSSProperties}
     >
-      <div className={`flex items-center text-[${neonColorVar}] mb-5`}>
-        <div className="p-3.5 rounded-lg mr-5 shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-6deg] border-2" style={{background: `rgba(${neonRgbVar}, 0.12)`, borderColor: `rgba(${neonRgbVar},0.35)`}}>
-            <i className={`${icon} text-2xl text-[${neonColorVar}]`}></i>
+      <div className={`flex items-center text-[${accentColorVar}] mb-5`}>
+        <div className="p-3.5 rounded-lg mr-5 shadow-sm border-2" style={{background: `rgba(${accentRgbVar}, 0.1)`, borderColor: `rgba(${accentRgbVar},0.3)`}}>
+            <i className={`${icon} text-2xl`} style={{color: accentColorVar}}></i>
         </div>
-        <h3 className={`text-xl font-semibold text-light group-hover:text-[${neonColorVar}] transition-colors`}>{title}</h3>
+        <h3 className={`text-xl font-semibold text-text-light group-hover:text-[${accentColorVar}] transition-colors duration-200`}>{title}</h3>
       </div>
-      <p className="text-text-muted text-sm leading-relaxed flex-grow">{description}</p>
-      <span className={`mt-6 inline-block text-sm font-medium text-[${neonColorVar}] group-hover:underline`}>Learn More <i className="fas fa-arrow-right text-xs ml-1.5"></i></span>
+      <p className="text-text-medium text-sm leading-relaxed flex-grow">{description}</p>
+      <span className={`mt-6 inline-block text-sm font-medium text-[${accentColorVar}] group-hover:underline`}>Learn More <i className="fas fa-arrow-right text-xs ml-1.5"></i></span>
     </Link>
   );
 };
 
-const PublicationPreviewCard: React.FC<{ pub: Publication, delay: number }> = ({ pub, delay }) => (
-  <div className="glass-card p-5 sm:p-6 hover-card h-full flex flex-col publication-card-custom animate-fadeIn" 
+const PublicationPreviewCard: React.FC<{ pub: Publication, delay?: number }> = ({ pub }) => (
+  <div className="glass-card p-5 sm:p-6 h-full flex flex-col publication-card-custom" 
     style={{ 
-      animationDelay: `${delay}s`,
       // @ts-ignore
-      '--hover-glow-color': 'var(--neon-pink)', 
-      '--hover-glow-rgb': 'var(--neon-pink-rgb)' 
+      '--hover-glow-color': 'var(--accent-secondary)', 
+      '--hover-glow-rgb': 'var(--accent-secondary-rgb)' 
     } as React.CSSProperties}
   >
-    <h4 className="text-md font-semibold text-neon-blue mb-2 line-clamp-3 group-hover:text-neon-pink transition-colors duration-300" title={pub.title}>{pub.title}</h4>
-    <p className="text-xs text-text-muted mb-1.5 italic truncate">{pub.authors}</p>
-    <p className="text-xs text-text-darker-muted mb-3 truncate">
+    <h4 className="text-md font-semibold text-accent-primary mb-2 line-clamp-3 group-hover:text-accent-secondary transition-colors duration-200" title={pub.title}>{pub.title}</h4>
+    <p className="text-xs text-text-medium mb-1.5 italic truncate">{pub.authors}</p>
+    <p className="text-xs text-text-muted mb-3 truncate">
       {pub.source}, {pub.year}
     </p>
     {pub.impactMetrics && pub.impactMetrics.length > 0 && (
-      <div className="mb-4 pt-3 border-t border-slate-700/40">
+      <div className="mb-4 pt-3 border-t border-[var(--glass-border)]">
         {pub.impactMetrics.slice(0, 2).map(metric => (
-          <span key={metric.name+metric.value} className={`inline-block text-xs font-medium mr-2 mb-1 px-3 py-1.5 rounded-full ${metric.value.toString().startsWith('Q1') ? 'bg-neon-green/30 text-neon-green border-neon-green/50' : 'bg-neon-blue/30 text-neon-blue border-neon-blue/50'} border shadow-sm backdrop-blur-sm`}>
+          <span key={metric.name+metric.value} className={`inline-block text-xs font-medium mr-2 mb-1 px-3 py-1.5 rounded-full ${metric.value.toString().startsWith('Q1') ? 'bg-accent-tertiary/20 text-accent-tertiary border-accent-tertiary/40' : 'bg-accent-primary/20 text-accent-primary border-accent-primary/40'} border shadow-sm`}>
            {metric.icon && <i className={`${metric.icon} mr-1.5`}></i>}{metric.name && `${metric.name}: `}{metric.value}
           </span>
         ))}
@@ -200,7 +181,7 @@ const PublicationPreviewCard: React.FC<{ pub: Publication, delay: number }> = ({
           const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
           const offsetPosition = elementPosition - headerOffset;
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        } else { // Fallback if ID isn't found, scroll to research section
+        } else { 
             const researchSection = document.getElementById('research');
             if (researchSection) {
                  const headerOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height-scrolled')) || 80;
@@ -210,7 +191,7 @@ const PublicationPreviewCard: React.FC<{ pub: Publication, delay: number }> = ({
             }
         }
       }} 
-      className="text-sm text-neon-pink hover:underline focus-visible-outline rounded-sm mt-auto pt-2 font-semibold group-hover:text-neon-blue transition-colors duration-300"
+      className="text-sm text-accent-secondary hover:underline focus-visible-outline rounded-sm mt-auto pt-2 font-semibold group-hover:text-accent-primary transition-colors duration-200"
     >
       View Details <i className="fas fa-arrow-right text-xs ml-1.5"></i>
     </Link>
@@ -234,16 +215,15 @@ const getIconForPublication = (pub: Publication): string => {
   if (pub.type === PublicationType.BookChapter || pub.type === PublicationType.BookProposal) return "fas fa-book";
   if (pub.type === PublicationType.Conference) return "fas fa-chalkboard-teacher";
   
-  return "fas fa-atom"; // Default
+  return "fas fa-atom"; 
 };
 
-const ResearchHighlightCard: React.FC<{ pub: Publication, delay: number }> = ({ pub, delay }) => (
-   <div className="glass-card rounded-xl overflow-hidden group flex flex-col h-full hover-card publication-card-custom animate-fadeIn" 
+const ResearchHighlightCard: React.FC<{ pub: Publication, delay?: number }> = ({ pub }) => (
+   <div className="glass-card rounded-xl overflow-hidden group flex flex-col h-full publication-card-custom" 
     style={{ 
-        animationDelay: `${delay}s`,
         // @ts-ignore
-        '--hover-glow-color': 'var(--neon-blue)',
-        '--hover-glow-rgb': 'var(--neon-blue-rgb)'
+        '--hover-glow-color': 'var(--accent-primary)', // Kept for potential subtle future use
+        '--hover-glow-rgb': 'var(--accent-primary-rgb)'
     } as React.CSSProperties}
    >
     {pub.featuredImageUrl ? (
@@ -251,22 +231,22 @@ const ResearchHighlightCard: React.FC<{ pub: Publication, delay: number }> = ({ 
         <img 
           src={pub.featuredImageUrl} 
           alt={`Visual for ${pub.title}`} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-400 ease-in-out"
+          className="w-full h-full object-cover transition-transform duration-300 ease-in-out"
         />
-         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(var(--dark-bg-rgb),0.7)] via-[rgba(var(--dark-bg-rgb),0.4)] to-transparent"></div>
       </div>
     ) : ( 
-        <div className="w-full h-60 sm:h-64 bg-dark-tertiary/60 flex items-center justify-center border-b border-[rgba(var(--neon-blue-rgb),0.3)]"> 
-            <i className={`${getIconForPublication(pub)} text-7xl sm:text-8xl text-neon-blue opacity-60 group-hover:opacity-85 transition-opacity duration-300 group-hover:animate-pulseGlow [--tw-shadow-color:var(--neon-blue)]`}></i> 
+        <div className="w-full h-60 sm:h-64 bg-[rgba(var(--glass-bg-rgb),0.5)] flex items-center justify-center border-b border-[var(--glass-border)]"> 
+            <i className={`${getIconForPublication(pub)} text-7xl sm:text-8xl text-accent-primary opacity-70`}></i> 
         </div>
     )}
     <div className="p-5 md:p-6 flex-grow flex flex-col">
-      <h4 className="text-lg font-semibold text-neon-blue mb-2.5 group-hover:text-neon-pink transition-colors duration-300 line-clamp-3" title={pub.title}>{pub.title}</h4>
-      <p className="text-sm text-text-muted mb-4 line-clamp-3 flex-grow">{pub.insightSnippet || pub.summary || "Click to read more about this research."}</p>
+      <h4 className="text-lg font-semibold text-accent-primary mb-2.5 group-hover:text-accent-secondary transition-colors duration-200 line-clamp-3" title={pub.title}>{pub.title}</h4>
+      <p className="text-sm text-text-medium mb-4 line-clamp-3 flex-grow">{pub.insightSnippet || pub.summary || "Click to read more about this research."}</p>
       {pub.impactMetrics && pub.impactMetrics.length > 0 && (
         <div className="mb-5">
           {pub.impactMetrics.map(metric => (
-            <span key={metric.name+metric.value} className={`inline-flex items-center text-xs font-semibold mr-2 mb-1 px-3.5 py-1.5 rounded-full ${metric.value.toString().startsWith('Q1') ? 'bg-neon-green/75 text-dark shadow-sm border border-neon-green/90' : 'bg-neon-blue/75 text-dark shadow-sm border border-neon-blue/90'} `}>
+            <span key={metric.name+metric.value} className={`inline-flex items-center text-xs font-semibold mr-2 mb-1 px-3.5 py-1.5 rounded-full ${metric.value.toString().startsWith('Q1') ? 'bg-accent-tertiary/80 text-dark-bg shadow-sm border border-accent-tertiary/90' : 'bg-accent-primary/80 text-dark-bg shadow-sm border border-accent-primary/90'} `}>
               {metric.icon && <i className={`${metric.icon} mr-1.5`}></i>}{metric.value}
             </span>
           ))}
@@ -274,11 +254,11 @@ const ResearchHighlightCard: React.FC<{ pub: Publication, delay: number }> = ({ 
       )}
       <div className="mt-auto">
         {pub.doiLink ? (
-          <a href={pub.doiLink} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-neon-pink hover:underline group-hover:text-neon-blue transition-colors duration-300 focus-visible-outline rounded-sm">
+          <a href={pub.doiLink} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent-secondary hover:underline group-hover:text-accent-primary transition-colors duration-200 focus-visible-outline rounded-sm">
             Read Full Paper (DOI) <i className="fas fa-external-link-alt ml-1.5 text-xs"></i>
           </a>
         ) : pub.link ? (
-          <a href={pub.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-neon-pink hover:underline group-hover:text-neon-blue transition-colors duration-300 focus-visible-outline rounded-sm">
+          <a href={pub.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent-secondary hover:underline group-hover:text-accent-primary transition-colors duration-200 focus-visible-outline rounded-sm">
             View Source <i className="fas fa-external-link-alt ml-1.5 text-xs"></i>
           </a>
         ) : (
@@ -292,7 +272,7 @@ const ResearchHighlightCard: React.FC<{ pub: Publication, delay: number }> = ({ 
                 const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
                 const offsetPosition = elementPosition - headerOffset;
                 window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-               } else { // Fallback
+               } else { 
                   const researchSection = document.getElementById('research');
                   if(researchSection){
                     const headerOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height-scrolled')) || 80;
@@ -302,7 +282,7 @@ const ResearchHighlightCard: React.FC<{ pub: Publication, delay: number }> = ({ 
                   }
                }
              }} 
-             className="text-sm font-semibold text-neon-pink hover:underline group-hover:text-neon-blue transition-colors duration-300 focus-visible-outline rounded-sm"
+             className="text-sm font-semibold text-accent-secondary hover:underline group-hover:text-accent-primary transition-colors duration-200 focus-visible-outline rounded-sm"
             >
             Learn More on Site <i className="fas fa-arrow-right ml-1.5 text-xs"></i>
           </Link>
@@ -312,36 +292,35 @@ const ResearchHighlightCard: React.FC<{ pub: Publication, delay: number }> = ({ 
   </div>
 );
 
-const TestimonialCard: React.FC<{ testimonial: Testimonial, delay: number }> = ({ testimonial, delay }) => (
-  <div className="glass-card p-6 md:p-7 hover-card flex flex-col items-center text-center h-full animate-fadeIn" 
+const TestimonialCard: React.FC<{ testimonial: Testimonial, delay?: number }> = ({ testimonial }) => (
+  <div className="glass-card p-6 md:p-7 flex flex-col items-center text-center h-full" 
     style={{ 
-      animationDelay: `${delay}s`,
       // @ts-ignore
-      '--hover-glow-color': 'var(--neon-pink)', 
-      '--hover-glow-rgb': 'var(--neon-pink-rgb)' 
+      '--hover-glow-color': 'var(--accent-secondary)', // Kept for potential subtle future use
+      '--hover-glow-rgb': 'var(--accent-secondary-rgb)' 
     } as React.CSSProperties}
   >
     {testimonial.avatarUrl ? 
       <img 
         src={testimonial.avatarUrl} 
         alt={testimonial.author} 
-        className="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-6 border-3 border-neon-pink/80 object-cover shadow-md group-hover:shadow-neon-glow-pink transition-all duration-300"
+        className="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-6 border-3 border-accent-secondary/70 object-cover shadow-sm"
       />
     :
-      <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-6 border-3 border-neon-pink/80 bg-dark-tertiary/70 flex items-center justify-center shadow-md group-hover:shadow-neon-glow-pink transition-all duration-300">
-        <i className="fas fa-user-tie text-5xl sm:text-6xl text-neon-pink opacity-80"></i>
+      <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-6 border-3 border-accent-secondary/70 bg-[rgba(var(--glass-bg-rgb),0.7)] flex items-center justify-center shadow-sm">
+        <i className="fas fa-user-tie text-5xl sm:text-6xl text-accent-secondary opacity-80"></i>
       </div>
     }
     <blockquote className="mb-6 flex-grow">
-      <p className="text-text-muted italic text-md leading-relaxed">
-        <span className="text-5xl text-neon-pink/70 leading-none mr-2 -mt-1.5 inline-block">&ldquo;</span>
+      <p className="text-text-medium italic text-md leading-relaxed">
+        <span className="text-5xl text-accent-secondary/70 leading-none mr-2 -mt-1.5 inline-block">&ldquo;</span>
         {testimonial.quote}
-        <span className="text-5xl text-neon-pink/70 leading-none ml-1.5 -mt-1.5 inline-block">&rdquo;</span>
+        <span className="text-5xl text-accent-secondary/70 leading-none ml-1.5 -mt-1.5 inline-block">&rdquo;</span>
       </p>
     </blockquote>
-    <div className="mt-auto pt-5 border-t border-slate-700/50 w-full">
-      <h4 className="font-semibold text-neon-blue text-lg text-shadow-neon-blue">{testimonial.author}</h4>
-      <p className="text-xs text-text-darker-muted">{testimonial.authorTitle}</p>
+    <div className="mt-auto pt-5 border-t border-[var(--glass-border)] w-full">
+      <h4 className="font-semibold text-accent-primary text-lg">{testimonial.author}</h4>
+      <p className="text-xs text-text-muted">{testimonial.authorTitle}</p>
     </div>
   </div>
 );
@@ -373,26 +352,26 @@ export const HomePage: React.FC = () => {
 
 
   return (
-    <div className="animate-fadeIn"> 
+    <div className="opacity-100"> {/* Removed animate-fadeIn wrapper */}
       <HeroSection />
 
-      <Section title="My Impact Areas" id="impact-areas" className="bg-dark-secondary/40 backdrop-blur-sm" subtitle="Leveraging expertise to drive meaningful change and foster innovation.">
+      <Section title="My Impact Areas" id="impact-areas" className="bg-[rgba(var(--dark-bg-rgb),0.3)]" subtitle="Leveraging expertise to drive meaningful change and foster innovation.">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:gap-9">
-          <ImpactCard title="Research & Publications" linkTo="/#research" icon="fas fa-atom" description="Pioneering research in finance, technology, and socio-economic development. Explore peer-reviewed articles, book chapters, and ongoing work." colorClass="neon-blue" delay={0.2} />
-          <ImpactCard title="Consultancy Services" linkTo="/consultancy" icon="fas fa-hands-helping" description="Offering expert consultancy, with a special focus on pro-bono support for NGOs, to translate research into actionable strategies and amplify social impact." colorClass="neon-pink" delay={0.25}/>
-          <ImpactCard title="Teaching & Mentorship" linkTo="/#experience" icon="fas fa-chalkboard-teacher" description="Dedicated to fostering the next generation of thinkers and leaders through engaging teaching, curriculum design, and dedicated mentorship." colorClass="neon-green" delay={0.3}/>
-          <ImpactCard title="Key Expertise Areas" linkTo="/#skills" icon="fas fa-cogs" description="Deep expertise spanning quantitative/qualitative analysis, fintech, financial inclusion, project management, and cross-cultural communication." colorClass="neon-blue" delay={0.35}/>
+          <ImpactCard title="Research & Publications" linkTo="/#research" icon="fas fa-atom" description="Pioneering research in finance, technology, and socio-economic development. Explore peer-reviewed articles, book chapters, and ongoing work." colorClass="accent-primary" />
+          <ImpactCard title="Consultancy Services" linkTo="/consultancy" icon="fas fa-hands-helping" description="Offering expert consultancy, with a special focus on pro-bono support for NGOs, to translate research into actionable strategies and amplify social impact." colorClass="accent-secondary" />
+          <ImpactCard title="Teaching & Mentorship" linkTo="/#experience" icon="fas fa-chalkboard-teacher" description="Dedicated to fostering the next generation of thinkers and leaders through engaging teaching, curriculum design, and dedicated mentorship." colorClass="accent-tertiary" />
+          <ImpactCard title="Key Expertise Areas" linkTo="/#skills" icon="fas fa-cogs" description="Deep expertise spanning quantitative/qualitative analysis, fintech, financial inclusion, project management, and cross-cultural communication." colorClass="accent-primary" />
         </div>
       </Section>
       
       {featuredPublications.length > 0 && (
-        <Section title="Recent Publications" id="featured-publications" className="bg-dark/50 backdrop-blur-sm" subtitle="Highlights from my most impactful and recent contributions.">
+        <Section title="Recent Publications" id="featured-publications" className="bg-[rgba(var(--glass-bg-rgb),0.2)]" subtitle="Highlights from my most impactful and recent contributions.">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 xl:gap-9">
-            {featuredPublications.map((pub,idx) => (
-                <PublicationPreviewCard pub={pub} delay={0.2 + idx * 0.1} />
+            {featuredPublications.map((pub) => (
+                <PublicationPreviewCard key={pub.id} pub={pub} />
             ))}
           </div>
-          <div className="text-center mt-14 animate-fadeIn" style={{animationDelay: `${0.2 + featuredPublications.length * 0.1}s`}}>
+          <div className="text-center mt-14">
               <Link 
                 to="/#research"
                  onClick={(e) => { 
@@ -405,7 +384,7 @@ export const HomePage: React.FC = () => {
                         window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                     }
                 }}
-                className="btn-base gradient-bg text-md !py-3 !px-8"
+                className="btn-base btn-solid-primary text-md !py-3 !px-8"
               >
                 View All Publications
               </Link>
@@ -415,20 +394,20 @@ export const HomePage: React.FC = () => {
 
 
       {researchHighlights.length > 0 && (
-        <Section title="Research Spotlights" id="research-highlights" className="bg-dark-secondary/40 backdrop-blur-sm" subtitle="Key insights and takeaways from my impactful research.">
+        <Section title="Research Spotlights" id="research-highlights" className="bg-[rgba(var(--dark-bg-rgb),0.3)]" subtitle="Key insights and takeaways from my impactful research.">
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 xl:gap-9">
-            {researchHighlights.map((pub, idx) => (
-                <ResearchHighlightCard pub={pub} delay={0.2 + idx * 0.1}/>
+            {researchHighlights.map((pub) => (
+                <ResearchHighlightCard key={`highlight-${pub.id}`} pub={pub} />
             ))}
           </div>
         </Section>
       )}
 
       {testimonialsData.length > 0 && (
-        <Section title="What Others Say" id="testimonials" className="bg-dark/50 backdrop-blur-sm" subtitle="Feedback from collaborators and partners.">
+        <Section title="What Others Say" id="testimonials" className="bg-[rgba(var(--glass-bg-rgb),0.2)]" subtitle="Feedback from collaborators and partners.">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:gap-9">
-            {testimonialsData.map((testimonial, idx) => (
-                <TestimonialCard testimonial={testimonial} delay={0.2 + idx * 0.1} />
+            {testimonialsData.map((testimonial) => (
+                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
           </div>
         </Section>
