@@ -24,10 +24,9 @@ const Header: React.FC = () => {
   const getScrollOffset = () => {
       if (typeof window !== 'undefined' && typeof getComputedStyle !== 'undefined') {
         const rootStyle = getComputedStyle(document.documentElement);
-        // Use the scrolled header height for consistent offset calculation
-        return parseFloat(rootStyle.getPropertyValue('--header-height-scrolled')) || 80; // 80px default
+        return parseFloat(rootStyle.getPropertyValue('--header-height-scrolled')) || 70; // Default if var not found
       }
-      return 80;
+      return 70;
   };
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const Header: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (headerRef.current) {
-        if (window.scrollY > 50) { // Slightly increased threshold
+        if (window.scrollY > 30) { // Threshold for scrolled state
           headerRef.current.classList.add('scrolled');
         } else {
           headerRef.current.classList.remove('scrolled');
@@ -74,16 +73,16 @@ const Header: React.FC = () => {
   return (
     <header 
       ref={headerRef} 
-      className="fixed w-full z-50 top-0 transition-all duration-300 py-3.5" // Simplified padding, controlled by CSS vars via .scrolled
+      className="fixed w-full z-50 top-0 transition-all duration-300 py-3" // Base padding, adjusted by scrolled state via CSS
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8"> 
-        <div className="flex justify-between items-center glass-card-header px-4 sm:px-6 lg:px-8 rounded-full"> {/* Increased padding */}
-          <Link to="/#home" onClick={(e) => handleNavLinkClick("/#home", e)} className="text-xl lg:text-2xl font-bold flex items-center focus-visible-outline rounded-sm py-1" aria-label="Homepage">
-            <span className="text-white text-[1.1rem] sm:text-[1.15rem] lg:text-[1.2rem]">Dr. Jaskirat</span>
+        <div className="flex justify-between items-center glass-card-header px-4 md:px-5 lg:px-6 rounded-full"> {/* Slightly adjusted padding */}
+          <Link to="/#home" onClick={(e) => handleNavLinkClick("/#home", e)} className="text-xl lg:text-[1.3rem] font-bold flex items-center focus-visible-outline rounded-sm py-0.5" aria-label="Homepage"> {/* Adjusted font size */}
+            <span className="text-white">Dr. Jaskirat</span>
             <span className="gradient-text ml-1.5">Singh</span>
           </Link>
           
-          <nav className="hidden lg:flex items-center space-x-2 xl:space-x-3"> {/* Slightly reduced space */}
+          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5"> {/* Slightly reduced space */}
             {mainNavLinks.map((link: NavLinkType) => (
               <RouterNavLink
                 key={link.id}
@@ -96,21 +95,21 @@ const Header: React.FC = () => {
             ))}
           </nav>
           
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="flex items-center space-x-2.5 sm:space-x-3.5"> {/* Adjusted space */}
             <CVLinkButton 
-              className="btn-base gradient-bg-alt !text-xs sm:!text-sm !py-[0.55rem] sm:!py-[0.65rem] !px-4 sm:!px-5" 
+              className="btn-base gradient-bg-alt !text-[0.75rem] sm:!text-xs !py-[0.5rem] sm:!py-[0.6rem] !px-3.5 sm:!px-4" 
               text="HTML CV"
               iconClass="fas fa-file-alt"
             />
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-              className="lg:hidden text-white p-2.5 rounded-full focus-visible-outline hover:bg-primary/25 active:bg-primary/35 transition-colors"
+              className="lg:hidden text-white p-2 rounded-full focus-visible-outline hover:bg-primary/20 active:bg-primary/30 transition-colors"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
               id="mobile-menu-button"
               aria-controls="mobile-menu"
             >
-              <i className={`fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'} text-lg transition-transform duration-300 ${isMobileMenuOpen ? 'transform rotate-180' : ''}`}></i>
+              <i className={`fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'} text-md transition-transform duration-300 ${isMobileMenuOpen ? 'transform rotate-180' : ''}`}></i>
             </button>
           </div>
         </div>
@@ -118,17 +117,17 @@ const Header: React.FC = () => {
         {isMobileMenuOpen && (
           <div 
             id="mobile-menu" 
-            className="lg:hidden glass-card mt-3.5 rounded-xl py-4 absolute w-[calc(100%-2rem)] left-1/2 transform -translate-x-1/2 shadow-2xl border-2 border-primary-light/30"
+            className="lg:hidden glass-card mt-3 rounded-xl py-3.5 absolute w-[calc(100%-2rem)] left-1/2 transform -translate-x-1/2 shadow-2xl border border-primary-light/25 backdrop-blur-md"
             role="menu"
           > 
-            <div className="flex flex-col space-y-2 px-4">
+            <div className="flex flex-col space-y-1.5 px-3.5">
               {mainNavLinks.map((link: NavLinkType) => (
                 <RouterNavLink
                   key={`mobile-${link.id}`}
                   to={link.path}
                   onClick={(e) => handleNavLinkClick(link.path, e)}
                   className={({isActive}) => 
-                      `block py-3.5 nav-link-custom text-base ${isActive ? 'active' : ''} focus-visible-outline rounded-lg w-full text-left`
+                      `block py-3 nav-link-custom text-[0.9rem] ${isActive ? 'active' : ''} focus-visible-outline rounded-lg w-full text-left`
                   }
                   role="menuitem"
                 >
@@ -147,9 +146,9 @@ const Footer: React.FC = () => {
   const getScrollOffset = () => {
       if (typeof window !== 'undefined' && typeof getComputedStyle !== 'undefined') {
         const rootStyle = getComputedStyle(document.documentElement);
-        return parseFloat(rootStyle.getPropertyValue('--header-height-scrolled')) || 80;
+        return parseFloat(rootStyle.getPropertyValue('--header-height-scrolled')) || 70;
       }
-      return 80;
+      return 70;
   };
 
   const handleFooterLinkClick = (path: string, e?: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>) => {
@@ -168,25 +167,24 @@ const Footer: React.FC = () => {
     }
   };
 
-
   return (
-  <footer className="py-14 md:py-16 border-t border-slate-700/60 bg-dark/90 backdrop-blur-sm mt-12 md:mt-16"> 
+  <footer className="py-12 md:py-14 border-t border-slate-700/50 bg-dark/85 backdrop-blur-sm mt-10 md:mt-14"> 
     <div className="container mx-auto px-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 xl:gap-10 mb-10 md:mb-12 text-center md:text-left">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 xl:gap-9 mb-9 md:mb-11 text-center md:text-left">
         <div className="lg:col-span-2"> 
-          <h2 className="text-2xl md:text-3xl font-bold mb-3.5 text-light">{personalInfoData.name.split(",")[0]}</h2>
-          <p className="text-text-muted text-sm md:text-[0.95rem] max-w-md mx-auto md:mx-0 leading-relaxed">{personalInfoData.tagline}</p> 
+          <h2 className="text-xl md:text-2xl font-bold mb-3 text-light">{personalInfoData.name.split(",")[0]}</h2>
+          <p className="text-text-muted text-sm md:text-[0.9rem] max-w-lg mx-auto md:mx-0 leading-relaxed">{personalInfoData.tagline}</p> 
         </div>
         
         <div>
-          <h3 className="text-lg md:text-xl font-semibold mb-4 text-primary-light">Quick Links</h3> 
-          <ul className="space-y-2.5">
+          <h3 className="text-md md:text-lg font-semibold mb-3.5 text-primary-light">Quick Links</h3> 
+          <ul className="space-y-2">
             {navLinksData.filter(l => !['/consultancy', '/citations', '/#contact'].includes(l.path)).slice(0,4).map(link => (
                <li key={`footer-nav-${link.id}`}>
                  <Link 
                    to={link.path} 
                    onClick={(e) => handleFooterLinkClick(link.path, e)}
-                   className="text-text-muted hover:text-primary-light transition text-sm md:text-[0.95rem] focus-visible-outline rounded-sm py-1"
+                   className="text-text-muted hover:text-primary-light transition text-sm focus-visible-outline rounded-sm py-0.5"
                  >
                    {link.name}
                  </Link>
@@ -196,23 +194,23 @@ const Footer: React.FC = () => {
         </div>
         
         <div>
-          <h3 className="text-lg md:text-xl font-semibold mb-4 text-accent">Connect</h3>
-          <ul className="space-y-2.5">
-            <li><a href={personalInfoData.linkedIn} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-accent transition text-sm md:text-[0.95rem] focus-visible-outline rounded-sm py-1">LinkedIn</a></li>
-            <li><a href={personalInfoData.googleScholar} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-accent transition text-sm md:text-[0.95rem] focus-visible-outline rounded-sm py-1">Google Scholar</a></li>
-            <li><a href={`mailto:${personalInfoData.email}`}className="text-text-muted hover:text-accent transition text-sm md:text-[0.95rem] focus-visible-outline rounded-sm py-1">Email</a></li>
-            <li><button onClick={(e) => handleFooterLinkClick("#contact", e)} className="text-text-muted hover:text-accent transition text-sm md:text-[0.95rem] focus-visible-outline rounded-sm py-1 text-left">Contact Form</button></li>
+          <h3 className="text-md md:text-lg font-semibold mb-3.5 text-accent">Connect</h3>
+          <ul className="space-y-2">
+            <li><a href={personalInfoData.linkedIn} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-accent transition text-sm focus-visible-outline rounded-sm py-0.5">LinkedIn</a></li>
+            <li><a href={personalInfoData.googleScholar} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-accent transition text-sm focus-visible-outline rounded-sm py-0.5">Google Scholar</a></li>
+            <li><a href={`mailto:${personalInfoData.email}`}className="text-text-muted hover:text-accent transition text-sm focus-visible-outline rounded-sm py-0.5">Email</a></li>
+            <li><button onClick={(e) => handleFooterLinkClick("#contact", e)} className="text-text-muted hover:text-accent transition text-sm focus-visible-outline rounded-sm py-0.5 text-left">Contact Form</button></li>
           </ul>
         </div>
       </div>
       
-      <hr className="border-slate-600/70 my-8 md:my-10" /> 
+      <hr className="border-slate-600/60 my-7 md:my-9" /> 
       
       <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
-        <p className="text-text-darker-muted text-xs sm:text-[0.85rem] mb-2 sm:mb-0">© {new Date().getFullYear()} {personalInfoData.name.split(",")[0]}. All rights reserved.</p> 
-        <div className="flex items-center text-xs sm:text-[0.85rem]"> 
+        <p className="text-text-darker-muted text-xs sm:text-[0.8rem] mb-1.5 sm:mb-0">© {new Date().getFullYear()} {personalInfoData.name.split(",")[0]}. All rights reserved.</p> 
+        <div className="flex items-center text-xs sm:text-[0.8rem]"> 
           <span className="text-text-darker-muted">Crafted with</span>
-          <i className="fas fa-heart mx-1.5 text-red-500/80 animate-pulseGlow [--tw-shadow-color:theme('colors.red.500')]"></i> 
+          <i className="fas fa-heart mx-1.5 text-red-500/70 animate-pulseGlow [--tw-shadow-color:theme('colors.red.500')]"></i> 
           <span className="gradient-text ml-0.5 font-medium">and Vision</span> 
         </div>
       </div>
@@ -223,7 +221,7 @@ const Footer: React.FC = () => {
 const ScrollToTopButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const toggleVisibility = () => setIsVisible(window.pageYOffset > 300); // Show sooner
+  const toggleVisibility = () => setIsVisible(window.pageYOffset > 250);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -237,11 +235,11 @@ const ScrollToTopButton: React.FC = () => {
       id="back-to-top" 
       type="button"
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 p-3.5 md:p-4 rounded-full bg-gradient-to-br from-primary to-accent text-white shadow-lg hover:opacity-85 transition-all duration-300 focus-visible-outline transform hover:scale-110 hover:shadow-neon-glow-blue ${isVisible ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-90'}`}
+      className={`fixed bottom-6 right-6 p-3 md:p-3.5 rounded-full bg-gradient-to-br from-primary to-accent text-white shadow-lg hover:opacity-90 transition-all duration-300 focus-visible-outline transform hover:scale-105 hover:shadow-neon-glow-blue ${isVisible ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-90'}`}
       aria-label="Scroll to top"
-      style={{transition: 'opacity 0.35s ease, visibility 0.35s ease, transform 0.35s cubic-bezier(0.25,0.1,0.25,1)'}}
+      style={{transition: 'opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.25,0.1,0.25,1)'}}
     >
-      <i className="fas fa-arrow-up text-lg md:text-xl"></i>
+      <i className="fas fa-arrow-up text-md md:text-lg"></i>
     </button>
   );
 };
@@ -253,10 +251,9 @@ const AppContent: React.FC = () => {
   const getCurrentScrollOffsetForApp = () => {
     if (typeof window !== 'undefined' && typeof getComputedStyle !== 'undefined') {
         const rootStyle = getComputedStyle(document.documentElement);
-        // Always use scrolled header height for consistent offset
-        return parseFloat(rootStyle.getPropertyValue('--header-height-scrolled')) || 80;
+        return parseFloat(rootStyle.getPropertyValue('--header-height-scrolled')) || 70;
     }
-    return 80;
+    return 70;
   };
 
 
@@ -268,10 +265,10 @@ const AppContent: React.FC = () => {
       if (element) {
         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
         const offsetPosition = elementPosition - scrollOffset;
-        setTimeout(() => window.scrollTo({ top: offsetPosition, behavior: 'smooth' }), 100); // Reduced delay
+        setTimeout(() => window.scrollTo({ top: offsetPosition, behavior: 'smooth' }), 80); 
       }
     } else if (location.pathname !== '/' || (location.pathname === '/' && !location.hash)) {
-      setTimeout(() => window.scrollTo(0, 0), 100); 
+      setTimeout(() => window.scrollTo(0, 0), 80); 
     }
   }, [location]);
 
@@ -312,12 +309,11 @@ const AppContent: React.FC = () => {
       if (location.pathname === '/') {
         currentSectionForMainPage = 'home'; 
         let foundSection = false;
-        // Iterate downwards to find the current section
         for (let i = sections.length - 1; i >= 0; i--) {
             const sectionId = sections[i];
             const sectionEl = document.getElementById(sectionId);
             if (sectionEl) {
-                const sectionTop = sectionEl.offsetTop - (scrollOffset + 80); // Adjusted threshold
+                const sectionTop = sectionEl.offsetTop - (scrollOffset + 70); 
                 if (window.pageYOffset >= sectionTop) {
                     currentSectionForMainPage = sectionId;
                     foundSection = true;
@@ -325,7 +321,7 @@ const AppContent: React.FC = () => {
                 }
             }
         }
-         if (window.pageYOffset < (document.getElementById(sections[0])?.offsetTop || 200) - (scrollOffset + 80) && !foundSection) {
+         if (window.pageYOffset < (document.getElementById(sections[0])?.offsetTop || 150) - (scrollOffset + 70) && !foundSection) {
             currentSectionForMainPage = 'home';
         }
       }
@@ -348,12 +344,11 @@ const AppContent: React.FC = () => {
       <main 
         ref={mainContentRef} 
         className="flex-grow"
-        style={{ paddingTop: 'var(--header-height)' }} 
+        style={{ paddingTop: 'var(--header-height)' }} // Use CSS variable for initial padding
       >
         <Routes>
           <Route path="/" element={
             <> 
-              {/* Sections are wrapped to allow individual targeting */}
               <div id="home" className="scroll-mt-[var(--header-height-scrolled)]"><HomePage /></div> 
               <div id="about" className="scroll-mt-[var(--header-height-scrolled)]"><AboutPage /></div>
               <div id="research" className="scroll-mt-[var(--header-height-scrolled)]"><ResearchPage /></div>
