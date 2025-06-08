@@ -12,25 +12,25 @@
   <style>
     :root {
         /* Core Dark Palette */
-        --dark-bg: #05080F; /* Very dark blue/black for main background */
-        --dark-bg-rgb: 5, 8, 15;
-        --glass-bg: rgba(15, 23, 42, 0.65); /* Dark slate, translucent for cards */
-        --glass-bg-rgb: 15, 23, 42; /* Corresponds to slate-900 */
-        --glass-border: rgba(100, 116, 139, 0.25); /* Subtle slate-500 border */
-        --glass-border-hover: rgba(100, 116, 139, 0.5);
+        --dark-bg: #0A0F1A; /* Very dark blue/black for main background */
+        --dark-bg-rgb: 10, 15, 26;
+        --glass-bg: rgba(20, 28, 50, 0.7); /* Dark slate, translucent for cards */
+        --glass-bg-rgb: 20, 28, 50; /* Corresponds to slate-900 */
+        --glass-border: rgba(100, 116, 139, 0.3); /* Subtle slate-500 border */
+        --glass-border-hover: rgba(125, 145, 170, 0.6);
 
         /* Text Palette */
         --text-light: #E0E7FF; /* Light lavender white for primary text */
-        --text-medium: #94A3B8; /* Slate 400 for secondary text */
-        --text-muted: #64748B;  /* Slate 500 for muted text */
+        --text-medium: #A0AEC0; /* Slate 400 for secondary text */
+        --text-muted: #718096;  /* Slate 500 for muted text */
 
         /* Accent Palette (Used very sparingly) */
-        --accent-primary: #38BDF8; /* Sky Blue 400 - subtle primary accent */
-        --accent-primary-rgb: 56, 189, 248;
-        --accent-secondary: #A78BFA; /* Violet 400 - subtle secondary accent */
-        --accent-secondary-rgb: 167, 139, 250;
-        --accent-tertiary: #34D399; /* Emerald 400 - subtle tertiary accent */
-        --accent-tertiary-rgb: 52, 211, 153;
+        --accent-primary: #4A90E2; /* Sky Blue 400 - subtle primary accent */
+        --accent-primary-rgb: 74, 144, 226;
+        --accent-secondary: #D4AF37; /* Violet 400 - subtle secondary accent */
+        --accent-secondary-rgb: 212, 175, 55;
+        --accent-tertiary: #B0C4DE; /* Emerald 400 - subtle tertiary accent */
+        --accent-tertiary-rgb: 176, 196, 222;
         
         /* Header Heights (remain the same) */
         --header-height-base: 5rem; 
@@ -44,6 +44,17 @@
     }
      @media (min-width: 1024px) { /* lg */
       :root { --header-height: 5.75rem; --header-height-scrolled: 4.75rem;}
+    }
+
+    @keyframes fadeInSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     ::selection {
@@ -72,39 +83,38 @@
         font-weight: 600;
         color: var(--text-light);
         line-height: 1.25;
+        letter-spacing: 0.025em;
     }
     
     .glass-card {
         background: var(--glass-bg); 
-        backdrop-filter: blur(12px) saturate(120%); 
-        -webkit-backdrop-filter: blur(12px) saturate(120%);
+        backdrop-filter: blur(16px) saturate(110%);
+        -webkit-backdrop-filter: blur(16px) saturate(110%);
         border: 1px solid var(--glass-border); 
         border-radius: 16px; 
-        box-shadow: 0 4px 20px rgba(var(--dark-bg-rgb), 0.5), 
-                    inset 0 1px 0px rgba(255, 255, 255, 0.07); 
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 8px 32px 0 rgba(var(--dark-bg-rgb), 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     }
     .glass-card:hover { /* Subtle hover for glass cards */
         border-color: var(--glass-border-hover);
-        box-shadow: 0 6px 25px rgba(var(--dark-bg-rgb), 0.6),
-                    inset 0 1px 0px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 12px 40px 0 rgba(var(--dark-bg-rgb), 0.45), inset 0 1px 2px 0 rgba(255, 255, 255, 0.1);
     }
 
     header .glass-card-header { 
         padding-top: 0.5rem; 
         padding-bottom: 0.5rem;
         background: rgba(var(--glass-bg-rgb), 0.75); /* Slightly more opaque for header */
-        backdrop-filter: blur(15px) saturate(150%);
-        -webkit-backdrop-filter: blur(15px) saturate(150%);
+        backdrop-filter: blur(15px) saturate(120%);
+        -webkit-backdrop-filter: blur(15px) saturate(120%);
         border: 1px solid var(--glass-border); 
-        box-shadow: 0 2px 15px rgba(var(--dark-bg-rgb), 0.4);
+        box-shadow: 0 4px 20px rgba(var(--dark-bg-rgb), 0.3);
         transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.2s ease;
     }
     header.scrolled .glass-card-header { 
         background: rgba(var(--glass-bg-rgb), 0.85); 
-        backdrop-filter: blur(18px) saturate(160%);
-        -webkit-backdrop-filter: blur(18px) saturate(160%);
-        box-shadow: 0 5px 25px rgba(var(--dark-bg-rgb), 0.6); 
+        backdrop-filter: blur(18px) saturate(130%);
+        -webkit-backdrop-filter: blur(18px) saturate(130%);
+        box-shadow: 0 6px 25px rgba(var(--dark-bg-rgb), 0.35);
         padding-top: 0.35rem; 
         padding-bottom: 0.35rem; 
     }
@@ -237,8 +247,9 @@
       background: var(--text-medium);
     }
     
-    .animate-fadeIn { /* Remove animation, keep for class reference if needed */
-      opacity: 1; transform: none;
+    .animate-fadeIn {
+      opacity: 0; /* Initial state before animation starts */
+      animation: fadeInSlideUp 0.7s ease-out forwards;
     }
     
     .focus-visible-outline:focus-visible {
@@ -255,6 +266,7 @@
     
     .shadow-accent-glow-primary { box-shadow: 0 0 10px rgba(var(--accent-primary-rgb), 0.4), 0 0 18px rgba(var(--accent-primary-rgb), 0.3); }
     .shadow-accent-glow-secondary { box-shadow: 0 0 10px rgba(var(--accent-secondary-rgb), 0.4), 0 0 18px rgba(var(--accent-secondary-rgb), 0.3); }
+    .shadow-accent-glow-tertiary { box-shadow: 0 0 10px rgba(var(--accent-tertiary-rgb), 0.4), 0 0 18px rgba(var(--accent-tertiary-rgb), 0.3); }
 
     .premium-input {
         background: rgba(var(--dark-bg-rgb), 0.8); 
