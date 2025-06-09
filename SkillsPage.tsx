@@ -5,15 +5,15 @@ import { SkillCategory, SkillValueItem, AcademicSkillListItem } from './types';
 import { Section } from './components/Section';
 
 const SkillBadge: React.FC<{ skill: string }> = ({ skill }) => (
-  <span className="inline-block bg-dark-primary border border-neon-blue/50 text-neon-blue text-sm font-medium mr-2 mb-2 px-4 py-2 rounded-full shadow-sm hover:bg-neon-blue/20 hover:shadow-neon-glow-blue transition-all duration-300 cursor-default transform hover:scale-105">
+  <span className="inline-block bg-dark-primary border border-[rgba(var(--accent-primary-rgb),0.5)] text-accent-primary text-sm font-medium mr-2 mb-2 px-4 py-2 rounded-full shadow-sm hover:bg-[rgba(var(--accent-primary-rgb),0.2)] hover:shadow-accent-glow-primary transition-all duration-300 cursor-default transform hover:scale-105">
     {skill}
   </span>
 );
 
 const SkillCategoryCard: React.FC<{ category: SkillCategory }> = ({ category }) => (
-  <div className="p-6 md:p-8 bg-dark-secondary rounded-xl shadow-xl border-l-4 border-neon-pink hover:shadow-neon-glow-pink transition-all duration-300 transform hover:-translate-y-1">
+  <div className="glass-card p-6 md:p-8 border-l-4 border-accent-secondary hover:shadow-accent-glow-secondary transition-all duration-300 transform hover:-translate-y-1">
     <div className="flex items-center mb-5">
-      {category.icon && <i className={`${category.icon} text-3xl sm:text-4xl text-neon-pink mr-4 p-3 bg-dark-primary rounded-full shadow-md`}></i>}
+      {category.icon && <i className={`${category.icon} text-3xl sm:text-4xl text-accent-secondary mr-4 p-3 bg-dark-primary rounded-full shadow-md`}></i>}
       <div>
         <h3 className="text-xl sm:text-2xl font-semibold text-light-primary">{category.name}</h3>
         {category.description && <p className="text-sm text-light-secondary mt-1">{category.description}</p>}
