@@ -31,53 +31,32 @@ const KeyMetrics: React.FC<{ stats: KeyStat[] }> = ({ stats }) => {
 
 
 const HeroSection: React.FC = () => (
-  <div className="min-h-[calc(85vh-80px)] md:min-h-[calc(75vh-80px)] flex flex-col items-center justify-center text-center bg-dark-primary py-12 md:py-16 relative overflow-hidden">
-    <div className="absolute inset-0 opacity-[0.02] z-0">
-      {/* Subtle animated pattern */}
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="heroPattern" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="scale(1) rotate(30)">
-            <circle cx="30" cy="30" r="1" strokeWidth="0.5" stroke="rgba(0, 255, 255, 0.3)" fill="rgba(0, 255, 255, 0.1)">
-              <animate attributeName="r" values="1;3;1" dur="5s" repeatCount="indefinite" />
-            </circle>
-            <path d="M30 0 L30 60 M0 30 L60 30" strokeWidth="0.3" stroke="rgba(0, 255, 255, 0.2)">
-               <animateTransform attributeName="transform" type="rotate" from="0 30 30" to="360 30 30" dur="20s" repeatCount="indefinite"/>
-            </path>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#heroPattern)" />
-      </svg>
-    </div>
-
-    <div className="relative z-10 px-4 flex flex-col items-center">
-      <img 
-        src={personalInfoData.profileImageUrl} 
-        alt={personalInfoData.name} 
-        className="w-36 h-36 sm:w-44 sm:h-44 rounded-full mx-auto mb-6 border-4 border-accent-primary shadow-accent-glow-primary object-cover animate-fadeIn"
-        style={{animationDelay: '0.1s'}}
-      />
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-light-primary mb-3 animate-fadeIn" style={{animationDelay: '0.3s'}}>
+  <div className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 md:py-28 relative overflow-hidden">
+    {/* Removed SVG pattern div */}
+    <div className="relative z-10 px-6 flex flex-col items-center max-w-3xl mx-auto">
+      {/* Removed profile image img tag */}
+      <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-text-light mb-4 animate-hero-text-line">
         {personalInfoData.name}
       </h1>
-      <p className="text-xl sm:text-2xl text-accent-primary mb-5 animate-fadeIn" style={{animationDelay: '0.5s'}}>
+      <p className="text-xl sm:text-2xl text-accent-primary mb-6 animate-hero-text-line">
         {personalInfoData.tagline}
       </p>
-      <p className="text-md sm:text-lg text-light-secondary max-w-2xl mx-auto mb-10 animate-fadeIn" style={{animationDelay: '0.7s'}}>
+      <p className="text-lg sm:text-xl text-text-medium max-w-xl mx-auto mb-10 animate-hero-text-line">
         {personalInfoData.professionalSummary ? personalInfoData.professionalSummary.substring(0, 180) + '...' : ''}
       </p>
       
-      {personalInfoData.keyStats && <KeyMetrics stats={personalInfoData.keyStats} />}
+      {/* Removed KeyMetrics component */}
 
-      <div className="space-y-4 sm:space-y-0 sm:space-x-6 animate-fadeIn" style={{animationDelay: '0.9s'}}>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 animate-hero-button">
         <Link 
           to="/research"
-          className="inline-block bg-accent-primary hover:bg-opacity-80 text-dark-bg font-semibold py-3.5 px-10 rounded-lg shadow-accent-glow-primary transition-all duration-300 transform hover:scale-105 text-lg"
+          className="btn-primary-hero"
         >
           <i className="fas fa-atom mr-2"></i>Explore Research
         </Link>
         <Link 
           to="/consultancy"
-          className="inline-block bg-transparent hover:bg-accent-secondary border-2 border-accent-secondary text-accent-secondary hover:text-dark-bg font-semibold py-3.5 px-10 rounded-lg shadow-accent-glow-secondary transition-all duration-300 transform hover:scale-105 text-lg"
+          className="btn-secondary-hero"
         >
           <i className="fas fa-hands-helping mr-2"></i>Offer Consultancy
         </Link>
@@ -87,59 +66,52 @@ const HeroSection: React.FC = () => (
 );
 
 const ImpactCard: React.FC<{ title: string; linkTo: string; icon: string; description: string; colorClass: string; delay: number; }> = ({ title, linkTo, icon, description, colorClass, delay }) => {
-  const accentColorClass =
-    colorClass === 'neon-blue' ? 'accent-primary' :
-    colorClass === 'neon-pink' ? 'accent-secondary' :
-    'accent-tertiary'; // Assuming neon-green maps to accent-tertiary
-
-  const hoverBorderColor = `hover:border-${accentColorClass}`;
-
-  const glowShadowClass =
-    colorClass === 'neon-blue' ? 'shadow-accent-glow-primary' :
-    colorClass === 'neon-pink' ? 'shadow-accent-glow-secondary' :
-    'shadow-accent-glow-tertiary';
-
-  const hoverGlowShadow = `hover:${glowShadowClass}`;
+  // Note: colorClass prop might be deprecated or simplified if all impact cards now use primary accent
+  // For now, we'll keep the logic but map it only to accent-primary or a default
+  const determinedAccentClass =
+    colorClass === 'neon-pink' ? 'accent-secondary' : // Example if one still needs secondary
+    colorClass === 'neon-green' ? 'accent-tertiary' : // Example if one still needs tertiary
+    'accent-primary'; // Default to primary
 
   return (
     <Link 
       to={linkTo} 
-      className={`group block p-6 bg-dark-secondary rounded-xl shadow-xl ${hoverGlowShadow} transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent ${hoverBorderColor} animate-fadeIn`}
+      className="group block p-6 bg-[#1F1F1F] rounded-lg shadow-lg hover:bg-[#2A2A2A] hover:shadow-xl transition-all duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)] transform hover:-translate-y-1 animate-fadeIn"
       style={{ animationDelay: `${delay}s`}}
     >
-      <div className={`flex items-center text-${accentColorClass} mb-5`}>
-        <i className={`${icon} text-4xl mr-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-5deg] group-hover:${glowShadowClass} rounded-full p-2 bg-dark-primary`}></i>
-        <h3 className={`text-2xl font-semibold text-light-primary group-hover:text-${accentColorClass} transition-colors`}>{title}</h3>
+      <div className="flex items-center mb-3">
+        <i className={`${icon} text-3xl text-accent-primary p-3 bg-[rgba(var(--accent-primary-rgb),0.1)] rounded-full mr-4 transition-colors duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)] group-hover:bg-[rgba(var(--accent-primary-rgb),0.2)]`}></i>
+        <h3 className={`text-xl font-semibold text-text-light mb-2 group-hover:text-accent-primary transition-colors duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)]`}>{title}</h3>
       </div>
-      <p className="text-light-secondary text-sm leading-relaxed">{description}</p>
-      <span className={`mt-4 inline-block text-sm font-medium text-${accentColorClass} group-hover:underline`}>Learn More &rarr;</span>
+      <p className="text-text-medium text-sm leading-relaxed mb-4">{description}</p>
+      <span className={`inline-block text-sm font-medium text-accent-primary group-hover:underline`}>Learn More &rarr;</span>
     </Link>
   );
 };
 
 
 const PublicationPreviewCard: React.FC<{ pub: Publication }> = ({ pub }) => (
-  <div className="bg-dark-secondary p-5 rounded-lg shadow-lg hover:shadow-accent-glow-primary transition-all duration-300 border-l-4 border-accent-primary hover:border-accent-secondary transform hover:-translate-y-1">
-    <h4 className="text-md font-semibold text-accent-primary mb-1 line-clamp-2" title={pub.title}>{pub.title}</h4>
-    <p className="text-xs text-light-secondary mb-1 italic truncate">{pub.authors}</p>
-    <p className="text-xs text-light-secondary mb-2 truncate">
+  <div className="p-6 bg-[#1F1F1F] rounded-lg shadow-lg hover:bg-[#2A2A2A] hover:shadow-xl transition-all duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)] border-l-4 border-accent-primary">
+    <h4 className="text-lg font-semibold text-text-light mb-1 line-clamp-2" title={pub.title}>{pub.title}</h4>
+    <p className="text-xs text-text-medium mb-1 italic truncate">{pub.authors}</p>
+    <p className="text-xs text-text-medium mb-3 truncate">
       {pub.source}, {pub.year}
     </p>
     {pub.impactMetrics && pub.impactMetrics.length > 0 && (
       <div className="mt-2 mb-1">
         {pub.impactMetrics.slice(0, 2).map(metric => (
-          <span key={metric.name} className={`inline-block text-xs font-medium mr-2 mb-1 px-2 py-0.5 rounded-full ${metric.value.toString().startsWith('Q1') ? 'bg-[rgba(var(--accent-tertiary-rgb),0.2)] text-accent-tertiary' : 'bg-[rgba(var(--accent-primary-rgb),0.2)] text-accent-primary'}`}>
+          <span key={metric.name} className="inline-block text-xs font-medium mr-2 mb-1 px-2 py-0.5 rounded-full bg-[rgba(var(--accent-primary-rgb),0.1)] text-accent-primary">
            {metric.icon && <i className={`${metric.icon} mr-1`}></i>}{metric.name}: {metric.value}
           </span>
         ))}
       </div>
     )}
-    <Link to={`/research#${pub.id}`} className="text-xs text-accent-secondary hover:underline">View Details &rarr;</Link>
+    <Link to={`/research#${pub.id}`} className="text-sm text-accent-primary hover:underline font-medium mt-3 block">View Details &rarr;</Link>
   </div>
 );
 
 const ResearchHighlightCard: React.FC<{ pub: Publication }> = ({ pub }) => (
-   <div className="bg-dark-secondary rounded-lg shadow-xl overflow-hidden group flex flex-col h-full hover:shadow-accent-glow-secondary transition-all duration-300 transform hover:scale-[1.02]">
+   <div className="bg-[#1F1F1F] rounded-lg shadow-lg overflow-hidden group flex flex-col h-full hover:shadow-xl transition-all duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)] hover:scale-[1.03]">
     {pub.featuredImageUrl ? (
       <div className="relative overflow-hidden h-48">
         <img 
@@ -150,17 +122,17 @@ const ResearchHighlightCard: React.FC<{ pub: Publication }> = ({ pub }) => (
          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
       </div>
     ) : ( 
-        <div className="w-full h-48 bg-dark-primary flex items-center justify-center border-b border-[rgba(var(--accent-primary-rgb),0.3)]">
-            <i className="fas fa-atom text-5xl text-accent-primary opacity-50 group-hover:animate-pulseGlow [--tw-shadow-color:rgba(var(--accent-primary-rgb))]"></i>
+        <div className="w-full h-48 bg-dark-primary flex items-center justify-center border-b border-gray-700">
+            <i className="fas fa-atom text-5xl text-text-muted opacity-50"></i>
         </div>
     )}
     <div className="p-6 flex-grow flex flex-col">
-      <h4 className="text-lg font-semibold text-accent-primary mb-2 group-hover:text-accent-secondary transition-colors">{pub.title}</h4>
-      <p className="text-sm text-light-secondary mb-3 line-clamp-3 flex-grow">{pub.insightSnippet || pub.summary || "Click to read more about this research."}</p>
+      <h4 className="text-lg font-semibold text-text-light mb-2 group-hover:text-accent-primary transition-colors duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)]">{pub.title}</h4>
+      <p className="text-sm text-text-medium mb-3 line-clamp-3 flex-grow">{pub.insightSnippet || pub.summary || "Click to read more about this research."}</p>
       {pub.impactMetrics && pub.impactMetrics.length > 0 && (
         <div className="mb-3">
           {pub.impactMetrics.map(metric => (
-            <span key={metric.name} className={`inline-flex items-center text-xs font-semibold mr-2 mb-1 px-2.5 py-1 rounded-full ${metric.value.toString().startsWith('Q1') ? 'bg-[rgba(var(--accent-tertiary-rgb),0.8)] text-dark-bg' : 'bg-[rgba(var(--accent-primary-rgb),0.8)] text-dark-bg'}`}>
+            <span key={metric.name} className="inline-flex items-center text-xs font-semibold mr-2 mb-1 px-2.5 py-1 rounded-full bg-[rgba(var(--accent-primary-rgb),0.1)] text-accent-primary">
               {metric.icon && <i className={`${metric.icon} mr-1.5`}></i>}{metric.value}
             </span>
           ))}
@@ -168,15 +140,15 @@ const ResearchHighlightCard: React.FC<{ pub: Publication }> = ({ pub }) => (
       )}
       <div className="mt-auto">
         {pub.doiLink ? (
-          <a href={pub.doiLink} target="_blank" rel="noopener noreferrer" className="text-sm text-accent-secondary hover:underline font-medium group-hover:text-accent-primary transition-colors">
+          <a href={pub.doiLink} target="_blank" rel="noopener noreferrer" className="text-sm text-accent-primary hover:underline font-medium group-hover:text-accent-primary transition-colors duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)]">
             Read Full Paper (DOI) <i className="fas fa-external-link-alt ml-1"></i>
           </a>
         ) : pub.link ? (
-          <a href={pub.link} target="_blank" rel="noopener noreferrer" className="text-sm text-accent-secondary hover:underline font-medium group-hover:text-accent-primary transition-colors">
+          <a href={pub.link} target="_blank" rel="noopener noreferrer" className="text-sm text-accent-primary hover:underline font-medium group-hover:text-accent-primary transition-colors duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)]">
             View Source <i className="fas fa-external-link-alt ml-1"></i>
           </a>
         ) : (
-           <Link to={`/research#${pub.id}`} className="text-sm text-accent-secondary hover:underline font-medium group-hover:text-accent-primary transition-colors">
+           <Link to={`/research#${pub.id}`} className="text-sm text-accent-primary hover:underline font-medium group-hover:text-accent-primary transition-colors duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)]">
             Learn More on Site <i className="fas fa-arrow-right ml-1"></i>
           </Link>
         )}
@@ -186,29 +158,27 @@ const ResearchHighlightCard: React.FC<{ pub: Publication }> = ({ pub }) => (
 );
 
 const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (
-  <div className="bg-dark-secondary p-6 rounded-lg shadow-xl border-t-4 border-[rgba(var(--accent-secondary-rgb),0.5)] flex flex-col items-center text-center transform transition-all duration-300 hover:scale-105 hover:shadow-accent-glow-secondary">
+  <div className="p-6 bg-[#1F1F1F] rounded-lg shadow-lg flex flex-col items-center text-center transition-all duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)] hover:shadow-xl hover:scale-[1.03] border-t-4 border-accent-primary">
     {testimonial.avatarUrl && 
       <img 
         src={testimonial.avatarUrl} 
         alt={testimonial.author} 
-        className="w-24 h-24 rounded-full mx-auto mb-5 border-2 border-accent-secondary object-cover shadow-md"
+        className="w-20 h-20 rounded-full mx-auto mb-5 border-2 border-accent-primary object-cover"
       />
     }
     {!testimonial.avatarUrl && (
-      <div className="w-24 h-24 rounded-full mx-auto mb-5 border-2 border-accent-secondary bg-dark-primary flex items-center justify-center shadow-md">
-        <i className="fas fa-user-tie text-4xl text-accent-secondary opacity-70"></i>
+      <div className="w-20 h-20 rounded-full mx-auto mb-5 border-2 border-accent-primary bg-gray-700 flex items-center justify-center">
+        <i className="fas fa-user-tie text-4xl text-accent-primary opacity-70"></i>
       </div>
     )}
     <blockquote className="mb-4 flex-grow">
-      <p className="text-light-secondary italic text-md leading-relaxed">
-        <span className="text-3xl text-[rgba(var(--accent-secondary-rgb),0.7)] leading-none mr-1">&ldquo;</span>
+      <p className="text-text-medium italic text-md leading-relaxed">
         {testimonial.quote}
-        <span className="text-3xl text-[rgba(var(--accent-secondary-rgb),0.7)] leading-none ml-1">&rdquo;</span>
       </p>
     </blockquote>
     <div className="mt-auto pt-4">
-      <h4 className="font-semibold text-accent-primary text-lg">{testimonial.author}</h4>
-      <p className="text-xs text-light-secondary">{testimonial.authorTitle}</p>
+      <h4 className="font-semibold text-text-light text-lg mt-4">{testimonial.author}</h4>
+      <p className="text-xs text-text-medium">{testimonial.authorTitle}</p>
     </div>
   </div>
 );
@@ -243,7 +213,7 @@ export const HomePage: React.FC = () => {
     <div className="animate-fadeIn">
       <HeroSection />
 
-      <Section title="My Impact Areas" id="impact-areas" className="bg-dark-primary/50" subtitle="Leveraging expertise to drive meaningful change and foster innovation.">
+      <Section title="My Impact Areas" id="impact-areas" subtitle="Leveraging expertise to drive meaningful change and foster innovation.">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
           <ImpactCard title="Research & Publications" linkTo="/research" icon="fas fa-atom" description="Pioneering research in finance, technology, and socio-economic development. Explore peer-reviewed articles, book chapters, and ongoing work." colorClass="neon-blue" delay={0.2} />
           <ImpactCard title="Consultancy Services" linkTo="/consultancy" icon="fas fa-hands-helping" description="Offering expert consultancy, with a special focus on pro-bono support for NGOs, to translate research into actionable strategies and amplify social impact." colorClass="neon-pink" delay={0.3}/>
@@ -253,7 +223,7 @@ export const HomePage: React.FC = () => {
       </Section>
       
       {featuredPublications.length > 0 && (
-        <Section title="Recent Publications" id="featured-publications" className="bg-dark-secondary" subtitle="Highlights from my most impactful and recent contributions.">
+        <Section title="Recent Publications" id="featured-publications" subtitle="Highlights from my most impactful and recent contributions.">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredPublications.map(pub => (
               <PublicationPreviewCard key={pub.id} pub={pub} />
@@ -272,7 +242,7 @@ export const HomePage: React.FC = () => {
 
 
       {researchHighlights.length > 0 && (
-        <Section title="Research Spotlights" id="research-highlights" className="bg-dark-primary/50" subtitle="Key insights and takeaways from my impactful research.">
+        <Section title="Research Spotlights" id="research-highlights" subtitle="Key insights and takeaways from my impactful research.">
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {researchHighlights.map(pub => (
               <ResearchHighlightCard key={`highlight-${pub.id}`} pub={pub} />
@@ -282,7 +252,7 @@ export const HomePage: React.FC = () => {
       )}
 
       {testimonialsData.length > 0 && (
-        <Section title="What Others Say" id="testimonials" className="bg-dark-secondary" subtitle="Feedback from collaborators and partners.">
+        <Section title="What Others Say" id="testimonials" subtitle="Feedback from collaborators and partners.">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {testimonialsData.map(testimonial => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />

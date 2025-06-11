@@ -6,13 +6,9 @@ import { Section } from './components/Section';
 import { generateAPA, generateBibTeX, getJournalParts as getJournalPartsUtil } from './utils/citationGenerators';
 
 const ImpactMetricBadge: React.FC<{ metric: ImpactMetric }> = ({ metric }) => {
-  let colorClass = 'bg-neon-blue/20 text-neon-blue';
-  if (metric.value.toString().startsWith('Q1')) colorClass = 'bg-neon-green/20 text-neon-green';
-  else if (metric.value.toString().startsWith('Q2')) colorClass = 'bg-neon-blue/30 text-neon-blue';
-  else if (metric.name.toLowerCase().includes('abdc')) colorClass = 'bg-neon-pink/20 text-neon-pink';
-
+  // Simplified: All badges use primary accent now. Old color logic removed.
   return (
-    <span className={`inline-flex items-center text-xs font-semibold mr-2 mb-1 px-2.5 py-1 rounded-full ${colorClass} border border-current/50`}>
+    <span className="inline-flex items-center text-xs font-semibold mr-1 mb-1 px-2 py-0.5 rounded-full bg-[rgba(var(--accent-primary-rgb),0.1)] text-accent-primary border border-[rgba(var(--accent-primary-rgb),0.3)]">
       {metric.icon && <i className={`${metric.icon} mr-1.5`}></i>}
       {metric.name && <span className="font-normal mr-1">{metric.name}:</span>} {metric.value}
     </span>
@@ -152,25 +148,25 @@ const PublicationCard: React.FC<{ pub: Publication }> = ({ pub }) => {
   }, [pub]);
 
   return (
-    <div id={pub.id} className="bg-dark-secondary p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 mb-6 border-l-4 border-neon-blue hover:border-neon-pink focus-within:ring-2 focus-within:ring-neon-pink focus-within:border-neon-pink transform hover:-translate-y-1.5">
+    <div id={pub.id} className="p-6 bg-[#1F1F1F] rounded-lg shadow-lg transition-all duration-[var(--transition-duration-medium)] ease-[var(--transition-timing-function)] hover:bg-[#2A2A2A] hover:shadow-xl mb-6 border-l-4 border-accent-primary">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(scholarlyArticleData) }} />
       
-      <h3 className="text-xl font-semibold text-neon-blue mb-2">{pub.title}</h3>
-      <p className="text-sm text-light-secondary mb-1 italic">{pub.authors}</p>
-      <p className="text-sm text-light-primary mb-1">
+      <h3 className="text-xl font-semibold text-text-light mb-2">{pub.title}</h3>
+      <p className="text-sm text-text-medium mb-1 italic">{pub.authors}</p>
+      <p className="text-sm text-text-medium mb-1"> {/* Changed from text-light-primary */}
         <span className="font-medium">Source:</span> {pub.source}, <span className="font-medium">Year:</span> {pub.year}
       </p>
-      {pub.details && <p className="text-sm text-light-secondary/80 mb-2">{pub.details}</p>}
-      {pub.status && <p className="text-sm text-neon-green font-medium mb-2"><i className="fas fa-info-circle mr-1"></i>Status: {pub.status}</p>}
+      {pub.details && <p className="text-sm text-text-muted mb-2">{pub.details}</p>} {/* Changed from text-light-secondary/80 */}
+      {pub.status && <p className="text-sm text-accent-primary font-medium mb-2">Status: {pub.status}</p>} {/* Icon removed */}
       
       {pub.summary && (
-        <div className="my-3 p-4 bg-dark-primary/50 border-l-2 border-neon-blue/50 rounded-md text-sm text-light-secondary italic">
+        <div className="my-3 p-4 bg-gray-800 border-l-2 border-accent-primary rounded-md text-sm text-text-medium italic">
           {pub.summary}
         </div>
       )}
 
       {pub.impactMetrics && pub.impactMetrics.length > 0 && (
-        <div className="my-3">
+        <div className="my-4 flex flex-wrap gap-2"> {/* Added gap-2 */}
           {pub.impactMetrics.map(metric => <ImpactMetricBadge key={metric.name + metric.value} metric={metric} />)}
         </div>
       )}
@@ -178,8 +174,8 @@ const PublicationCard: React.FC<{ pub: Publication }> = ({ pub }) => {
       {pub.tags && pub.tags.length > 0 && (
         <div className="mt-3 mb-2">
           {pub.tags.map(tag => (
-            <span key={tag} className="inline-block bg-dark-tertiary text-light-secondary/80 text-xs font-medium mr-2 mb-1 px-2 py-1 rounded-md border border-neon-blue/20">
-              <i className="fas fa-tag mr-1 opacity-70"></i>{tag}
+            <span key={tag} className="inline-block bg-gray-700 text-text-medium text-xs font-medium mr-2 mb-1 px-2.5 py-1 rounded-md">
+              {tag} {/* Icon removed */}
             </span>
           ))}
         </div>
@@ -191,7 +187,7 @@ const PublicationCard: React.FC<{ pub: Publication }> = ({ pub }) => {
             href={pub.doiLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-neon-pink hover:text-opacity-80 hover:underline text-sm font-medium transition-colors duration-300"
+            className="text-accent-primary hover:underline text-sm font-medium"
             aria-label={`Read full paper of ${pub.title} via DOI`}
           >
             <i className="fas fa-link mr-1"></i> DOI Link
@@ -202,7 +198,7 @@ const PublicationCard: React.FC<{ pub: Publication }> = ({ pub }) => {
             href={pub.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-neon-pink hover:text-opacity-80 hover:underline text-sm font-medium transition-colors duration-300"
+            className="text-accent-primary hover:underline text-sm font-medium"
             aria-label={`View details for ${pub.title}`}
           >
             <i className="fas fa-external-link-alt mr-1"></i> View Source
@@ -210,7 +206,7 @@ const PublicationCard: React.FC<{ pub: Publication }> = ({ pub }) => {
         )}
         <button 
           onClick={() => setShowCitations(!showCitations)}
-          className="text-neon-green hover:text-opacity-80 hover:underline text-sm font-medium transition-colors duration-300 py-1 px-2 rounded bg-dark-primary/50 border border-neon-green/30 hover:border-neon-green"
+          className="btn-outline-hero text-sm py-1 px-3" // Applied placeholder class
           aria-expanded={showCitations}
           aria-controls={`citations-${pub.id}`}
         >
@@ -219,34 +215,34 @@ const PublicationCard: React.FC<{ pub: Publication }> = ({ pub }) => {
       </div>
 
       {showCitations && (
-        <div id={`citations-${pub.id}`} className="mt-4 p-4 bg-dark-primary/70 rounded-md border border-neon-blue/30 space-y-4 animate-fadeIn">
+        <div id={`citations-${pub.id}`} className="mt-4 p-4 bg-gray-800 rounded-md border border-gray-700 space-y-4 animate-fadeIn">
           <div>
-            <h4 className="text-md font-semibold text-neon-blue mb-1">APA Citation:</h4>
-            <div className="p-3 bg-dark-tertiary rounded text-sm text-light-secondary/90 whitespace-pre-wrap break-words" aria-label="APA Citation Text">
+            <h4 className="text-md font-semibold text-text-light mb-1">APA Citation:</h4>
+            <div className="p-3 bg-gray-900 rounded text-sm text-text-medium whitespace-pre-wrap break-words overflow-x-auto" aria-label="APA Citation Text">
               {apaCitation}
             </div>
             <button 
               onClick={() => handleCopy(apaCitation, 'APA Citation')}
-              className="mt-2 px-3 py-1 text-xs bg-neon-blue text-dark-primary rounded hover:bg-opacity-80 transition-colors"
+              className="btn-primary-hero text-xs py-1 px-2 mt-2" // Applied placeholder class, added mt-2
               aria-label="Copy APA citation to clipboard"
             >
               <i className="fas fa-copy mr-1"></i> Copy APA
             </button>
           </div>
           <div>
-            <h4 className="text-md font-semibold text-neon-blue mb-1">BibTeX:</h4>
-            <pre className="p-3 bg-dark-tertiary rounded text-sm text-light-secondary/90 whitespace-pre-wrap break-words overflow-x-auto" aria-label="BibTeX Citation Text">
+            <h4 className="text-md font-semibold text-text-light mb-1">BibTeX:</h4>
+            <pre className="p-3 bg-gray-900 rounded text-sm text-text-medium whitespace-pre-wrap break-words overflow-x-auto" aria-label="BibTeX Citation Text">
               {bibtexCitation}
             </pre>
             <button 
               onClick={() => handleCopy(bibtexCitation, 'BibTeX')}
-              className="mt-2 px-3 py-1 text-xs bg-neon-blue text-dark-primary rounded hover:bg-opacity-80 transition-colors"
+              className="btn-primary-hero text-xs py-1 px-2 mt-2" // Applied placeholder class, added mt-2
               aria-label="Copy BibTeX citation to clipboard"
             >
               <i className="fas fa-copy mr-1"></i> Copy BibTeX
             </button>
           </div>
-          {copySuccess && <p role="status" aria-live="polite" className="text-xs text-neon-green mt-2 animate-pulseGlow [--tw-shadow-color:theme('colors.neon-green')]">{copySuccess}</p>}
+          {copySuccess && <p role="status" aria-live="polite" className="text-xs text-accent-primary mt-2">{copySuccess}</p>} {/* Removed animation */}
         </div>
       )}
     </div>
@@ -312,17 +308,14 @@ export const ResearchPage: React.FC = () => {
     <div className="animate-fadeIn">
       <Section title="My Research Portfolio" subtitle="Explore a comprehensive collection of my academic contributions, from peer-reviewed articles to ongoing projects.">
         
-        <div className="mb-8 p-4 bg-dark-secondary/50 rounded-lg flex flex-col sm:flex-row justify-between items-center gap-4">
-          <span className="text-light-primary font-medium">Sort by:</span>
+        <div className="mb-8 p-4 bg-[#1F1F1F] rounded-lg flex flex-col sm:flex-row justify-between items-center gap-4 shadow-md">
+          <span className="text-text-light font-medium">Sort by:</span> {/* Changed from text-light-primary */}
           <div className="flex flex-wrap gap-2">
             {(['year-desc', 'year-asc', 'impact'] as SortOption[]).map(option => (
               <button
                 key={option}
                 onClick={() => setSortOption(option)}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200
-                  ${sortOption === option 
-                    ? 'bg-neon-blue text-dark-primary shadow-neon-glow-blue' 
-                    : 'bg-dark-tertiary text-light-secondary hover:bg-neon-pink hover:text-dark-primary'}`}
+                className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-[var(--transition-duration-fast)] ease-[var(--transition-timing-function)] ${sortOption === option ? 'btn-primary-hero' : 'btn-secondary-hero'}`}
                 aria-pressed={sortOption === option}
               >
                 {option === 'year-desc' && <><i className="fas fa-calendar-alt mr-1.5"></i>Year (Newest First)</>}
@@ -339,8 +332,8 @@ export const ResearchPage: React.FC = () => {
 
         return (
           <div key={type} className="mb-12">
-            <h3 className="text-2xl sm:text-3xl font-semibold text-neon-pink mb-6 pb-3 border-b-2 border-neon-pink/40 flex items-center">
-              <i className="fas fa-stream mr-3 opacity-80"></i>{type}
+            <h3 className="text-2xl sm:text-3xl font-semibold text-accent-primary mb-6 pb-3 border-b-2 border-[rgba(var(--accent-primary-rgb),0.3)] flex items-center">
+              {/* Icon removed for now */} {type}
             </h3>
             <div className="space-y-6">
               {filteredPublications.map(pub => (

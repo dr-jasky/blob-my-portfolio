@@ -76,7 +76,7 @@ const Header: React.FC = () => {
       className="fixed w-full z-50 top-0 transition-all duration-300 py-2.5"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8"> 
-        <div className="flex justify-between items-center glass-card-header px-4 md:px-5 lg:px-6 rounded-full">
+        <div className="flex justify-between items-center bg-[rgba(var(--dark-bg-rgb),0.85)] backdrop-blur-lg shadow-lg px-4 md:px-5 lg:px-6 rounded-full">
           <Link to="/#home" onClick={(e) => handleNavLinkClick("/#home", e)} className="text-xl lg:text-[1.25rem] font-bold flex items-center focus-visible-outline rounded-sm py-0.5" aria-label="Homepage">
             <span className="text-text-light">Dr. Jaskirat</span>
             <span className="text-accent-primary ml-1.5">Singh</span>
@@ -88,7 +88,7 @@ const Header: React.FC = () => {
                 key={link.id}
                 to={link.path}
                 onClick={(e) => handleNavLinkClick(link.path, e)}
-                className={({ isActive }) => `nav-link-custom ${isActive ? 'active' : ''} focus-visible-outline`}
+                className={({ isActive }) => `nav-link-modern ${isActive ? 'active' : ''} focus-visible-outline`}
               >
                 {link.name}
               </RouterNavLink>
@@ -103,7 +103,7 @@ const Header: React.FC = () => {
             />
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-              className="lg:hidden text-text-light p-2 rounded-full focus-visible-outline hover:bg-accent-primary/10 active:bg-accent-primary/20 transition-colors"
+              className="lg:hidden text-text-light p-2 rounded-full focus-visible-outline hover:bg-[rgba(var(--accent-primary-rgb),0.1)] active:bg-[rgba(var(--accent-primary-rgb),0.2)] transition-colors"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
               id="mobile-menu-button"
@@ -117,8 +117,8 @@ const Header: React.FC = () => {
         {isMobileMenuOpen && (
           <div 
             id="mobile-menu" 
-            className="lg:hidden glass-card mt-2.5 rounded-xl py-3 absolute w-[calc(100%-2rem)] left-1/2 transform -translate-x-1/2 shadow-2xl"
-            style={{background: 'rgba(var(--glass-bg-rgb), 0.85)', backdropFilter: 'blur(18px) saturate(160%)'}} /* More opaque for readability */
+            className="lg:hidden bg-[rgba(var(--dark-bg-rgb),0.95)] backdrop-blur-lg shadow-2xl mt-2.5 rounded-xl py-3 absolute w-[calc(100%-2rem)] left-1/2 transform -translate-x-1/2"
+            // Removed inline style attribute
             role="menu"
           > 
             <div className="flex flex-col space-y-1 px-3">
@@ -128,7 +128,7 @@ const Header: React.FC = () => {
                   to={link.path}
                   onClick={(e) => handleNavLinkClick(link.path, e)}
                   className={({isActive}) => 
-                      `block py-2.5 nav-link-custom text-[0.9rem] ${isActive ? 'active' : ''} focus-visible-outline rounded-lg w-full text-left`
+                      `nav-link-modern block py-2 text-[0.9rem] ${isActive ? 'active' : ''} focus-visible-outline rounded-lg w-full text-left`
                   }
                   role="menuitem"
                 >
@@ -169,7 +169,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-  <footer className="py-10 md:py-12 border-t border-[var(--glass-border)] bg-[var(--dark-bg)] mt-10 md:mt-14"> 
+  <footer className="py-10 md:py-12 border-t border-gray-700 bg-[var(--dark-bg)] mt-10 md:mt-14">
     <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 xl:gap-9 mb-8 md:mb-10 text-center md:text-left">
         <div className="lg:col-span-2"> 
@@ -178,7 +178,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div>
-          <h3 className="text-md md:text-lg font-semibold mb-3 text-accent-primary">Quick Links</h3> 
+          <h3 className="text-md md:text-lg font-semibold mb-3 text-text-light">Quick Links</h3>
           <ul className="space-y-1.5">
             {navLinksData.filter(l => !['/consultancy', '/citations', '/#contact'].includes(l.path)).slice(0,4).map(link => (
                <li key={`footer-nav-${link.id}`}>
@@ -195,25 +195,21 @@ const Footer: React.FC = () => {
         </div>
         
         <div>
-          <h3 className="text-md md:text-lg font-semibold mb-3 text-accent-secondary">Connect</h3>
+          <h3 className="text-md md:text-lg font-semibold mb-3 text-text-light">Connect</h3>
           <ul className="space-y-1.5">
-            <li><a href={personalInfoData.linkedIn} target="_blank" rel="noopener noreferrer" className="text-text-medium hover:text-accent-secondary transition-colors text-sm focus-visible-outline rounded-sm py-0.5">LinkedIn</a></li>
-            <li><a href={personalInfoData.googleScholar} target="_blank" rel="noopener noreferrer" className="text-text-medium hover:text-accent-secondary transition-colors text-sm focus-visible-outline rounded-sm py-0.5">Google Scholar</a></li>
-            <li><a href={`mailto:${personalInfoData.email}`}className="text-text-medium hover:text-accent-secondary transition-colors text-sm focus-visible-outline rounded-sm py-0.5">Email</a></li>
-            <li><button onClick={(e) => handleFooterLinkClick("#contact", e)} className="text-text-medium hover:text-accent-secondary transition-colors text-sm focus-visible-outline rounded-sm py-0.5 text-left">Contact Form</button></li>
+            <li><a href={personalInfoData.linkedIn} target="_blank" rel="noopener noreferrer" className="text-text-medium hover:text-accent-primary transition-colors text-sm focus-visible-outline rounded-sm py-0.5">LinkedIn</a></li>
+            <li><a href={personalInfoData.googleScholar} target="_blank" rel="noopener noreferrer" className="text-text-medium hover:text-accent-primary transition-colors text-sm focus-visible-outline rounded-sm py-0.5">Google Scholar</a></li>
+            <li><a href={`mailto:${personalInfoData.email}`}className="text-text-medium hover:text-accent-primary transition-colors text-sm focus-visible-outline rounded-sm py-0.5">Email</a></li>
+            <li><button onClick={(e) => handleFooterLinkClick("#contact", e)} className="text-text-medium hover:text-accent-primary transition-colors text-sm focus-visible-outline rounded-sm py-0.5 text-left">Contact Form</button></li>
           </ul>
         </div>
       </div>
       
-      <hr className="border-[var(--glass-border)] my-6 md:my-8" /> 
+      <hr className="border-gray-700 my-6 md:my-8" />
       
       <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
         <p className="text-text-muted text-xs sm:text-[0.8rem] mb-1.5 sm:mb-0">© {new Date().getFullYear()} {personalInfoData.name.split(",")[0]}. All rights reserved.</p> 
-        <div className="flex items-center text-xs sm:text-[0.8rem]"> 
-          <span className="text-text-muted">Crafted with</span>
-          <i className="fas fa-heart mx-1.5 text-red-500/80"></i> 
-          <span className="text-accent-tertiary ml-0.5 font-medium">and Vision</span> 
-        </div>
+        {/* Removed Crafted with section */}
       </div>
     </div>
   </footer>

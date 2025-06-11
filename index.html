@@ -7,36 +7,37 @@
   <title>Dr. Jaskirat Singh | Academic Portfolio</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     :root {
         /* Core Dark Palette */
-        --dark-bg: #0A0F1A; /* Very dark blue/black for main background */
-        --dark-bg-rgb: 10, 15, 26;
-        --glass-bg: rgba(20, 28, 50, 0.7); /* Dark slate, translucent for cards */
-        --glass-bg-rgb: 20, 28, 50; /* Corresponds to slate-900 */
-        --glass-border: rgba(100, 116, 139, 0.3); /* Subtle slate-500 border */
-        --glass-border-hover: rgba(125, 145, 170, 0.6);
+        --dark-bg: #121212;
+        --dark-bg-rgb: 18, 18, 18;
 
         /* Text Palette */
-        --text-light: #E0E7FF; /* Light lavender white for primary text */
-        --text-medium: #A0AEC0; /* Slate 400 for secondary text */
-        --text-muted: #718096;  /* Slate 500 for muted text */
+        --text-light: #F5F5F5;
+        --text-medium: #A0A0A0;
+        --text-muted: #757575;
 
-        /* Accent Palette (Used very sparingly) */
-        --accent-primary: #4A90E2; /* Sky Blue 400 - subtle primary accent */
-        --accent-primary-rgb: 74, 144, 226;
-        --accent-secondary: #D4AF37; /* Violet 400 - subtle secondary accent */
-        --accent-secondary-rgb: 212, 175, 55;
-        --accent-tertiary: #B0C4DE; /* Emerald 400 - subtle tertiary accent */
-        --accent-tertiary-rgb: 176, 196, 222;
+        /* Accent Palette */
+        --accent-primary: #007BFF;
+        --accent-primary-rgb: 0, 123, 255;
         
         /* Header Heights (remain the same) */
         --header-height-base: 5rem; 
         --header-height-scrolled-base: 4rem;
         --header-height: var(--header-height-base);
         --header-height-scrolled: var(--header-height-scrolled-base);
+
+        /* New Foundational Variables */
+        --spacing-unit: 8px;
+        --border-radius-small: 4px;
+        --border-radius-medium: 8px;
+        --border-radius-large: 16px;
+        --transition-duration-fast: 0.15s;
+        --transition-duration-medium: 0.3s;
+        --transition-timing-function: ease;
     }
 
     @media (min-width: 768px) { /* md */
@@ -75,48 +76,14 @@
         overflow-x: hidden;
         scroll-behavior: smooth;
         font-size: 16px;
-        line-height: 1.65;
+        line-height: 1.6; /* Adjusted line-height */
     }
 
     h1, h2, h3, h4 {
-        font-family: 'Playfair Display', serif;
-        font-weight: 600;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
         color: var(--text-light);
-        line-height: 1.25;
-        letter-spacing: 0.025em;
-    }
-    
-    .glass-card {
-        background: var(--glass-bg); 
-        backdrop-filter: blur(16px) saturate(110%);
-        -webkit-backdrop-filter: blur(16px) saturate(110%);
-        border: 1px solid var(--glass-border); 
-        border-radius: 16px; 
-        box-shadow: 0 8px 32px 0 rgba(var(--dark-bg-rgb), 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
-        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    }
-    .glass-card:hover { /* Subtle hover for glass cards */
-        border-color: var(--glass-border-hover);
-        box-shadow: 0 12px 40px 0 rgba(var(--dark-bg-rgb), 0.45), inset 0 1px 2px 0 rgba(255, 255, 255, 0.1);
-    }
-
-    header .glass-card-header { 
-        padding-top: 0.5rem; 
-        padding-bottom: 0.5rem;
-        background: rgba(var(--glass-bg-rgb), 0.75); /* Slightly more opaque for header */
-        backdrop-filter: blur(15px) saturate(120%);
-        -webkit-backdrop-filter: blur(15px) saturate(120%);
-        border: 1px solid var(--glass-border); 
-        box-shadow: 0 4px 20px rgba(var(--dark-bg-rgb), 0.3);
-        transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.2s ease;
-    }
-    header.scrolled .glass-card-header { 
-        background: rgba(var(--glass-bg-rgb), 0.85); 
-        backdrop-filter: blur(18px) saturate(130%);
-        -webkit-backdrop-filter: blur(18px) saturate(130%);
-        box-shadow: 0 6px 25px rgba(var(--dark-bg-rgb), 0.35);
-        padding-top: 0.35rem; 
-        padding-bottom: 0.35rem; 
+        line-height: 1.3;
     }
 
     .gradient-text { /* Changed to solid accent color */
@@ -165,77 +132,49 @@
         box-shadow: 0 0 12px rgba(var(--accent-secondary-rgb),0.4);
     }
     
-    .section-title-custom { 
-      font-size: 2rem;
-      line-height: 1.3;
-      font-weight: 700; position: relative; display: inline-block;
-      padding-bottom: 0.75rem; 
+    .section-title-custom {
+      font-size: 2.5rem; /* Increased from 2.25rem */
+      line-height: 1.2;  /* Slightly tighter for larger font */
+      font-weight: 800; /* Extra-bold for more impact */
       color: var(--text-light);
+      padding-bottom: calc(var(--spacing-unit) * 2); /* e.g., 16px if spacing-unit is 8px */
+      /* Add any other general styles like margin: 0; if needed, but keep it minimal */
     }
-    .section-title-custom + p { margin-top: 0.75rem; }
-    .section-title-custom::after { /* Solid, simple underline */
-      content: ''; position: absolute; bottom: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 60px; height: 3px; 
-      background: var(--accent-primary); /* Solid accent color */
-      border-radius: 3px; 
-    }
-    @media (min-width: 768px) {
-      .section-title-custom { font-size: 2.5rem; padding-bottom: 1rem; }
-      .section-title-custom::after { width: 80px; height: 4px; }
-    }
+    .section-title-custom + p { margin-top: 0.75rem; } /* This can be adjusted later if needed */
+    /* .section-title-custom::after rule removed */
     
-    .nav-link-custom {
-        position: relative; padding: 0.7rem 1.2rem; 
-        font-size: 0.85rem; font-weight: 500; 
-        color: var(--text-medium); border-radius: 12px; 
-        transition: color 0.3s ease, background-color 0.3s ease;
-        text-align: center; text-transform: uppercase;
-    }
-    .nav-link-custom:hover {
-        color: var(--text-light);
-        background-color: rgba(var(--accent-primary-rgb), 0.1); 
-    }
-    .nav-link-custom.active {
-        color: var(--dark-bg); 
-        background-color: var(--accent-primary);
-        font-weight: 600; 
-    }
-    .nav-link-custom::after { content: none; }
-
-    .timeline-item::before { 
-        content: ''; position: absolute; width: 16px; height: 16px; 
-        background: var(--accent-primary); 
-        border: 3px solid var(--dark-bg); 
-        border-radius: 50%; left: -8px; top: 4px; z-index: 1;
-        box-shadow: 0 0 6px rgba(var(--accent-primary-rgb), 0.4);
-    }
-    .timeline-line { 
-        background-color: rgba(var(--accent-primary-rgb), 0.3); 
-        left: 29px !important; width: 2px !important;
+    @media (max-width: 640px) { /* sm breakpoint */
+      .section-title-custom {
+        font-size: 2rem; /* Slightly smaller on small screens */
+      }
     }
 
-    .skill-bar { 
-        height: 10px; background: rgba(var(--glass-bg-rgb), 0.3); 
-        border-radius: 10px; margin-bottom: 1rem;
-        overflow: hidden; box-shadow: inset 0 1px 2px rgba(var(--dark-bg-rgb), 0.3);
+    /* .nav-link-custom rules removed */
+
+    .nav-link-modern {
+      padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* e.g., 12px 16px */
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-medium);
+      border-radius: var(--border-radius-medium);
+      transition: color var(--transition-duration-fast) var(--transition-timing-function),
+                  background-color var(--transition-duration-fast) var(--transition-timing-function);
+      position: relative; /* For potential future decorative elements */
+      text-transform: uppercase; /* Added for a more distinct nav style */
+      letter-spacing: 0.05em; /* Added for clarity */
     }
-    .skill-progress { 
-        height: 100%; background: var(--accent-secondary); /* Solid fill */
-        border-radius: 10px; 
-        width: 0%; /* Initial width, JS will set this */
-        transition: width 0.8s ease-out; /* Simple width transition */
+
+    .nav-link-modern:hover {
+      color: var(--text-light);
+      background-color: rgba(var(--accent-primary-rgb), 0.1);
     }
-    
-    .publication-card-custom { 
-      position: relative; overflow: hidden; 
-      border-left-width: 4px; border-left-color: transparent; 
-      transition: border-left-color 0.3s ease;
+
+    .nav-link-modern.active {
+      color: var(--accent-primary);
+      font-weight: 600; /* Or 700 for stronger emphasis */
+      background-color: rgba(var(--accent-primary-rgb), 0.05); /* Subtle background for active state */
     }
-    .publication-card-custom:hover, .publication-card-custom:focus-within { 
-      border-left-color: var(--accent-primary) !important; 
-    }
-    
+
     /* Scrollbar - Simple dark theme */
     ::-webkit-scrollbar { width: 8px; } 
     ::-webkit-scrollbar-track { background: var(--dark-bg); } 
@@ -261,31 +200,11 @@
 
     /* Text accents - use sparingly */
     .text-accent-primary { color: var(--accent-primary); }
-    .text-accent-secondary { color: var(--accent-secondary); }
-    .text-accent-tertiary { color: var(--accent-tertiary); }
+    /* .text-accent-secondary and .text-accent-tertiary rules removed */
     
-    .shadow-accent-glow-primary { box-shadow: 0 0 10px rgba(var(--accent-primary-rgb), 0.4), 0 0 18px rgba(var(--accent-primary-rgb), 0.3); }
-    .shadow-accent-glow-secondary { box-shadow: 0 0 10px rgba(var(--accent-secondary-rgb), 0.4), 0 0 18px rgba(var(--accent-secondary-rgb), 0.3); }
-    .shadow-accent-glow-tertiary { box-shadow: 0 0 10px rgba(var(--accent-tertiary-rgb), 0.4), 0 0 18px rgba(var(--accent-tertiary-rgb), 0.3); }
+    /* .shadow-accent-glow-* rules removed */
 
-    .premium-input {
-        background: rgba(var(--dark-bg-rgb), 0.8); 
-        border: 1px solid var(--glass-border); 
-        border-radius: 10px; 
-        padding: 0.8rem 1.1rem; 
-        color: var(--text-light);
-        font-size: 0.9rem; 
-        transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-        box-shadow: inset 0 1px 3px rgba(var(--dark-bg-rgb), 0.6); 
-    }
-    .premium-input::placeholder { color: var(--text-muted); opacity: 0.9; }
-    .premium-input:focus {
-        outline: none; background: rgba(var(--dark-bg-rgb), 0.9); 
-        border-color: var(--accent-primary);
-        box-shadow: 0 0 0 2.5px rgba(var(--accent-primary-rgb), 0.35), 
-                    inset 0 1px 2px rgba(var(--dark-bg-rgb),0.3);
-    }
-    textarea.premium-input { line-height: 1.55; }
+    /* .premium-input rules removed */
   </style>
 <script type="importmap">
 {
