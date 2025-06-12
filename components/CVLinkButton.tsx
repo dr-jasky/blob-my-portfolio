@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { personalInfoData } from '../data';
@@ -11,9 +10,9 @@ interface CVLinkButtonProps {
 }
 
 export const CVLinkButton: React.FC<CVLinkButtonProps> = ({
-  className = "btn-base gradient-bg-alt", 
-  iconClass = "fas fa-file-lines", 
-  text = "View HTML CV",
+  className = "btn-base btn-gradient-primary", // Default to new theme's gradient button
+  iconClass = "fas fa-file-alt", // Default icon from new theme
+  text = "HTML CV", // Default text from new theme
   target,
 }) => {
   if (!personalInfoData.cvUrl) {
@@ -28,13 +27,10 @@ export const CVLinkButton: React.FC<CVLinkButtonProps> = ({
     </>
   );
   
-  // Ensure focus-visible-outline is always part of the className for accessibility
-  // If className prop doesn't include btn-base, it might look unstyled.
-  // It's better if the consuming component ensures btn-base is there or this component forces it.
-  // For now, we assume className will include btn-base if a full button style is desired.
-  const combinedClassName = `${className} focus-visible-outline`;
+  // Ensure focus-visible-outline is always applied for accessibility
+  const combinedClassName = `${className} focus-visible-outline`; 
 
-  if (personalInfoData.cvUrl.startsWith('http') || target === "_blank" || personalInfoData.cvUrl.endsWith('.pdf')) { // Added check for PDF
+  if (personalInfoData.cvUrl.startsWith('http') || target === "_blank" || personalInfoData.cvUrl.endsWith('.pdf')) {
     return (
       <a 
         href={personalInfoData.cvUrl} 

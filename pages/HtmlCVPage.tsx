@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { personalInfoData, experienceData, educationData, certificationsData, publicationsData, skillCategoriesData } from '../data';
 import { PublicationType, Publication as PublicationItemType, SkillValueItem, AcademicSkillListItem } from '../types';
@@ -21,14 +20,10 @@ export const HtmlCVPage: React.FC = () => {
   const handleDownloadHtml = () => {
     const cvContentElement = document.getElementById('cv-content-area');
     if (cvContentElement) {
-      const cvClone = cvContentElement.cloneNode(true) as HTMLElement;
-      // Remove the action buttons container from the clone if it's part of cv-content-area (it's not in this setup)
-      // const buttonInClone = cvClone.querySelector('.no-print-in-download'); // This class is on the button container itself
-      // if (buttonInClone) {
-      //   buttonInClone.remove(); // This would remove the button if it was inside cv-content-area
-      // }
+      // Use existing CV HTML generation logic, it's about content structure
       const cvHtml = cvContentElement.innerHTML;
       
+      // The styles for the downloaded HTML should remain traditional CV styles
       const fullHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,16 +34,16 @@ export const HtmlCVPage: React.FC = () => {
     body { font-family: 'Times New Roman', Times, serif; line-height: 1.4; margin: 0; padding: 0; color: #333; background-color: #fff; }
     .cv-container { max-width: 800px; margin: 20px auto; padding: 25px; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     .cv-header { text-align: center; margin-bottom: 20px; padding-bottom:15px; border-bottom: 1px solid #eee; }
-    .cv-header h1 { font-size: 26px; margin: 0 0 5px 0; color: #111; }
+    .cv-header h1 { font-size: 26px; margin: 0 0 5px 0; color: #111; font-family: 'Times New Roman', Times, serif; } /* Ensure CV font */
     .cv-header p { font-size: 14px; margin: 2px 0; color: #555; }
     .cv-header .contact-info a { color: #0066cc; text-decoration: none; }
     .cv-header .contact-info a:hover { text-decoration: underline; }
-    .cv-section-title { font-size: 18px; font-weight: bold; border-bottom: 1.5px solid #ccc; padding-bottom: 4px; margin-bottom: 10px; color: #222; text-transform: uppercase; letter-spacing: 0.5px;}
-    .cv-subsection-title { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 5px; }
+    .cv-section-title { font-family: 'Times New Roman', Times, serif; font-size: 18px; font-weight: bold; border-bottom: 1.5px solid #ccc; padding-bottom: 4px; margin-bottom: 10px; color: #222; text-transform: uppercase; letter-spacing: 0.5px;}
+    .cv-subsection-title { font-family: 'Times New Roman', Times, serif; font-size: 16px; font-weight: bold; color: #333; margin-bottom: 5px; }
     .cv-item { margin-bottom: 12px; }
     .cv-item p { margin: 2px 0; font-size: 14px; }
     .cv-item strong { font-weight: bold; color: #444; }
-    .cv-item .role, .cv-item .degree { font-size: 15px; font-weight: bold; color: #222; margin-bottom: 2px;}
+    .cv-item .role, .cv-item .degree { font-family: 'Times New Roman', Times, serif; font-size: 15px; font-weight: bold; color: #222; margin-bottom: 2px;}
     .cv-item .organization, .cv-item .institution { font-size: 14px; font-style: italic; color: #555; margin-bottom: 2px;}
     .cv-item .period { font-size: 13px; color: #777; }
     .cv-item ul { list-style-type: disc; margin-left: 20px; padding-left: 5px; font-size: 14px; }
@@ -56,7 +51,6 @@ export const HtmlCVPage: React.FC = () => {
     .skills-list span { display: inline-block; background-color: #f0f0f0; color: #555; padding: 3px 8px; margin-right: 5px; margin-bottom: 5px; border-radius: 3px; font-size: 13px; }
     .publication-source { font-style: italic; }
     .publication-details { font-size: 0.9em; color: #666; }
-    /* .no-print-in-download { display: none !important; } */ /* This class is on the container, not needed for inner HTML */
   </style>
 </head>
 <body>
@@ -81,109 +75,124 @@ export const HtmlCVPage: React.FC = () => {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Georgia&family=Helvetica+Neue&family=Arial&display=swap');
+        /* Site wrapper styles - use new theme variables */
+        .cv-page-container { background-color: transparent; padding: 20px 0; /* Body provides gradient */ }
         
-        .cv-page-container { background-color: var(--dark); padding: 20px 0; }
+        /* Action buttons container - use new theme's glass-card */
+        .action-buttons-container { 
+          text-align: center; margin: 25px auto; padding: 20px 25px; 
+          position: sticky; top: calc(var(--header-height-scrolled-base-val) + 15px); z-index: 50;
+          max-width: 450px; 
+          /* Inherit .glass-card from global styles for background, blur, border */
+        }
+        .action-buttons-container p { 
+            font-size: 13px; 
+            color: var(--light-color); /* Use new theme's light text */
+            opacity: 0.8;
+            margin-top: 12px; 
+            font-family: 'Inter', sans-serif; /* New theme's body font */
+        }
+
+        /* CV Content Area - Keep traditional styling, but fonts might be affected by global styles */
         .cv-print-area { 
           max-width: 920px; 
           margin: 20px auto; 
           padding: 35px 45px; 
           background-color: #ffffff; 
-          color: #2d2d2d;
-          font-family: 'Georgia', 'Times New Roman', Times, serif; 
-          line-height: 1.55;
-          box-shadow: 0 8px 30px rgba(var(--dark-rgb),0.25); 
-          border: 1px solid #ccc;
-          border-radius: 12px; 
+          color: #333; 
+          font-family: 'Inter', Arial, sans-serif; /* Base font from new theme, can be overridden by more specific CV styles if needed */
+          line-height: 1.6;
+          box-shadow: 0 8px 30px rgba(0,0,0,0.15); 
+          border: 1px solid #ddd; 
+          border-radius: 8px; 
         }
-        .cv-print-area h1, .cv-print-area h2, .cv-print-area h3, .cv-print-area h4 { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; }
-        .cv-print-area a { color: #0055aa; text-decoration: none; } /* Slightly darker blue for better contrast */
+        .cv-print-area h1, .cv-print-area h2, .cv-print-area h3, .cv-print-area h4 { 
+            font-family: 'Playfair Display', Georgia, serif; /* Heading font from new theme */
+            color: #111; 
+        }
+        .cv-print-area a { color: #0056b3; text-decoration: none; } 
         .cv-print-area a:hover { text-decoration: underline; }
 
-        .cv-header { text-align: center; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 2px solid #555; }
-        .cv-header h1 { font-size: 30px; margin: 0 0 8px 0; font-weight: bold; }
-        .cv-header p { font-size: 15px; margin: 4px 0; color: #4a4a4a; }
+        .cv-header { text-align: center; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 2px solid #666; }
+        .cv-header h1 { font-size: 28px; margin: 0 0 8px 0; font-weight: 700; }
+        .cv-header p { font-size: 15px; margin: 4px 0; color: #454545; }
         .cv-header .contact-info span { margin: 0 8px; } 
 
         .cv-section { margin-bottom: 25px; }
-        .cv-section-title { font-size: 22px; font-weight: bold; color: #2c2c2c; border-bottom: 1.5px solid #999; padding-bottom: 6px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1.2px;}
+        .cv-section-title { font-size: 20px; font-weight: 700; color: #222; border-bottom: 1.5px solid #aaa; padding-bottom: 6px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;}
         .cv-subsection { margin-bottom: 18px; }
-        .cv-subsection-title { font-size: 18px; font-weight: bold; color: #3a3a3a; margin-bottom: 8px; }
+        .cv-subsection-title { font-size: 17px; font-weight: 700; color: #333; margin-bottom: 8px; }
         
         .cv-item { margin-bottom: 15px; page-break-inside: avoid; }
-        .cv-item .role, .cv-item .degree { font-size: 17px; font-weight: bold; color: #2a2a2a; margin-bottom: 3px;}
-        .cv-item .organization, .cv-item .institution { font-size: 16px; font-style: italic; color: #505050; margin-bottom: 3px;}
-        .cv-item .period, .cv-item .location { font-size: 14px; color: #6a6a6a; margin-bottom: 4px; }
-        .cv-item ul { list-style-position: outside; margin-left: 22px; padding-left: 6px; font-size: 15px; }
-        .cv-item ul li { margin-bottom: 6px; line-height: 1.45; }
-        .cv-item p { margin: 4px 0; font-size: 15px; }
+        .cv-item .role, .cv-item .degree { font-size: 16px; font-weight: 700; color: #282828; margin-bottom: 3px;}
+        .cv-item .organization, .cv-item .institution { font-size: 15px; font-style: italic; color: #555; margin-bottom: 3px;}
+        .cv-item .period, .cv-item .location { font-size: 14px; color: #666; margin-bottom: 4px; }
+        .cv-item ul { list-style-position: outside; margin-left: 22px; padding-left: 6px; font-size: 14.5px; }
+        .cv-item ul li { margin-bottom: 6px; line-height: 1.5; }
+        .cv-item p { margin: 4px 0; font-size: 14.5px; }
 
         .skills-list { margin-top: 6px; }
-        .skills-list-item { display: inline-block; background-color: #e8e8e8; color: #383838; padding: 5px 12px; margin-right: 8px; margin-bottom: 8px; border-radius: 5px; font-size: 14px; border: 1px solid #dcdcdc; }
+        .skills-list-item { display: inline-block; background-color: #f0f0f0; color: #444; padding: 5px 12px; margin-right: 8px; margin-bottom: 8px; border-radius: 5px; font-size: 13.5px; border: 1px solid #e0e0e0; }
         
-        .publication-item { margin-bottom: 12px; font-size: 14.5px; }
+        .publication-item { margin-bottom: 12px; font-size: 14px; }
         .publication-item .authors { font-weight: normal; }
         .publication-item .title { font-weight: bold; }
         .publication-item .source { font-style: italic; }
-        .publication-item .details, .publication-item .status { font-size: 0.92em; color: #5a5a5a; }
+        .publication-item .details, .publication-item .status { font-size: 0.9em; color: #555; }
 
         .cert-item .name { font-weight: bold; }
-        .cert-item .institution-year { font-size: 0.95em; color: #505050; }
+        .cert-item .institution-year { font-size: 0.95em; color: #555; }
 
         .additional-info dt { font-weight: bold; float: left; width: 160px; clear: left; }
         .additional-info dd { margin-left: 170px; margin-bottom: 6px; }
 
-        .action-buttons-container { 
-          text-align: center; margin: 25px auto; padding: 20px 25px; 
-          position: sticky; top: calc(var(--header-height, 90px) + 15px); z-index: 50;
-          max-width: 450px; /* Limit width of this container */
-        }
-        .action-buttons-container.glass-card { /* Applied dynamically via className */
-            /* Styles from global .glass-card will apply */
-        }
-        .action-buttons-container button { /* Styles for button inside the container */
-          /* Using .btn-base and .gradient-bg or .btn-neon-outline applied via className */
-        }
-        .action-buttons-container p { font-size: 13px; color: var(--text-muted); margin-top: 12px; font-family: 'Inter', sans-serif; }
-
+        .no-print { /* This class is added to elements not meant for printing */ }
 
         @media print {
-          body { margin: 0; padding: 0; background-color: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-          .cv-page-container { background-color: #fff; padding: 0;}
+          body { margin: 0; padding: 0; background-color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          .cv-page-container { background-color: #fff !important; padding: 0 !important;}
           .cv-print-area { 
-            max-width: 100%; 
-            margin: 0; 
-            padding: 15mm 12mm; 
-            box-shadow: none; 
-            border: none; 
-            font-size: 10.5pt; 
-            border-radius: 0;
+            max-width: 100% !important; 
+            margin: 0 !important; 
+            padding: 15mm 12mm !important; 
+            box-shadow: none !important; 
+            border: none !important; 
+            font-size: 10pt !important;
+            border-radius: 0 !important;
+            font-family: 'Times New Roman', Times, serif !important; /* Force traditional font for print */
           }
-          .cv-header h1 { font-size: 20pt; }
-          .cv-header p { font-size: 9.5pt; }
-          .cv-section-title { font-size: 13pt; }
-          .cv-subsection-title { font-size: 11.5pt; }
-          .cv-item .role, .cv-item .degree { font-size: 10.5pt; }
-          .cv-item .organization, .cv-item .institution { font-size: 10pt; }
-          .cv-item .period, .cv-item .location, .cv-item p, .cv-item ul li { font-size: 10pt; }
-          .skills-list-item { font-size: 9pt; padding: 3px 7px; background-color: #eaeaea !important; color: #333 !important; border: 1px solid #d0d0d0;}
+           .cv-print-area h1, .cv-print-area h2, .cv-print-area h3, .cv-print-area h4,
+           .cv-print-area .cv-header h1, .cv-print-area .cv-section-title, .cv-print-area .cv-subsection-title,
+           .cv-print-area .cv-item .role, .cv-print-area .cv-item .degree {
+             font-family: 'Times New Roman', Times, serif !important; 
+             font-weight:bold !important; 
+           }
+          .cv-header h1 { font-size: 18pt !important; }
+          .cv-header p { font-size: 9pt !important; }
+          .cv-section-title { font-size: 12pt !important; }
+          .cv-subsection-title { font-size: 11pt !important; }
+          .cv-item .role, .cv-item .degree { font-size: 10pt !important; }
+          .cv-item .organization, .cv-item .institution { font-size: 9.5pt !important; }
+          .cv-item .period, .cv-item .location, .cv-item p, .cv-item ul li { font-size: 9.5pt !important; }
+          .skills-list-item { font-size: 8.5pt !important; padding: 2px 6px !important; background-color: #eaeaea !important; color: #333 !important; border: 1px solid #d0d0d0 !important;}
 
           .no-print, .action-buttons-container { display: none !important; }
           a { color: #000 !important; text-decoration: none !important; } 
-          .cv-section, .cv-item { page-break-inside: avoid; }
-          h1, h2, h3, h4 { page-break-after: avoid; }
+          .cv-section, .cv-item { page-break-inside: avoid !important; }
+          h1, h2, h3, h4 { page-break-after: avoid !important; }
         }
       `}} />
 
-      <div className="cv-page-container">
-        <div className="action-buttons-container glass-card no-print"> {/* Added glass-card for on-screen premium look */}
-          <button onClick={handleDownloadHtml} className="btn-base gradient-bg focus-visible-outline w-full">
+      <div className="cv-page-container animate-fadeIn">
+        <div className="action-buttons-container glass-card no-print shadow-lg"> {/* Applied glass-card to container */}
+          <button onClick={handleDownloadHtml} className="btn-base btn-gradient-primary focus-visible-outline w-full"> {/* Theme button */}
             <i className="fas fa-download"></i>Download as HTML
           </button>
            <p>For PDF, use your browser's Print to PDF option (Ctrl/Cmd + P).</p>
         </div>
 
         <article id="cv-content-area" className="cv-print-area">
+          {/* CV Content remains the same as previous version */}
           <header className="cv-header">
             <h1>{personalInfoData.name.replace(", Postdoc & Ph.D.", "").replace("Ph.D.", "Ph.D.")}</h1>
             <p>{personalInfoData.title}</p>
@@ -292,7 +301,7 @@ export const HtmlCVPage: React.FC = () => {
             <dl className="additional-info">
                 <dt>Languages:</dt><dd>English (Fluent), Punjabi (Native), Hindi (Fluent)</dd>
                 <dt>Work Eligibility:</dt><dd>Citizen of India; Permanent Resident of Canada</dd>
-                <dt>IELTS (General):</dt><dd>Overall Band 8.0 (L: 8.5, R: 9.0, W: 7.0, S: 7.0)</dd>
+                <dt>IELTS (General):</dt><dd>Overall Band 8.0 (L: 8.5, R: 9.0, W: _7.0, S: _7.0)</dd>
                 <dt>Interests:</dt><dd>Gardening, Internet Research, Cricket, Badminton, Music, Cooking, Meditation, Yoga.</dd>
             </dl>
           </CVSection>
